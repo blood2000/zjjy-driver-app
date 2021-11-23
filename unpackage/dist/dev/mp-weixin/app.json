@@ -1,0 +1,18 @@
+{
+  "pages": [
+    "pages/startPage/startPage",
+    "pages/login/login",
+    "pages/protocol/service",
+    "pages/protocol/user",
+    "pages/index/index",
+    "pages/index/vehicle"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "至简集运",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#ffffff"
+  },
+  "usingComponents": {}
+}
