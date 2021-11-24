@@ -5,10 +5,10 @@ export default {
     const token = uni.getStorageSync("token");
     console.log(process.env.NODE_ENV);
     //用于调试
-    uni.redirectTo({
-      url: "pages/index/index",
-    });
-    return;
+    // uni.redirectTo({
+    //   url: "pages/index/index",
+    // });
+    // return;
     if (!token) {
       uni.reLaunch({
         url: "pages/login/login", //跳转到登录页面--wx

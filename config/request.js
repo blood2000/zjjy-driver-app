@@ -8,7 +8,7 @@ const defaultHeader = {
   "App-Type": "1",
   "App-Code": "a837654fa9e540eca0502d612ba1b178",
   "App-Version": "1.0.0",
-  "Produce-Code": "1c3646219beb4c7b978b4600965b2c9f",
+  "Produce-Code": "2c3c8c43b487432b9d67934a6c4dcbbe",
   "Terminal-Type": "WeChat",
 };
 // console.log(defaultHeader)

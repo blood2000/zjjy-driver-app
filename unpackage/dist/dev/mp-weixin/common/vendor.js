@@ -3245,6 +3245,7 @@ webpackContext.id = 13;
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}var store = {
   state: {
+    userInfo: {},
     headerInfo: {
       a: 123 },
 
@@ -3256,10 +3257,15 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       auth: true } },
 
 
-  getters: {
-    headerInfo: function headerInfo(state) {return state.headerInfo;} },
-
+  // getters: {
+  // 	headerInfo: state => state.headerInfo
+  // },
   mutations: {
+    setUserInfo: function setUserInfo(state, val) {
+      state.userInfo = _objectSpread({},
+      val);
+
+    },
     getLoginInfo: function getLoginInfo(state, val) {
       state.headerInfo = _objectSpread({},
       val);
@@ -3293,6 +3299,19 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
 
 store;exports.default = _default;
+
+/***/ }),
+
+/***/ 15:
+/*!**********************************************************!*\
+  !*** D:/work/zjjy_wx/zjjy-driver-app/common/common.scss ***!
+  \**********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+    if(false) { var cssReload; }
+  
 
 /***/ }),
 
@@ -9345,7 +9364,7 @@ internalMixin(Vue);
 
 /***/ }),
 
-/***/ 25:
+/***/ 26:
 /*!**********************************************************!*\
   !*** D:/work/zjjy_wx/zjjy-driver-app/static/wx_logo.png ***!
   \**********************************************************/
@@ -9356,7 +9375,7 @@ module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABzCAYAAACr
 
 /***/ }),
 
-/***/ 28:
+/***/ 29:
 /*!***********************************************************!*\
   !*** D:/work/zjjy_wx/zjjy-driver-app/config/urlConfig.js ***!
   \***********************************************************/
@@ -9376,7 +9395,38 @@ urlConfig;exports.default = _default;
 
 /***/ }),
 
-/***/ 29:
+/***/ 3:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 30:
 /*!*********************************************************!*\
   !*** D:/work/zjjy_wx/zjjy-driver-app/config/request.js ***!
   \*********************************************************/
@@ -9385,8 +9435,8 @@ urlConfig;exports.default = _default;
 
 "use strict";
 /* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.uniUpload = exports.uniRequest = void 0;var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 11));
-var _api = _interopRequireDefault(__webpack_require__(/*! ../api/api */ 30));
-var _urlConfig = _interopRequireDefault(__webpack_require__(/*! ./urlConfig.js */ 28));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+var _api = _interopRequireDefault(__webpack_require__(/*! ../api/api */ 31));
+var _urlConfig = _interopRequireDefault(__webpack_require__(/*! ./urlConfig.js */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 var PRO_URL = _urlConfig.default.BASE_URL;
 var baseUrl = PRO_URL;
 var defaultHeader = {
@@ -9394,7 +9444,7 @@ var defaultHeader = {
   "App-Type": "1",
   "App-Code": "a837654fa9e540eca0502d612ba1b178",
   "App-Version": "1.0.0",
-  "Produce-Code": "1c3646219beb4c7b978b4600965b2c9f",
+  "Produce-Code": "2c3c8c43b487432b9d67934a6c4dcbbe",
   "Terminal-Type": "WeChat" };
 
 // console.log(defaultHeader)
@@ -9623,38 +9673,7 @@ var showError = function showError(error) {
 
 /***/ }),
 
-/***/ 3:
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 30:
+/***/ 31:
 /*!**************************************************!*\
   !*** D:/work/zjjy_wx/zjjy-driver-app/api/api.js ***!
   \**************************************************/
@@ -9663,7 +9682,7 @@ module.exports = g;
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var apiUrl = {
-  login: '/fmswxmp/login/wx_login' //微信授权登录
+  login: '/zjz1-jyz-service/wxmp/login/wxLogin' //微信授权登录
 };var _default =
 
 apiUrl;exports.default = _default;
@@ -9681,7 +9700,7 @@ apiUrl;exports.default = _default;
 
 /***/ }),
 
-/***/ 70:
+/***/ 71:
 /*!*******************************************************************************************!*\
   !*** D:/work/zjjy_wx/zjjy-driver-app/uni_modules/uni-icons/components/uni-icons/icons.js ***!
   \*******************************************************************************************/
@@ -10801,19 +10820,6 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     "font_class": "cart",
     "unicode": "e631",
     "unicode_decimal": 58929 }] };exports.default = _default;
-
-/***/ }),
-
-/***/ 77:
-/*!**********************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/common/common.scss ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
-    if(false) { var cssReload; }
-  
 
 /***/ })
 

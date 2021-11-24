@@ -7,7 +7,9 @@
     <div class="user-box" @click="toVehicle">
       <div class="user-card">
         <div class="user-card-left">
-          <div class="avatar"></div>
+          <div class="avatar">
+            <img  :src="avatar" alt="">
+          </div>
           <div class="user-card-msg">
             <div class="user-name-box"> 
               <div class="user-name">{{vehicleMsg.name}}</div>
@@ -48,17 +50,26 @@
 import { mapState } from "vuex";
 export default {
   data() {
-    return {};
+    return {
+      avatar: '',
+    };
   },
 
   computed: {
     ...mapState({
       vehicleMsg: (state) => state.user.vehicleMsg,
+      userInfo: (state) => state.user.userInfo,
     }),
   },
 
   onLoad() {
-    console.log("startPage load");
+    console.log(this.userInfo);
+    if (this.userInfo.avatarUrl) {
+      this.avatar = this.userInfo.avatarUrl;
+    } else {
+      this.avatar = '../../static/avatar.png';
+    }
+    console.log(this.avatar)
   },
 
   onShow() {
@@ -81,6 +92,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
 .main {
   padding-top: 0;
 }

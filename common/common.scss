@@ -6,6 +6,9 @@
 .content {
   box-sizing: border-box;
   height: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .me-text-beyond {
   /*文本内容超宽度省略号显示 单行*/
@@ -173,8 +176,9 @@ image {
       justify-content: center;
       align-items: center;
       img {
-        width: 80rpx;
-        height: 80rpx;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
       }
     }
     .user-name-box {

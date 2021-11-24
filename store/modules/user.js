@@ -1,5 +1,6 @@
 const store = {
 	state: {
+		userInfo: {},
 		headerInfo: {
 			a: 123
 		},
@@ -11,10 +12,15 @@ const store = {
 			auth: true,
 		}
 	},
-	getters: {
-		headerInfo: state => state.headerInfo
-	},
+	// getters: {
+	// 	headerInfo: state => state.headerInfo
+	// },
 	mutations: {
+		setUserInfo: (state, val) => {
+			state.userInfo = {
+				...val
+			};
+		},
 		getLoginInfo: (state, val) => {
 			state.headerInfo = {
 				...val

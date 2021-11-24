@@ -1,5 +1,5 @@
 const apiUrl = {
-  login: '/fmswxmp/login/wx_login',//微信授权登录
+  login: '/zjz1-jyz-service/wxmp/login/wxLogin',//微信授权登录
 }
 
 export default apiUrl

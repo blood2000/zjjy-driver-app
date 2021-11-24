@@ -14,10 +14,13 @@
           >
             微信授权
           </button>
+          <!-- <button class="wx-btn" style="display: none" @click="getUserProfile">
+            微信授权
+          </button> -->
         </block>
       </view>
       <!-- 服务号预留 -->
-	  <!-- 协议 -->
+      <!-- 协议 -->
       <div class="protocol">
         授权即代表您已同意 <span @click="toProtocol">《服务协议》 </span>及<span
           @click="toPrivacy"
@@ -38,7 +41,7 @@ export default {
   data() {
     return {
       title: "login",
-      userInfo: {},
+      // userInfo: {},
       hasUserInfo: false,
       canIUseGetUserProfile: false,
       isGetTel: false,
@@ -82,12 +85,13 @@ export default {
     getPhoneNumber(e) {
       console.log(e);
       let that = this;
+
       // encryptedData: res.encryptedData,
       // ivStr: res.iv,
       if (!e.detail.encryptedData) {
         return;
       }
-      
+
       that.data.encryptedData = e.detail.encryptedData;
       that.data.ivStr = e.detail.iv;
       that.data.code = that.code;
@@ -95,37 +99,72 @@ export default {
       console.log("微信iv、encrypted ==>>", that.data);
       // const baseUrl = urlConfig.BASE_URL;
       const config = {
-        url: "login_test",
+        url: "login",
         method: "POST",
         data: that.data,
         noToken: true,
       };
+      //测试用
+      // uni.showModal({
+      //   title: "提示",
+      //   content: "是否允许使用微信头像?",
+      //   // showCancel: false,
+      //   success: (res) => {
+      //     if (res.confirm) {
+      //       this.getUserProfile();
+      //     } else {
+      //       uni.redirectTo({
+      //         url: "../index/index",
+      //       });
+      //     }
+      //   },
+      // });
+
+      // return;
       uniRequest(config).then((res) => {
         console.log("微信授权-->", 123);
         if (res.data.data.code === 200) {
-          let avatarUrl = uni.getStorageSync("avatar");
           let token = res.data.data.data.access_token;
           uni.setStorageSync("token", token);
-
-          uni.redirectTo({
-            url: "../tranServe/index",
-          });
-        } else {
           uni.showModal({
             title: "提示",
-            content: res.data.data.msg,
+            content: "是否允许使用微信头像?",
+            // showCancel: false,
+            success: (res) => {
+              if (res.confirm) {
+                this.getUserProfile();
+              } else {
+                uni.redirectTo({
+                  url: "../index/index",
+                });
+              }
+            },
+          });
+          // uni.redirectTo({
+          //   url: "../index/index",
+          // });
+        } else {
+          console.log('===============================>>')
+          uni.showModal({
+            title: "提示",
+            content: res.data.data.msg || 'null',
             showCancel: false,
             success: (res) => {
-              this.wxLogin();
+              that.wxLogin();
             },
           });
         }
+      }).catch((error) => {
+        console.log(error, '<--')
       });
     },
-    getUserProfile(e) {
+    getUserProfile() {
       let that = this;
       // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
       // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
+      // return new Promise((resolve, reject) => {
+
+      // });
       wx.getUserProfile({
         desc: "用于完善用户资料", // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: (res) => {
@@ -135,12 +174,10 @@ export default {
           this.$store.commit("setUserInfo", res.userInfo);
           uni.setStorageSync("avatar", res.userInfo.avatarUrl);
           this.hasUserInfo = true;
-          this.data = {
-            code: that.code,
-            appId: "wx0c5ac8f3a338efe4",
-            ...res.userInfo,
-          };
-          // data = { ...data, ...res.userInfo };
+
+          uni.redirectTo({
+            url: "../index/index",
+          });
         },
       });
     },
