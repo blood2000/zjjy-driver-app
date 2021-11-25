@@ -77,12 +77,12 @@ export const uniRequest = function(config) {
 					// if(util.showError){
 					// 	showError(res);
 					// }
-					uni.showModal({
-						title: '提示',
-						content: res.data.msg,
-						showCancel: false,
-					});
-					// resolve(res)
+					// uni.showModal({
+					// 	title: '提示',
+					// 	content: res.data.msg,
+					// 	showCancel: false,
+					// });
+					resolve(res)
 				}
 			},
 			fail: (err) => {

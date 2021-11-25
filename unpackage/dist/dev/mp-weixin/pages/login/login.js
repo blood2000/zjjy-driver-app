@@ -263,44 +263,54 @@ var _request = __webpack_require__(/*! ../../config/request.js */ 30);function _
       // });
 
       // return;
-      (0, _request.uniRequest)(config).then(function (res) {
-        console.log("微信授权-->", 123);
-        if (res.data.data.code === 200) {
-          var token = res.data.data.data.access_token;
+      console.log(config, "config");
+      (0, _request.uniRequest)(config).
+      then(function (res) {
+        console.log("微信授权-->", res);
+        if (res.data.code === 200) {
+          var token = res.data.data.access_token;
+          var appType = res.data.data.appType;
           uni.setStorageSync("token", token);
+
           uni.showModal({
             title: "提示",
             content: "是否允许使用微信头像?",
             // showCancel: false,
             success: function success(res) {
               if (res.confirm) {
-                _this.getUserProfile();
+                _this.getUserProfile(appType);
               } else {
-                uni.redirectTo({
-                  url: "../index/index" });
+                if (appType === 4) {
+                  uni.redirectTo({
+                    url: "../index/vehicle" });
 
+                } else {
+                  uni.redirectTo({
+                    url: "../index/index" });
+
+                }
               }
             } });
 
-          // uni.redirectTo({
-          //   url: "../index/index",
-          // });
         } else {
-          console.log('===============================>>');
+          console.log("===============================>>");
           uni.showModal({
             title: "提示",
-            content: res.data.data.msg || 'null',
+            content: res.data.msg,
             showCancel: false,
             success: function success(res) {
               that.wxLogin();
             } });
 
         }
-      }).catch(function (error) {
-        console.log(error, '<--');
+      }).
+      catch(function (error) {
+        console.log("error", error);
+
+        that.wxLogin();
       });
     },
-    getUserProfile: function getUserProfile() {var _this2 = this;
+    getUserProfile: function getUserProfile(appType) {var _this2 = this;
       var that = this;
       // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
       // 开发者妥善保管用户快速填写的头像昵称，避免重复弹窗
@@ -316,10 +326,15 @@ var _request = __webpack_require__(/*! ../../config/request.js */ 30);function _
           _this2.$store.commit("setUserInfo", res.userInfo);
           uni.setStorageSync("avatar", res.userInfo.avatarUrl);
           _this2.hasUserInfo = true;
+          if (appType === 3) {
+            uni.redirectTo({
+              url: "../index/vehicle" });
 
-          uni.redirectTo({
-            url: "../index/index" });
+          } else {
+            uni.redirectTo({
+              url: "../index/index" });
 
+          }
         } });
 
     },

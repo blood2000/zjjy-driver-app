@@ -9513,12 +9513,12 @@ var uniRequest = function uniRequest(config) {
           // if(util.showError){
           // 	showError(res);
           // }
-          uni.showModal({
-            title: '提示',
-            content: res.data.msg,
-            showCancel: false });
-
-          // resolve(res)
+          // uni.showModal({
+          // 	title: '提示',
+          // 	content: res.data.msg,
+          // 	showCancel: false,
+          // });
+          resolve(res);
         }
       },
       fail: function fail(err) {
@@ -9682,7 +9682,8 @@ var showError = function showError(error) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var apiUrl = {
-  login: '/zjz1-jyz-service/wxmp/login/wxLogin' //微信授权登录
+  login: '/zjz1-jyz-service/wxmp/login/wxLogin', //微信授权登录
+  registerDriver: '/zjz1-jyz-service/wxmp/login/registerDriver' //微信授权登录
 };var _default =
 
 apiUrl;exports.default = _default;
