@@ -3254,8 +3254,10 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
       name: '辛弃疾',
       vehicleCode: '闽A123456',
       phone: '13566668888',
-      auth: true } },
+      auth: true },
 
+    // licenseNumbers: ["闽A123123", "闽A223123", "闽A423123"],
+    licenseNumbers: [] },
 
   // getters: {
   // 	headerInfo: state => state.headerInfo
@@ -3277,6 +3279,9 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
     },
     getVehicleMsg: function getVehicleMsg(state, obj) {
       state.vehicleMsg = Object.assign(state.vehicleMsg, obj);
+    },
+    setLicenseNumbers: function setLicenseNumbers(state, val) {
+      state.licenseNumbers.push(val);
     } },
 
   actions: {
@@ -3295,6 +3300,11 @@ Object.defineProperty(exports, "__esModule", { value: true });exports.default = 
 
     val) {var commit = _ref3.commit;
       commit('getVehicleMsg', val);
+    },
+    setLicenseNumbersAction: function setLicenseNumbersAction(_ref4,
+
+    val) {var commit = _ref4.commit;
+      commit('setLicenseNumbers', val);
     } } };var _default =
 
 
@@ -9683,8 +9693,9 @@ var showError = function showError(error) {
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var apiUrl = {
   login: '/zjz1-jyz-service/wxmp/login/wxLogin', //微信授权登录
-  registerDriver: '/zjz1-jyz-service/wxmp/login/registerDriver' //微信授权登录
-};var _default =
+  registerDriver: '/zjz1-jyz-service/wxmp/login/registerDriver', //微信授权登录
+  uploadImg: '/fmswxmp/system/common/v1/upload' };var _default =
+
 
 apiUrl;exports.default = _default;
 

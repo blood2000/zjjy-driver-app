@@ -153,83 +153,106 @@ __webpack_require__.r(__webpack_exports__);
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0; //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-var _default =
-{
-  data: function data() {
-    return {
-      vehicleMsg: {
-        name: "",
-        vehicleCode: "" } };
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;
 
 
-  },
 
-  components: {},
 
-  computed: {},
 
-  methods: {
-    submit: function submit() {
-      if (!this.vehicleMsg.name) {
-        uni.showToast({
-          title: "请输入姓名",
-          icon: "none",
-          duration: 1500 });
 
-        return;
-      }
-      if (!this.vehicleMsg.vehicleCode) {
-        uni.showToast({
-          title: "请输入车牌号码",
-          icon: "none",
-          duration: 1500 });
 
-        return;
-      }
-      console.log(this.vehicleMsg);
-      this.$store.commit('getVehicleMsg', this.vehicleMsg);
-      uni.redirectTo({
-        url: "./index" });
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+var _urlConfig = _interopRequireDefault(__webpack_require__(/*! ../../config/urlConfig.js */ 29));
+var _request = __webpack_require__(/*! ../../config/request.js */ 30);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };} //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+var _default = { data: function data() {return { vehicleMsg: { name: "", vehicleCode: "" } };}, components: {}, computed: {}, methods: { submit: function submit() {var _this = this;if (!this.vehicleMsg.name) {uni.showToast({ title: "请输入姓名", icon: "none", duration: 1500 });return;}if (!this.vehicleMsg.vehicleCode) {uni.showToast({ title: "请输入车牌号码", icon: "none", duration: 1500 });return;}var config = { url: "registerDriver", method: "POST", data: { name: this.vehicleMsg.name, licenseNumber: this.vehicleMsg.vehicleCode } };
+
+
+
+      (0, _request.uniRequest)(config).then(function (res) {
+        console.log("司机注册", res);
+        if (res.data.code === 200) {
+          _this.$store.commit("getVehicleMsg", _this.vehicleMsg);
+          // uni.setStorageSync("driverInfo", JSON.stringify(this.vehicleMsg));
+          uni.redirectTo({
+            url: "./index" });
+
+        } else {
+          uni.showModal({
+            title: "提示",
+            content: res.data.msg,
+            showCancel: false });
+
+        }
+      });
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
 

@@ -4,7 +4,7 @@
       <image src="../../static/header-bg.png" mode=""></image>
       <view class="header-title">至简集运司机端</view>
     </div>
-    <div class="user-box" @click="toVehicle">
+    <div class="user-box" @click="toScanOrder">
       <div class="user-card">
         <div class="user-card-left">
           <div class="avatar">
@@ -64,21 +64,18 @@ export default {
 
   onLoad() {
     console.log(this.userInfo);
-    if (this.userInfo.avatarUrl) {
-      this.avatar = this.userInfo.avatarUrl;
-    } else {
-      this.avatar = '../../static/avatar.png';
-    }
+    this.avatar = uni.getStorageSync("avatar") || '../../static/avatar.png';
+    
     console.log(this.avatar)
   },
 
   onShow() {
-    console.log(this.vehicleMsg);
-    if (!this.vehicleMsg.name || !this.vehicleMsg.vehicleCode) {
-      uni.navigateTo({
-        url: "./vehicle",
-      });
-    }
+    // console.log(this.vehicleMsg);
+    // if (!this.vehicleMsg.name || !this.vehicleMsg.vehicleCode) {
+    //   uni.navigateTo({
+    //     url: "./vehicle",
+    //   });
+    // }
   },
 
   methods: {
@@ -86,6 +83,11 @@ export default {
     toVehicle() {
       uni.navigateTo({
         url: "./vehicle",
+      });
+    },
+    toScanOrder() {
+      uni.navigateTo({
+        url: "../scan/scanOrder",
       });
     },
   },

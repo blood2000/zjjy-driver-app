@@ -67,6 +67,16 @@
           "bounce": "none"
         }
       }
+    },
+    {
+      "path": "pages/scan/scanOrder",
+      "style": {
+        "navigationBarTitleText": "扫码接单",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
     }
   ],
   "globalStyle": {

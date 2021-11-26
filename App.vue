@@ -20,9 +20,18 @@ export default {
         },
       });
     } else {
-      uni.redirectTo({
-        url: "pages/index/index",
-      });
+      const appType = uni.getStorageSync("appType");
+      console.log('用户类型', appType)
+      if (appType === 4) {
+        uni.redirectTo({
+          url: "pages/index/vehicle",
+        });
+      } else {
+        uni.redirectTo({
+          url: "pages/index/index",
+        });
+      }
+
       if (process.env.NODE_ENV !== "development") {
         plus.navigator.closeSplashscreen();
       }

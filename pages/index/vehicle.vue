@@ -38,6 +38,8 @@
 </template>
 
 <script>
+import urlConfig from "../../config/urlConfig.js";
+import { uniRequest } from "../../config/request.js";
 export default {
   data() {
     return {
@@ -70,10 +72,31 @@ export default {
         });
         return;
       }
-      console.log(this.vehicleMsg);
-      this.$store.commit('getVehicleMsg', this.vehicleMsg);
-      uni.redirectTo({
-        url: "./index",
+      
+      const config = {
+        url: "registerDriver",
+        method: "POST",
+        data: {
+          name: this.vehicleMsg.name,
+          licenseNumber: this.vehicleMsg.vehicleCode
+        },
+      };
+      
+      uniRequest(config).then((res) => {
+        console.log("司机注册", res);
+        if (res.data.code === 200) {
+          this.$store.commit("getVehicleMsg", this.vehicleMsg);
+          // uni.setStorageSync("driverInfo", JSON.stringify(this.vehicleMsg));
+          uni.redirectTo({
+            url: "./index",
+          });
+        } else {
+          uni.showModal({
+            title: "提示",
+            content: res.data.msg,
+            showCancel: false,
+          });
+        }
       });
     },
   },

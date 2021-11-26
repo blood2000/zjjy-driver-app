@@ -271,27 +271,24 @@ var _request = __webpack_require__(/*! ../../config/request.js */ 30);function _
           var token = res.data.data.access_token;
           var appType = res.data.data.appType;
           uni.setStorageSync("token", token);
-
-          uni.showModal({
-            title: "提示",
-            content: "是否允许使用微信头像?",
-            // showCancel: false,
-            success: function success(res) {
-              if (res.confirm) {
-                _this.getUserProfile(appType);
-              } else {
-                if (appType === 4) {
-                  uni.redirectTo({
-                    url: "../index/vehicle" });
-
+          uni.setStorageSync("appType", appType);
+          var avatar = uni.getStorageSync("avatar");
+          if (avatar) {
+            _this.judgeToJump(appType);
+          } else {
+            uni.showModal({
+              title: "提示",
+              content: "是否允许使用微信头像?",
+              // showCancel: false,
+              success: function success(res) {
+                if (res.confirm) {
+                  _this.getUserProfile(appType);
                 } else {
-                  uni.redirectTo({
-                    url: "../index/index" });
-
+                  _this.judgeToJump(appType);
                 }
-              }
-            } });
+              } });
 
+          }
         } else {
           console.log("===============================>>");
           uni.showModal({
@@ -310,6 +307,17 @@ var _request = __webpack_require__(/*! ../../config/request.js */ 30);function _
         that.wxLogin();
       });
     },
+    judgeToJump: function judgeToJump(appType) {
+      if (appType === 4) {
+        uni.redirectTo({
+          url: "../index/vehicle" });
+
+      } else {
+        uni.redirectTo({
+          url: "../index/index" });
+
+      }
+    },
     getUserProfile: function getUserProfile(appType) {var _this2 = this;
       var that = this;
       // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
@@ -323,18 +331,10 @@ var _request = __webpack_require__(/*! ../../config/request.js */ 30);function _
           console.log(res);
           _this2.isGetTel = true;
           _this2.userInfo = res.userInfo;
-          _this2.$store.commit("setUserInfo", res.userInfo);
+          // this.$store.commit("setUserInfo", res.userInfo);
           uni.setStorageSync("avatar", res.userInfo.avatarUrl);
           _this2.hasUserInfo = true;
-          if (appType === 3) {
-            uni.redirectTo({
-              url: "../index/vehicle" });
-
-          } else {
-            uni.redirectTo({
-              url: "../index/index" });
-
-          }
+          _this2.judgeToJump(appType);
         } });
 
     },

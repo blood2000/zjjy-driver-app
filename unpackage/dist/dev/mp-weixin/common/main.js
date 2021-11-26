@@ -109,8 +109,17 @@ __webpack_require__.r(__webpack_exports__);
         } });
 
     } else {
-      uni.redirectTo({
-        url: "pages/index/index" });
+      var appType = uni.getStorageSync("appType");
+      console.log('用户类型', appType);
+      if (appType === 4) {
+        uni.redirectTo({
+          url: "pages/index/vehicle" });
+
+      } else {
+        uni.redirectTo({
+          url: "pages/index/index" });
+
+      }
 
       if (false) {}
     }

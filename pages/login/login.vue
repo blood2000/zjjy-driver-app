@@ -129,27 +129,24 @@ export default {
             let token = res.data.data.access_token;
             let appType = res.data.data.appType;
             uni.setStorageSync("token", token);
-
-            uni.showModal({
-              title: "提示",
-              content: "是否允许使用微信头像?",
-              // showCancel: false,
-              success: (res) => {
-                if (res.confirm) {
-                  this.getUserProfile(appType);
-                } else {
-                  if (appType === 4) {
-                    uni.redirectTo({
-                      url: "../index/vehicle",
-                    });
+            uni.setStorageSync("appType", appType);
+            const avatar = uni.getStorageSync("avatar");
+            if (avatar) {
+              this.judgeToJump(appType);
+            } else {
+              uni.showModal({
+                title: "提示",
+                content: "是否允许使用微信头像?",
+                // showCancel: false,
+                success: (res) => {
+                  if (res.confirm) {
+                    this.getUserProfile(appType);
                   } else {
-                    uni.redirectTo({
-                      url: "../index/index",
-                    });
+                    this.judgeToJump(appType);
                   }
-                }
-              },
-            });
+                },
+              });
+            }
           } else {
             console.log("===============================>>");
             uni.showModal({
@@ -168,6 +165,17 @@ export default {
           that.wxLogin();
         });
     },
+    judgeToJump(appType) {
+      if (appType === 4) {
+        uni.redirectTo({
+          url: "../index/vehicle",
+        });
+      } else {
+        uni.redirectTo({
+          url: "../index/index",
+        });
+      }
+    },
     getUserProfile(appType) {
       let that = this;
       // 推荐使用wx.getUserProfile获取用户信息，开发者每次通过该接口获取用户个人信息均需用户确认
@@ -181,18 +189,10 @@ export default {
           console.log(res);
           this.isGetTel = true;
           this.userInfo = res.userInfo;
-          this.$store.commit("setUserInfo", res.userInfo);
+          // this.$store.commit("setUserInfo", res.userInfo);
           uni.setStorageSync("avatar", res.userInfo.avatarUrl);
           this.hasUserInfo = true;
-          if (appType === 3) {
-            uni.redirectTo({
-              url: "../index/vehicle",
-            });
-          } else {
-            uni.redirectTo({
-              url: "../index/index",
-            });
-          }
+          this.judgeToJump(appType);
         },
       });
     },

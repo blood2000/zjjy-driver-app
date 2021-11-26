@@ -521,3 +521,74 @@ image {
 	align-items: center;
 	justify-content: flex-end;
 }
+
+
+// 扫码接单
+.zjjy-box-title {
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  color: #fff;
+  background: #3A65FF;
+  font-size: 28rpx;
+}
+
+.zjjy-box-main {
+  padding: 10rpx 20rpx;
+  &-floor {
+    height: 60rpx;
+    display: flex;
+    align-items: center;
+    color: #333;
+    font-size: 28rpx;
+    .zjjy-floor-left {
+      color: #878787;
+      font-size: 24rpx;
+    }
+
+    .zjjy-floor-right {
+      box-sizing: border-box;
+      flex: 1;
+      padding-left: 30rpx;
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.zjjy-img-box {
+  box-sizing: border-box;
+  padding: 30rpx 0 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+
+.img-box {
+	position: relative;
+  width: 30%;
+  height: 150rpx;
+  margin: 0 3% 20rpx 0;
+  background: #f2f2f2;
+  text-align: center;
+  line-height: 150rpx;
+  border-radius: 10rpx;
+  /* box-shadow: 2rpx 4rpx 20rpx 0 rgba(0, 0, 0, 0.4); */
+  
+}
+
+.img-box:nth-child(3n) {
+  margin-right: 0;
+}
+
+.img {
+	width: 100%;
+	height: 100%;
+	border-radius: 10rpx;
+	overflow: hidden;
+}
+
+.img-box img {
+  width: 100%;
+  height: 100%;
+}

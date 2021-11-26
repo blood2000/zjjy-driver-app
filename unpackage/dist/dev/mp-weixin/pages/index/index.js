@@ -219,21 +219,18 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumera
 
   onLoad: function onLoad() {
     console.log(this.userInfo);
-    if (this.userInfo.avatarUrl) {
-      this.avatar = this.userInfo.avatarUrl;
-    } else {
-      this.avatar = '../../static/avatar.png';
-    }
+    this.avatar = uni.getStorageSync("avatar") || '../../static/avatar.png';
+
     console.log(this.avatar);
   },
 
   onShow: function onShow() {
-    console.log(this.vehicleMsg);
-    if (!this.vehicleMsg.name || !this.vehicleMsg.vehicleCode) {
-      uni.navigateTo({
-        url: "./vehicle" });
-
-    }
+    // console.log(this.vehicleMsg);
+    // if (!this.vehicleMsg.name || !this.vehicleMsg.vehicleCode) {
+    //   uni.navigateTo({
+    //     url: "./vehicle",
+    //   });
+    // }
   },
 
   methods: {
@@ -241,6 +238,11 @@ var _vuex = __webpack_require__(/*! vuex */ 12);function ownKeys(object, enumera
     toVehicle: function toVehicle() {
       uni.navigateTo({
         url: "./vehicle" });
+
+    },
+    toScanOrder: function toScanOrder() {
+      uni.navigateTo({
+        url: "../scan/scanOrder" });
 
     } } };exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"]))
