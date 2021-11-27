@@ -28,9 +28,10 @@
 }
 
 .title1 {
-	color: #333;
-	font-size: 32rpx;
-	font-weight: bold;
+  position: relative;
+  color: #333;
+  font-size: 32rpx;
+  font-weight: bold;
 }
 
 .title2 {
@@ -39,21 +40,30 @@
   font-weight: bold;
 }
 
+.corner {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  margin: 0 0 2rpx 10rpx;
+  border: 8rpx solid #333;
+  border-top: 8rpx solid transparent;
+  border-right: 8rpx solid transparent;
+  border-bottom: 8rpx solid transparent;
+}
+
 .required {
-	color: red;
+  color: red;
 }
 
 .my-input {
-	/* min-width: 240rpx; */
+  /* min-width: 240rpx; */
   flex: 1;
-	text-align: right;
-	font-size: 28rpx;
-	height: 80rpx;
+  text-align: right;
+  font-size: 28rpx;
+  height: 80rpx;
   padding-left: 20rpx;
-	/* padding-right: 10rpx; */
+  /* padding-right: 10rpx; */
 }
-
-
 
 .item-input {
   box-sizing: border-box;
@@ -63,19 +73,20 @@
   line-height: 60rpx;
   padding: 0 20rpx;
   color: #878787;
-	text-align: right;
+  text-align: right;
 }
 
 /* 首页 */
 .tab-header {
   position: relative;
-  height: 370rpx;
+  // height: 370rpx;
+  height: 430rpx;
   color: #fff;
 }
 .header-title {
   box-sizing: border-box;
   position: absolute;
-  bottom: 234rpx;
+  bottom: 294rpx;
   width: 100%;
   padding-left: 30rpx;
   height: 40rpx;
@@ -144,18 +155,19 @@ image {
 
 .user-box {
   position: relative;
-  padding-top: 100rpx;
+  padding-top: 110rpx;
 }
 
 .user-card {
   box-sizing: border-box;
   position: absolute;
   width: 92%;
-  height: 160rpx;
+  height: 180rpx;
+  background: linear-gradient(90deg, #457DDE 0%, #656DBA 100%);
   padding: 20rpx;
-  top: -80rpx;
+  top: -90rpx;
   left: 4%;
-  background: #5873c7;
+  // background: #5873c7;
   border-radius: 16rpx;
   color: #fff;
   z-index: 100;
@@ -167,8 +179,8 @@ image {
     display: flex;
     align-items: center;
     .avatar {
-      width: 90rpx;
-      height: 90rpx;
+      width: 120rpx;
+      height: 120rpx;
       margin-right: 20rpx;
       border-radius: 50%;
       background: #fff;
@@ -186,24 +198,38 @@ image {
       display: flex;
       align-items: center;
       .user-name {
-        font-size: 28rpx;
+        font-size: 36rpx;
         font-weight: bold;
         margin-right: 20rpx;
       }
       .user-name-icon {
-        padding: 0 10rpx;
-        height: 30rpx;
-        border-radius: 15rpx;
-        font-size: 22rpx;
-        line-height: 30rpx;
-        background: #fff1cc;
+        
+        height: 26rpx;
+        border-radius: 13rpx;
+        font-size: 18rpx;
+        
+        
+        overflow: hidden;
+        display: flex;
+        &-left {
+          width: 32rpx;
+          text-align: center;
+          line-height: 26rpx;
+          background: #512f13;
+          color: #fee589;
+        }
+        &-right {
+          padding: 0 10rpx;
+          line-height: 26rpx;
+          background: linear-gradient(87deg, #FFEB96 0%, #FBD86B 100%);
         color: #333;
+        }
       }
     }
-    
 
     .user-tel {
-      font-size: 24rpx;
+      font-size: 28rpx;
+      color: #aaa;
     }
   }
   &-right {
@@ -211,7 +237,7 @@ image {
     height: 40rpx;
     line-height: 40rpx;
     text-align: center;
-    background-image: linear-gradient(to right, #fff1cd,#ffe29a);
+    background-image: linear-gradient(to right, #fff1cd, #ffe29a);
     border-radius: 20rpx;
     font-size: 24rpx;
     font-weight: bold;
@@ -235,16 +261,20 @@ image {
   padding: 10rpx 0 40rpx;
   overflow-y: hidden;
   &-content {
-    padding: 10rpx 10rpx;
+    width: 92%;
+    margin: 0 auto;
+    padding: 10rpx 0;
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
     &-item {
       box-sizing: border-box;
       position: relative;
-      width: 28%;
-      height: 180rpx;
-      padding: 10rpx 20rpx;
-      margin: 0 0 20rpx 4%;
+      width: 48%;
+      height: 260rpx;
+      padding: 20rpx 20rpx 10rpx;
+      // margin: 0 0 20rpx 4%;
+      margin: 0 0 20rpx 0;
       background: #fff;
       border-radius: 10rpx;
       box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.2);
@@ -254,16 +284,14 @@ image {
         position: absolute;
         right: 20rpx;
         bottom: 20rpx;
-        width: 100rpx;
-        height: 100rpx;
+        width: 160rpx;
+        height: 160rpx;
         border-radius: 50%;
         background: #e9f0ff;
       }
     }
   }
 }
-
-
 
 /* 搜索区域 */
 
@@ -289,7 +317,6 @@ image {
   padding-left: 10rpx;
   color: #878787;
 }
-
 
 /* 无数据 */
 .no-list {
@@ -360,10 +387,6 @@ image {
   height: 0;
 }
 
-
-
-
-
 .btn-box {
   padding: 20rpx 0 40rpx;
   display: flex;
@@ -384,12 +407,10 @@ image {
   height: 80rpx;
   line-height: 80rpx;
   border-radius: 10rpx;
-  background: #3A65FF;
+  background: #3a65ff;
   color: #fff;
   font-size: 28rpx;
 }
-
-
 
 .item-line {
   position: relative;
@@ -448,60 +469,53 @@ image {
   border-radius: 4rpx;
 }
 
-
 .item-date {
   height: 72rpx;
-	padding: 0 20rpx;
-	font-size: 28rpx;
-	color: #878787;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #878787;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .remark-box {
-	margin: 20rpx 0;
-	background: #f8f9fb;
+  margin: 20rpx 0;
+  background: #f8f9fb;
   border-radius: 10rpx;
 }
 
-
-
 .splite-line {
-	width: 100%;
+  width: 100%;
   height: 2rpx;
   background-image: linear-gradient(to bottom, #999, transparent);
   transform: scaleY(0.5);
-	margin: 30rpx 0;
+  margin: 30rpx 0;
 }
 
-
-
 .msg-content {
-	padding: 10rpx 0;
-	display: flex;
-	/* justify-content: space-between; */
-	align-items: center;
+  padding: 10rpx 0;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
 }
 
 .msg-content-left {
-	margin-right: 40rpx;
+  margin-right: 40rpx;
 }
 
 .item-img-box {
-	padding: 30rpx 0 0;
-	display: flex;
-	/* justify-content: space-between; */
-	align-items: center;
-	flex-wrap: wrap;
+  padding: 30rpx 0 0;
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+  flex-wrap: wrap;
 }
 
 .item-img {
-	width: 30%;
-	height: 200rpx;
-	margin: 0 3% 20rpx 0;
-  
+  width: 30%;
+  height: 200rpx;
+  margin: 0 3% 20rpx 0;
 }
 
 .no-img {
@@ -511,17 +525,16 @@ image {
 }
 
 .input-line {
-	height: 60rpx;
+  height: 60rpx;
 }
 
 .item-input-box {
-	flex: 1;
-	padding-left: 20rpx;
-	display: flex;
-	align-items: center;
-	justify-content: flex-end;
+  flex: 1;
+  padding-left: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }
-
 
 // 扫码接单
 .zjjy-box-title {
@@ -529,7 +542,7 @@ image {
   line-height: 80rpx;
   text-align: center;
   color: #fff;
-  background: #3A65FF;
+  background: #3a65ff;
   font-size: 28rpx;
 }
 
@@ -563,9 +576,8 @@ image {
   flex-wrap: wrap;
 }
 
-
 .img-box {
-	position: relative;
+  position: relative;
   width: 30%;
   height: 150rpx;
   margin: 0 3% 20rpx 0;
@@ -574,7 +586,6 @@ image {
   line-height: 150rpx;
   border-radius: 10rpx;
   /* box-shadow: 2rpx 4rpx 20rpx 0 rgba(0, 0, 0, 0.4); */
-  
 }
 
 .img-box:nth-child(3n) {
@@ -582,10 +593,10 @@ image {
 }
 
 .img {
-	width: 100%;
-	height: 100%;
-	border-radius: 10rpx;
-	overflow: hidden;
+  width: 100%;
+  height: 100%;
+  border-radius: 10rpx;
+  overflow: hidden;
 }
 
 .img-box img {
