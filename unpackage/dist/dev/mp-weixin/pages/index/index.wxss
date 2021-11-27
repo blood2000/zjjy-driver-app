@@ -31,6 +31,13 @@
   margin-bottom: 20rpx;
 }
 .item-line.data-v-57280228 {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   height: 60rpx;
+  margin: 0 -10rpx;
+  padding: 0 10rpx;
+  border-radius: 30rpx;
+  background: -webkit-linear-gradient(357deg, #eff4fe 0%, #fffefe 100%);
+  background: linear-gradient(93deg, #eff4fe 0%, #fffefe 100%);
 }
 
