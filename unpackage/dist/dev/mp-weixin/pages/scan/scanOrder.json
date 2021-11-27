@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "扫码接单",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons"
-  }
-}
