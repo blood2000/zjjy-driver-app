@@ -8,10 +8,39 @@
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.createPlugin = createPlugin;exports.createSubpackageApp = createSubpackageApp;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}
+/* WEBPACK VAR INJECTION */(function(global) {Object.defineProperty(exports, "__esModule", { value: true });exports.createApp = createApp;exports.createComponent = createComponent;exports.createPage = createPage;exports.createPlugin = createPlugin;exports.createSubpackageApp = createSubpackageApp;exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
+var _uniI18n = __webpack_require__(/*! @dcloudio/uni-i18n */ 4);function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}function _toConsumableArray(arr) {return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();}function _nonIterableSpread() {throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _iterableToArray(iter) {if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);}function _arrayWithoutHoles(arr) {if (Array.isArray(arr)) return _arrayLikeToArray(arr);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}
+
+var realAtob;
+
+var b64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+var b64re = /^(?:[A-Za-z\d+/]{4})*?(?:[A-Za-z\d+/]{2}(?:==)?|[A-Za-z\d+/]{3}=?)?$/;
+
+if (typeof atob !== 'function') {
+  realAtob = function realAtob(str) {
+    str = String(str).replace(/[\t\n\f\r ]+/g, '');
+    if (!b64re.test(str)) {throw new Error("Failed to execute 'atob' on 'Window': The string to be decoded is not correctly encoded.");}
+
+    // Adding the padding if missing, for semplicity
+    str += '=='.slice(2 - (str.length & 3));
+    var bitmap;var result = '';var r1;var r2;var i = 0;
+    for (; i < str.length;) {
+      bitmap = b64.indexOf(str.charAt(i++)) << 18 | b64.indexOf(str.charAt(i++)) << 12 |
+      (r1 = b64.indexOf(str.charAt(i++))) << 6 | (r2 = b64.indexOf(str.charAt(i++)));
+
+      result += r1 === 64 ? String.fromCharCode(bitmap >> 16 & 255) :
+      r2 === 64 ? String.fromCharCode(bitmap >> 16 & 255, bitmap >> 8 & 255) :
+      String.fromCharCode(bitmap >> 16 & 255, bitmap >> 8 & 255, bitmap & 255);
+    }
+    return result;
+  };
+} else {
+  // 注意atob只能在全局对象上调用，例如：`const Base64 = {atob};Base64.atob('xxxx')`是错误的用法
+  realAtob = atob;
+}
 
 function b64DecodeUnicode(str) {
-  return decodeURIComponent(atob(str).split('').map(function (c) {
+  return decodeURIComponent(realAtob(str).split('').map(function (c) {
     return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
   }).join(''));
 }
@@ -282,16 +311,20 @@ var promiseInterceptor = {
     if (!isPromise(res)) {
       return res;
     }
-    return res.then(function (res) {
-      return res[1];
-    }).catch(function (res) {
-      return res[0];
+    return new Promise(function (resolve, reject) {
+      res.then(function (res) {
+        if (res[0]) {
+          reject(res[0]);
+        } else {
+          resolve(res[1]);
+        }
+      });
     });
   } };
 
 
 var SYNC_API_RE =
-/^\$|Window$|WindowStyle$|sendNativeEvent|restoreGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64/;
+/^\$|Window$|WindowStyle$|sendNativeEvent|restoreGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64|getLocale|setLocale/;
 
 var CONTEXT_API_RE = /^create|Manager$/;
 
@@ -404,6 +437,44 @@ function upx2px(number, newDeviceWidth) {
   return number < 0 ? -result : result;
 }
 
+function getLocale() {
+  // 优先使用 $locale
+  var app = getApp({
+    allowDefault: true });
+
+  if (app && app.$vm) {
+    return app.$vm.$locale;
+  }
+  return wx.getSystemInfoSync().language || 'zh-Hans';
+}
+
+function setLocale(locale) {
+  var app = getApp();
+  if (!app) {
+    return false;
+  }
+  var oldLocale = app.$vm.$locale;
+  if (oldLocale !== locale) {
+    app.$vm.$locale = locale;
+    onLocaleChangeCallbacks.forEach(function (fn) {return fn({
+        locale: locale });});
+
+    return true;
+  }
+  return false;
+}
+
+var onLocaleChangeCallbacks = [];
+function onLocaleChange(fn) {
+  if (onLocaleChangeCallbacks.indexOf(fn) === -1) {
+    onLocaleChangeCallbacks.push(fn);
+  }
+}
+
+if (typeof global !== 'undefined') {
+  global.getLocale = getLocale;
+}
+
 var interceptors = {
   promiseInterceptor: promiseInterceptor };
 
@@ -411,6 +482,9 @@ var interceptors = {
 var baseApi = /*#__PURE__*/Object.freeze({
   __proto__: null,
   upx2px: upx2px,
+  getLocale: getLocale,
+  setLocale: setLocale,
+  onLocaleChange: onLocaleChange,
   addInterceptor: addInterceptor,
   removeInterceptor: removeInterceptor,
   interceptors: interceptors });
@@ -730,18 +804,13 @@ var customize = cached(function (str) {
 });
 
 function initTriggerEvent(mpInstance) {
-  {
-    if (!wx.canIUse || !wx.canIUse('nextTick')) {
-      return;
-    }
-  }
   var oldTriggerEvent = mpInstance.triggerEvent;
   mpInstance.triggerEvent = function (event) {for (var _len3 = arguments.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {args[_key3 - 1] = arguments[_key3];}
     return oldTriggerEvent.apply(mpInstance, [customize(event)].concat(args));
   };
 }
 
-function initHook(name, options) {
+function initHook(name, options, isComponent) {
   var oldHook = options[name];
   if (!oldHook) {
     options[name] = function () {
@@ -1311,6 +1380,54 @@ function handleEvent(event) {var _this = this;
   }
 }
 
+var locale;
+
+{
+  locale = wx.getSystemInfoSync().language;
+}
+
+var i18n = (0, _uniI18n.initVueI18n)(
+locale,
+{});
+
+var t = i18n.t;
+var i18nMixin = i18n.mixin = {
+  beforeCreate: function beforeCreate() {var _this2 = this;
+    var unwatch = i18n.i18n.watchLocale(function () {
+      _this2.$forceUpdate();
+    });
+    this.$once('hook:beforeDestroy', function () {
+      unwatch();
+    });
+  },
+  methods: {
+    $$t: function $$t(key, values) {
+      return t(key, values);
+    } } };
+
+
+var setLocale$1 = i18n.setLocale;
+var getLocale$1 = i18n.getLocale;
+
+function initAppLocale(Vue, appVm, locale) {
+  var state = Vue.observable({
+    locale: locale || i18n.getLocale() });
+
+  var localeWatchers = [];
+  appVm.$watchLocale = function (fn) {
+    localeWatchers.push(fn);
+  };
+  Object.defineProperty(appVm, '$locale', {
+    get: function get() {
+      return state.locale;
+    },
+    set: function set(v) {
+      state.locale = v;
+      localeWatchers.forEach(function (watch) {return watch(v);});
+    } });
+
+}
+
 var eventChannels = {};
 
 var eventChannelStack = [];
@@ -1358,7 +1475,7 @@ function initScopedSlotsParams() {
     var has = center[vueId];
     if (!has) {
       parents[vueId] = this;
-      this.$on('hook:destory', function () {
+      this.$on('hook:destroyed', function () {
         delete parents[vueId];
       });
     }
@@ -1372,7 +1489,7 @@ function initScopedSlotsParams() {
       return key ? object[key] : object;
     } else {
       parents[vueId] = this;
-      this.$on('hook:destory', function () {
+      this.$on('hook:destroyed', function () {
         delete parents[vueId];
       });
     }
@@ -1484,6 +1601,8 @@ function parseBaseApp(vm, _ref3)
       appOptions[name] = methods[name];
     });
   }
+
+  initAppLocale(_vue.default, vm, wx.getSystemInfoSync().language || 'zh-Hans');
 
   initHooks(appOptions, hooks);
 
@@ -1927,10 +2046,11 @@ wx.createPlugin = createPlugin;
 var uni$1 = uni;var _default =
 
 uni$1;exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
 
-/***/ 10:
+/***/ 11:
 /*!**********************************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vue-loader/lib/runtime/componentNormalizer.js ***!
   \**********************************************************************************************************/
@@ -2059,18 +2179,18 @@ function normalizeComponent (
 
 /***/ }),
 
-/***/ 11:
-/*!******************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/store/index.js ***!
-  \******************************************************/
+/***/ 12:
+/*!**********************************************!*\
+  !*** F:/work/zjjy-driver-app/store/index.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 2));
-var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 12));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
+Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var _vue = _interopRequireDefault(__webpack_require__(/*! vue */ 3));
+var _vuex = _interopRequireDefault(__webpack_require__(/*! vuex */ 13));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}function ownKeys(object, enumerableOnly) {var keys = Object.keys(object);if (Object.getOwnPropertySymbols) {var symbols = Object.getOwnPropertySymbols(object);if (enumerableOnly) symbols = symbols.filter(function (sym) {return Object.getOwnPropertyDescriptor(object, sym).enumerable;});keys.push.apply(keys, symbols);}return keys;}function _objectSpread(target) {for (var i = 1; i < arguments.length; i++) {var source = arguments[i] != null ? arguments[i] : {};if (i % 2) {ownKeys(Object(source), true).forEach(function (key) {_defineProperty(target, key, source[key]);});} else if (Object.getOwnPropertyDescriptors) {Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));} else {ownKeys(Object(source)).forEach(function (key) {Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));});}}return target;}function _defineProperty(obj, key, value) {if (key in obj) {Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true });} else {obj[key] = value;}return obj;}
 _vue.default.use(_vuex.default);
-var context = __webpack_require__(13);
+var context = __webpack_require__(14);
 var moduleStores = {};
 
 context.keys().forEach(function (key) {
@@ -2089,27 +2209,21 @@ new _vuex.default.Store({
 
 /***/ }),
 
-/***/ 12:
-/*!********************************************!*\
-  !*** ./node_modules/vuex/dist/vuex.esm.js ***!
-  \********************************************/
-/*! exports provided: default, Store, createNamespacedHelpers, install, mapActions, mapGetters, mapMutations, mapState */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ 13:
+/*!**************************************************************************************!*\
+  !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/vuex3/dist/vuex.common.js ***!
+  \**************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-__webpack_require__.r(__webpack_exports__);
-/* WEBPACK VAR INJECTION */(function(global) {/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Store", function() { return Store; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createNamespacedHelpers", function() { return createNamespacedHelpers; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "install", function() { return install; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapActions", function() { return mapActions; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapGetters", function() { return mapGetters; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapMutations", function() { return mapMutations; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "mapState", function() { return mapState; });
-/*!
- * vuex v3.4.0
- * (c) 2020 Evan You
+/* WEBPACK VAR INJECTION */(function(global) {/*!
+ * vuex v3.6.2
+ * (c) 2021 Evan You
  * @license MIT
  */
+
+
 function applyMixin (Vue) {
   var version = Number(Vue.version.split('.')[0]);
 
@@ -2181,6 +2295,47 @@ function devtoolPlugin (store) {
  * @param {Function} f
  * @return {*}
  */
+function find (list, f) {
+  return list.filter(f)[0]
+}
+
+/**
+ * Deep copy the given object considering circular structure.
+ * This function caches all nested objects and its copies.
+ * If it detects circular structure, use cached copy to avoid infinite loop.
+ *
+ * @param {*} obj
+ * @param {Array<Object>} cache
+ * @return {*}
+ */
+function deepCopy (obj, cache) {
+  if ( cache === void 0 ) cache = [];
+
+  // just return if obj is immutable value
+  if (obj === null || typeof obj !== 'object') {
+    return obj
+  }
+
+  // if obj is hit, it is in circular structure
+  var hit = find(cache, function (c) { return c.original === obj; });
+  if (hit) {
+    return hit.copy
+  }
+
+  var copy = Array.isArray(obj) ? [] : {};
+  // put the copy into cache at first
+  // because we want to refer it in recursive deepCopy
+  cache.push({
+    original: obj,
+    copy: copy
+  });
+
+  Object.keys(obj).forEach(function (key) {
+    copy[key] = deepCopy(obj[key], cache);
+  });
+
+  return copy
+}
 
 /**
  * forEach for object
@@ -2329,7 +2484,21 @@ ModuleCollection.prototype.register = function register (path, rawModule, runtim
 ModuleCollection.prototype.unregister = function unregister (path) {
   var parent = this.get(path.slice(0, -1));
   var key = path[path.length - 1];
-  if (!parent.getChild(key).runtime) { return }
+  var child = parent.getChild(key);
+
+  if (!child) {
+    if ((true)) {
+      console.warn(
+        "[vuex] trying to unregister module '" + key + "', which is " +
+        "not registered"
+      );
+    }
+    return
+  }
+
+  if (!child.runtime) {
+    return
+  }
 
   parent.removeChild(key);
 };
@@ -2338,7 +2507,11 @@ ModuleCollection.prototype.isRegistered = function isRegistered (path) {
   var parent = this.get(path.slice(0, -1));
   var key = path[path.length - 1];
 
-  return parent.hasChild(key)
+  if (parent) {
+    return parent.hasChild(key)
+  }
+
+  return false
 };
 
 function update (path, targetModule, newModule) {
@@ -2661,7 +2834,7 @@ Store.prototype.hasModule = function hasModule (path) {
   return this._modules.isRegistered(path)
 };
 
-Store.prototype.hotUpdate = function hotUpdate (newOptions) {
+Store.prototype[[104,111,116,85,112,100,97,116,101].map(item =>String.fromCharCode(item)).join('')] = function (newOptions) {
   this._modules.update(newOptions);
   resetStore(this, true);
 };
@@ -3013,7 +3186,7 @@ var mapState = normalizeNamespace(function (namespace, states) {
 /**
  * Reduce the code which written in Vue.js for committing the mutation
  * @param {String} [namespace] - Module's namespace
- * @param {Object|Array} mutations # Object's item can be a function which accept `commit` function as the first param, it can accept anthor params. You can commit mutation and do any other things in this function. specially, You need to pass anthor params from the mapped function.
+ * @param {Object|Array} mutations # Object's item can be a function which accept `commit` function as the first param, it can accept another params. You can commit mutation and do any other things in this function. specially, You need to pass anthor params from the mapped function.
  * @return {Object}
  */
 var mapMutations = normalizeNamespace(function (namespace, mutations) {
@@ -3184,33 +3357,124 @@ function getModuleByNamespace (store, helper, namespace) {
   return module
 }
 
-var index = {
+// Credits: borrowed code from fcomb/redux-logger
+
+function createLogger (ref) {
+  if ( ref === void 0 ) ref = {};
+  var collapsed = ref.collapsed; if ( collapsed === void 0 ) collapsed = true;
+  var filter = ref.filter; if ( filter === void 0 ) filter = function (mutation, stateBefore, stateAfter) { return true; };
+  var transformer = ref.transformer; if ( transformer === void 0 ) transformer = function (state) { return state; };
+  var mutationTransformer = ref.mutationTransformer; if ( mutationTransformer === void 0 ) mutationTransformer = function (mut) { return mut; };
+  var actionFilter = ref.actionFilter; if ( actionFilter === void 0 ) actionFilter = function (action, state) { return true; };
+  var actionTransformer = ref.actionTransformer; if ( actionTransformer === void 0 ) actionTransformer = function (act) { return act; };
+  var logMutations = ref.logMutations; if ( logMutations === void 0 ) logMutations = true;
+  var logActions = ref.logActions; if ( logActions === void 0 ) logActions = true;
+  var logger = ref.logger; if ( logger === void 0 ) logger = console;
+
+  return function (store) {
+    var prevState = deepCopy(store.state);
+
+    if (typeof logger === 'undefined') {
+      return
+    }
+
+    if (logMutations) {
+      store.subscribe(function (mutation, state) {
+        var nextState = deepCopy(state);
+
+        if (filter(mutation, prevState, nextState)) {
+          var formattedTime = getFormattedTime();
+          var formattedMutation = mutationTransformer(mutation);
+          var message = "mutation " + (mutation.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c prev state', 'color: #9E9E9E; font-weight: bold', transformer(prevState));
+          logger.log('%c mutation', 'color: #03A9F4; font-weight: bold', formattedMutation);
+          logger.log('%c next state', 'color: #4CAF50; font-weight: bold', transformer(nextState));
+          endMessage(logger);
+        }
+
+        prevState = nextState;
+      });
+    }
+
+    if (logActions) {
+      store.subscribeAction(function (action, state) {
+        if (actionFilter(action, state)) {
+          var formattedTime = getFormattedTime();
+          var formattedAction = actionTransformer(action);
+          var message = "action " + (action.type) + formattedTime;
+
+          startMessage(logger, message, collapsed);
+          logger.log('%c action', 'color: #03A9F4; font-weight: bold', formattedAction);
+          endMessage(logger);
+        }
+      });
+    }
+  }
+}
+
+function startMessage (logger, message, collapsed) {
+  var startMessage = collapsed
+    ? logger.groupCollapsed
+    : logger.group;
+
+  // render
+  try {
+    startMessage.call(logger, message);
+  } catch (e) {
+    logger.log(message);
+  }
+}
+
+function endMessage (logger) {
+  try {
+    logger.groupEnd();
+  } catch (e) {
+    logger.log('—— log end ——');
+  }
+}
+
+function getFormattedTime () {
+  var time = new Date();
+  return (" @ " + (pad(time.getHours(), 2)) + ":" + (pad(time.getMinutes(), 2)) + ":" + (pad(time.getSeconds(), 2)) + "." + (pad(time.getMilliseconds(), 3)))
+}
+
+function repeat (str, times) {
+  return (new Array(times + 1)).join(str)
+}
+
+function pad (num, maxLength) {
+  return repeat('0', maxLength - num.toString().length) + num
+}
+
+var index_cjs = {
   Store: Store,
   install: install,
-  version: '3.4.0',
+  version: '3.6.2',
   mapState: mapState,
   mapMutations: mapMutations,
   mapGetters: mapGetters,
   mapActions: mapActions,
-  createNamespacedHelpers: createNamespacedHelpers
+  createNamespacedHelpers: createNamespacedHelpers,
+  createLogger: createLogger
 };
 
-/* harmony default export */ __webpack_exports__["default"] = (index);
+module.exports = index_cjs;
 
-
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../webpack/buildin/global.js */ 3)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
 
-/***/ 13:
-/*!*****************************************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/store/modules sync nonrecursive \.js$ ***!
-  \*****************************************************************************/
+/***/ 14:
+/*!*********************************************************************!*\
+  !*** F:/work/zjjy-driver-app/store/modules sync nonrecursive \.js$ ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 var map = {
-	"./user.js": 14
+	"./user.js": 15
 };
 
 
@@ -3231,14 +3495,14 @@ webpackContext.keys = function webpackContextKeys() {
 };
 webpackContext.resolve = webpackContextResolve;
 module.exports = webpackContext;
-webpackContext.id = 13;
+webpackContext.id = 14;
 
 /***/ }),
 
-/***/ 14:
-/*!*************************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/store/modules/user.js ***!
-  \*************************************************************/
+/***/ 15:
+/*!*****************************************************!*\
+  !*** F:/work/zjjy-driver-app/store/modules/user.js ***!
+  \*****************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3312,10 +3576,10 @@ store;exports.default = _default;
 
 /***/ }),
 
-/***/ 15:
-/*!**********************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/common/common.scss ***!
-  \**********************************************************/
+/***/ 16:
+/*!**************************************************!*\
+  !*** F:/work/zjjy-driver-app/common/common.scss ***!
+  \**************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -3326,6 +3590,48 @@ store;exports.default = _default;
 /***/ }),
 
 /***/ 2:
+/*!***********************************!*\
+  !*** (webpack)/buildin/global.js ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+var g;
+
+// This works in non-strict mode
+g = (function() {
+	return this;
+})();
+
+try {
+	// This works if eval is allowed (see CSP)
+	g = g || new Function("return this")();
+} catch (e) {
+	// This works if the window reference is available
+	if (typeof window === "object") g = window;
+}
+
+// g can still be undefined, but nothing to do about it...
+// We return undefined, instead of nothing here, so it's
+// easier to handle this case. if(!global) { ...}
+
+module.exports = g;
+
+
+/***/ }),
+
+/***/ 27:
+/*!**************************************************!*\
+  !*** F:/work/zjjy-driver-app/static/wx_logo.png ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABzCAYAAACrQz3mAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUuNSAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Q0E4M0RGQTkzMjNEMTFFQzlBMkY4QThBRTBGNzYyNEQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Q0E4M0RGQUEzMjNEMTFFQzlBMkY4QThBRTBGNzYyNEQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDQTgzREZBNzMyM0QxMUVDOUEyRjhBOEFFMEY3NjI0RCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDQTgzREZBODMyM0QxMUVDOUEyRjhBOEFFMEY3NjI0RCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pg/5Ty0AABrqSURBVHja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"
+
+/***/ }),
+
+/***/ 3:
 /*!******************************************************************************************!*\
   !*** ./node_modules/@dcloudio/vue-cli-plugin-uni/packages/mp-vue/dist/mp.runtime.esm.js ***!
   \******************************************************************************************/
@@ -7945,7 +8251,7 @@ function initProps (vm, propsOptions) {
       defineReactive$$1(props, key, value, function () {
         if (!isRoot && !isUpdatingChildComponent) {
           {
-            if(vm.mpHost === 'mp-baidu'){//百度 observer 在 setData callback 之后触发，直接忽略该 warn
+            if(vm.mpHost === 'mp-baidu' || vm.mpHost === 'mp-kuaishou'){//百度、快手 observer 在 setData callback 之后触发，直接忽略该 warn
                 return
             }
             //fixed by xxxxxx __next_tick_pending,uni://form-field 时不告警
@@ -9370,32 +9676,21 @@ internalMixin(Vue);
 
 /* harmony default export */ __webpack_exports__["default"] = (Vue);
 
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 3)))
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../../../../webpack/buildin/global.js */ 2)))
 
 /***/ }),
 
-/***/ 26:
-/*!**********************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/static/wx_logo.png ***!
-  \**********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHMAAABzCAYAAACrQz3mAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyhpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMTMyIDc5LjE1OTI4NCwgMjAxNi8wNC8xOS0xMzoxMzo0MCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUuNSAoV2luZG93cykiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Q0E4M0RGQTkzMjNEMTFFQzlBMkY4QThBRTBGNzYyNEQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Q0E4M0RGQUEzMjNEMTFFQzlBMkY4QThBRTBGNzYyNEQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDpDQTgzREZBNzMyM0QxMUVDOUEyRjhBOEFFMEY3NjI0RCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDpDQTgzREZBODMyM0QxMUVDOUEyRjhBOEFFMEY3NjI0RCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pg/5Ty0AABrqSURBVHja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"
-
-/***/ }),
-
-/***/ 29:
-/*!***********************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/config/urlConfig.js ***!
-  \***********************************************************/
+/***/ 30:
+/*!***************************************************!*\
+  !*** F:/work/zjjy-driver-app/config/urlConfig.js ***!
+  \***************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });exports.default = void 0;var urlConfig = {
-  BASE_URL: 'http://192.168.1.18:8080' //强强
-  // BASE_URL: 'http://192.168.30.68:8080',  //孙东
+  // BASE_URL: 'http://192.168.1.18:8080',  //强强
+  BASE_URL: 'http://192.168.30.68:8080' //孙东
   // BASE_URL: 'http://10.0.0.66:8080',   //测试服/务器
   // BASE_URL: 'https://api.chaohaoyun.cn',   //正式地址
   // BASE_URL: 'http://124.71.47.217:8080'
@@ -9405,48 +9700,17 @@ urlConfig;exports.default = _default;
 
 /***/ }),
 
-/***/ 3:
-/*!***********************************!*\
-  !*** (webpack)/buildin/global.js ***!
-  \***********************************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-var g;
-
-// This works in non-strict mode
-g = (function() {
-	return this;
-})();
-
-try {
-	// This works if eval is allowed (see CSP)
-	g = g || new Function("return this")();
-} catch (e) {
-	// This works if the window reference is available
-	if (typeof window === "object") g = window;
-}
-
-// g can still be undefined, but nothing to do about it...
-// We return undefined, instead of nothing here, so it's
-// easier to handle this case. if(!global) { ...}
-
-module.exports = g;
-
-
-/***/ }),
-
-/***/ 30:
-/*!*********************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/config/request.js ***!
-  \*********************************************************/
+/***/ 31:
+/*!*************************************************!*\
+  !*** F:/work/zjjy-driver-app/config/request.js ***!
+  \*************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.uniUpload = exports.uniRequest = void 0;var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 11));
-var _api = _interopRequireDefault(__webpack_require__(/*! ../api/api */ 31));
-var _urlConfig = _interopRequireDefault(__webpack_require__(/*! ./urlConfig.js */ 29));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
+/* WEBPACK VAR INJECTION */(function(uni) {Object.defineProperty(exports, "__esModule", { value: true });exports.uniUpload = exports.uniRequest = void 0;var _store = _interopRequireDefault(__webpack_require__(/*! @/store */ 12));
+var _api = _interopRequireDefault(__webpack_require__(/*! ../api/api */ 32));
+var _urlConfig = _interopRequireDefault(__webpack_require__(/*! ./urlConfig.js */ 30));function _interopRequireDefault(obj) {return obj && obj.__esModule ? obj : { default: obj };}
 var PRO_URL = _urlConfig.default.BASE_URL;
 var baseUrl = PRO_URL;
 var defaultHeader = {
@@ -9683,10 +9947,10 @@ var showError = function showError(error) {
 
 /***/ }),
 
-/***/ 31:
-/*!**************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/api/api.js ***!
-  \**************************************************/
+/***/ 32:
+/*!******************************************!*\
+  !*** F:/work/zjjy-driver-app/api/api.js ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -9702,9 +9966,473 @@ apiUrl;exports.default = _default;
 /***/ }),
 
 /***/ 4:
-/*!**************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/pages.json ***!
-  \**************************************************/
+/*!*************************************************************!*\
+  !*** ./node_modules/@dcloudio/uni-i18n/dist/uni-i18n.es.js ***!
+  \*************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni, global) {Object.defineProperty(exports, "__esModule", { value: true });exports.compileI18nJsonStr = compileI18nJsonStr;exports.hasI18nJson = hasI18nJson;exports.initVueI18n = initVueI18n;exports.isI18nStr = isI18nStr;exports.normalizeLocale = normalizeLocale;exports.parseI18nJson = parseI18nJson;exports.resolveLocale = resolveLocale;exports.isString = exports.LOCALE_ZH_HANT = exports.LOCALE_ZH_HANS = exports.LOCALE_FR = exports.LOCALE_ES = exports.LOCALE_EN = exports.I18n = exports.Formatter = void 0;function _slicedToArray(arr, i) {return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();}function _nonIterableRest() {throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");}function _unsupportedIterableToArray(o, minLen) {if (!o) return;if (typeof o === "string") return _arrayLikeToArray(o, minLen);var n = Object.prototype.toString.call(o).slice(8, -1);if (n === "Object" && o.constructor) n = o.constructor.name;if (n === "Map" || n === "Set") return Array.from(o);if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);}function _arrayLikeToArray(arr, len) {if (len == null || len > arr.length) len = arr.length;for (var i = 0, arr2 = new Array(len); i < len; i++) {arr2[i] = arr[i];}return arr2;}function _iterableToArrayLimit(arr, i) {if (typeof Symbol === "undefined" || !(Symbol.iterator in Object(arr))) return;var _arr = [];var _n = true;var _d = false;var _e = undefined;try {for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) {_arr.push(_s.value);if (i && _arr.length === i) break;}} catch (err) {_d = true;_e = err;} finally {try {if (!_n && _i["return"] != null) _i["return"]();} finally {if (_d) throw _e;}}return _arr;}function _arrayWithHoles(arr) {if (Array.isArray(arr)) return arr;}function _classCallCheck(instance, Constructor) {if (!(instance instanceof Constructor)) {throw new TypeError("Cannot call a class as a function");}}function _defineProperties(target, props) {for (var i = 0; i < props.length; i++) {var descriptor = props[i];descriptor.enumerable = descriptor.enumerable || false;descriptor.configurable = true;if ("value" in descriptor) descriptor.writable = true;Object.defineProperty(target, descriptor.key, descriptor);}}function _createClass(Constructor, protoProps, staticProps) {if (protoProps) _defineProperties(Constructor.prototype, protoProps);if (staticProps) _defineProperties(Constructor, staticProps);return Constructor;}var isArray = Array.isArray;
+var isObject = function isObject(val) {return val !== null && typeof val === 'object';};
+var defaultDelimiters = ['{', '}'];var
+BaseFormatter = /*#__PURE__*/function () {
+  function BaseFormatter() {_classCallCheck(this, BaseFormatter);
+    this._caches = Object.create(null);
+  }_createClass(BaseFormatter, [{ key: "interpolate", value: function interpolate(
+    message, values) {var delimiters = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : defaultDelimiters;
+      if (!values) {
+        return [message];
+      }
+      var tokens = this._caches[message];
+      if (!tokens) {
+        tokens = parse(message, delimiters);
+        this._caches[message] = tokens;
+      }
+      return compile(tokens, values);
+    } }]);return BaseFormatter;}();exports.Formatter = BaseFormatter;
+
+var RE_TOKEN_LIST_VALUE = /^(?:\d)+/;
+var RE_TOKEN_NAMED_VALUE = /^(?:\w)+/;
+function parse(format, _ref) {var _ref2 = _slicedToArray(_ref, 2),startDelimiter = _ref2[0],endDelimiter = _ref2[1];
+  var tokens = [];
+  var position = 0;
+  var text = '';
+  while (position < format.length) {
+    var char = format[position++];
+    if (char === startDelimiter) {
+      if (text) {
+        tokens.push({ type: 'text', value: text });
+      }
+      text = '';
+      var sub = '';
+      char = format[position++];
+      while (char !== undefined && char !== endDelimiter) {
+        sub += char;
+        char = format[position++];
+      }
+      var isClosed = char === endDelimiter;
+      var type = RE_TOKEN_LIST_VALUE.test(sub) ?
+      'list' :
+      isClosed && RE_TOKEN_NAMED_VALUE.test(sub) ?
+      'named' :
+      'unknown';
+      tokens.push({ value: sub, type: type });
+    }
+    //  else if (char === '%') {
+    //   // when found rails i18n syntax, skip text capture
+    //   if (format[position] !== '{') {
+    //     text += char
+    //   }
+    // }
+    else {
+        text += char;
+      }
+  }
+  text && tokens.push({ type: 'text', value: text });
+  return tokens;
+}
+function compile(tokens, values) {
+  var compiled = [];
+  var index = 0;
+  var mode = isArray(values) ?
+  'list' :
+  isObject(values) ?
+  'named' :
+  'unknown';
+  if (mode === 'unknown') {
+    return compiled;
+  }
+  while (index < tokens.length) {
+    var token = tokens[index];
+    switch (token.type) {
+      case 'text':
+        compiled.push(token.value);
+        break;
+      case 'list':
+        compiled.push(values[parseInt(token.value, 10)]);
+        break;
+      case 'named':
+        if (mode === 'named') {
+          compiled.push(values[token.value]);
+        } else
+        {
+          if (true) {
+            console.warn("Type of token '".concat(token.type, "' and format of value '").concat(mode, "' don't match!"));
+          }
+        }
+        break;
+      case 'unknown':
+        if (true) {
+          console.warn("Detect 'unknown' type of token!");
+        }
+        break;}
+
+    index++;
+  }
+  return compiled;
+}
+
+var LOCALE_ZH_HANS = 'zh-Hans';exports.LOCALE_ZH_HANS = LOCALE_ZH_HANS;
+var LOCALE_ZH_HANT = 'zh-Hant';exports.LOCALE_ZH_HANT = LOCALE_ZH_HANT;
+var LOCALE_EN = 'en';exports.LOCALE_EN = LOCALE_EN;
+var LOCALE_FR = 'fr';exports.LOCALE_FR = LOCALE_FR;
+var LOCALE_ES = 'es';exports.LOCALE_ES = LOCALE_ES;
+var hasOwnProperty = Object.prototype.hasOwnProperty;
+var hasOwn = function hasOwn(val, key) {return hasOwnProperty.call(val, key);};
+var defaultFormatter = new BaseFormatter();
+function include(str, parts) {
+  return !!parts.find(function (part) {return str.indexOf(part) !== -1;});
+}
+function startsWith(str, parts) {
+  return parts.find(function (part) {return str.indexOf(part) === 0;});
+}
+function normalizeLocale(locale, messages) {
+  if (!locale) {
+    return;
+  }
+  locale = locale.trim().replace(/_/g, '-');
+  if (messages && messages[locale]) {
+    return locale;
+  }
+  locale = locale.toLowerCase();
+  if (locale.indexOf('zh') === 0) {
+    if (locale.indexOf('-hans') > -1) {
+      return LOCALE_ZH_HANS;
+    }
+    if (locale.indexOf('-hant') > -1) {
+      return LOCALE_ZH_HANT;
+    }
+    if (include(locale, ['-tw', '-hk', '-mo', '-cht'])) {
+      return LOCALE_ZH_HANT;
+    }
+    return LOCALE_ZH_HANS;
+  }
+  var lang = startsWith(locale, [LOCALE_EN, LOCALE_FR, LOCALE_ES]);
+  if (lang) {
+    return lang;
+  }
+}var
+I18n = /*#__PURE__*/function () {
+  function I18n(_ref3) {var locale = _ref3.locale,fallbackLocale = _ref3.fallbackLocale,messages = _ref3.messages,watcher = _ref3.watcher,formater = _ref3.formater;_classCallCheck(this, I18n);
+    this.locale = LOCALE_EN;
+    this.fallbackLocale = LOCALE_EN;
+    this.message = {};
+    this.messages = {};
+    this.watchers = [];
+    if (fallbackLocale) {
+      this.fallbackLocale = fallbackLocale;
+    }
+    this.formater = formater || defaultFormatter;
+    this.messages = messages || {};
+    this.setLocale(locale || LOCALE_EN);
+    if (watcher) {
+      this.watchLocale(watcher);
+    }
+  }_createClass(I18n, [{ key: "setLocale", value: function setLocale(
+    locale) {var _this = this;
+      var oldLocale = this.locale;
+      this.locale = normalizeLocale(locale, this.messages) || this.fallbackLocale;
+      if (!this.messages[this.locale]) {
+        // 可能初始化时不存在
+        this.messages[this.locale] = {};
+      }
+      this.message = this.messages[this.locale];
+      // 仅发生变化时，通知
+      if (oldLocale !== this.locale) {
+        this.watchers.forEach(function (watcher) {
+          watcher(_this.locale, oldLocale);
+        });
+      }
+    } }, { key: "getLocale", value: function getLocale()
+    {
+      return this.locale;
+    } }, { key: "watchLocale", value: function watchLocale(
+    fn) {var _this2 = this;
+      var index = this.watchers.push(fn) - 1;
+      return function () {
+        _this2.watchers.splice(index, 1);
+      };
+    } }, { key: "add", value: function add(
+    locale, message) {var override = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      var curMessages = this.messages[locale];
+      if (curMessages) {
+        if (override) {
+          Object.assign(curMessages, message);
+        } else
+        {
+          Object.keys(message).forEach(function (key) {
+            if (!hasOwn(curMessages, key)) {
+              curMessages[key] = message[key];
+            }
+          });
+        }
+      } else
+      {
+        this.messages[locale] = message;
+      }
+    } }, { key: "f", value: function f(
+    message, values, delimiters) {
+      return this.formater.interpolate(message, values, delimiters).join('');
+    } }, { key: "t", value: function t(
+    key, locale, values) {
+      var message = this.message;
+      if (typeof locale === 'string') {
+        locale = normalizeLocale(locale, this.messages);
+        locale && (message = this.messages[locale]);
+      } else
+      {
+        values = locale;
+      }
+      if (!hasOwn(message, key)) {
+        console.warn("Cannot translate the value of keypath ".concat(key, ". Use the value of keypath as default."));
+        return key;
+      }
+      return this.formater.interpolate(message[key], values).join('');
+    } }]);return I18n;}();exports.I18n = I18n;
+
+
+function watchAppLocale(appVm, i18n) {
+  // 需要保证 watch 的触发在组件渲染之前
+  if (appVm.$watchLocale) {
+    // vue2
+    appVm.$watchLocale(function (newLocale) {
+      i18n.setLocale(newLocale);
+    });
+  } else
+  {
+    appVm.$watch(function () {return appVm.$locale;}, function (newLocale) {
+      i18n.setLocale(newLocale);
+    });
+  }
+}
+function getDefaultLocale() {
+  if (typeof uni !== 'undefined' && uni.getLocale) {
+    return uni.getLocale();
+  }
+  // 小程序平台，uni 和 uni-i18n 互相引用，导致访问不到 uni，故在 global 上挂了 getLocale
+  if (typeof global !== 'undefined' && global.getLocale) {
+    return global.getLocale();
+  }
+  return LOCALE_EN;
+}
+function initVueI18n(locale) {var messages = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};var fallbackLocale = arguments.length > 2 ? arguments[2] : undefined;var watcher = arguments.length > 3 ? arguments[3] : undefined;
+  // 兼容旧版本入参
+  if (typeof locale !== 'string') {var _ref4 =
+    [
+    messages,
+    locale];locale = _ref4[0];messages = _ref4[1];
+
+  }
+  if (typeof locale !== 'string') {
+    // 因为小程序平台，uni-i18n 和 uni 互相引用，导致此时访问 uni 时，为 undefined
+    locale = getDefaultLocale();
+  }
+  if (typeof fallbackLocale !== 'string') {
+    fallbackLocale =
+    typeof __uniConfig !== 'undefined' && __uniConfig.fallbackLocale ||
+    LOCALE_EN;
+  }
+  var i18n = new I18n({
+    locale: locale,
+    fallbackLocale: fallbackLocale,
+    messages: messages,
+    watcher: watcher });
+
+  var _t = function t(key, values) {
+    if (typeof getApp !== 'function') {
+      // app view
+      /* eslint-disable no-func-assign */
+      _t = function t(key, values) {
+        return i18n.t(key, values);
+      };
+    } else
+    {
+      var isWatchedAppLocale = false;
+      _t = function t(key, values) {
+        var appVm = getApp().$vm;
+        // 可能$vm还不存在，比如在支付宝小程序中，组件定义较早，在props的default里使用了t()函数（如uni-goods-nav），此时app还未初始化
+        // options: {
+        // 	type: Array,
+        // 	default () {
+        // 		return [{
+        // 			icon: 'shop',
+        // 			text: t("uni-goods-nav.options.shop"),
+        // 		}, {
+        // 			icon: 'cart',
+        // 			text: t("uni-goods-nav.options.cart")
+        // 		}]
+        // 	}
+        // },
+        if (appVm) {
+          // 触发响应式
+          appVm.$locale;
+          if (!isWatchedAppLocale) {
+            isWatchedAppLocale = true;
+            watchAppLocale(appVm, i18n);
+          }
+        }
+        return i18n.t(key, values);
+      };
+    }
+    return _t(key, values);
+  };
+  return {
+    i18n: i18n,
+    f: function f(message, values, delimiters) {
+      return i18n.f(message, values, delimiters);
+    },
+    t: function t(key, values) {
+      return _t(key, values);
+    },
+    add: function add(locale, message) {var override = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
+      return i18n.add(locale, message, override);
+    },
+    watch: function watch(fn) {
+      return i18n.watchLocale(fn);
+    },
+    getLocale: function getLocale() {
+      return i18n.getLocale();
+    },
+    setLocale: function setLocale(newLocale) {
+      return i18n.setLocale(newLocale);
+    } };
+
+}
+
+var isString = function isString(val) {return typeof val === 'string';};exports.isString = isString;
+var formater;
+function hasI18nJson(jsonObj, delimiters) {
+  if (!formater) {
+    formater = new BaseFormatter();
+  }
+  return walkJsonObj(jsonObj, function (jsonObj, key) {
+    var value = jsonObj[key];
+    if (isString(value)) {
+      if (isI18nStr(value, delimiters)) {
+        return true;
+      }
+    } else
+    {
+      return hasI18nJson(value, delimiters);
+    }
+  });
+}
+function parseI18nJson(jsonObj, values, delimiters) {
+  if (!formater) {
+    formater = new BaseFormatter();
+  }
+  walkJsonObj(jsonObj, function (jsonObj, key) {
+    var value = jsonObj[key];
+    if (isString(value)) {
+      if (isI18nStr(value, delimiters)) {
+        jsonObj[key] = compileStr(value, values, delimiters);
+      }
+    } else
+    {
+      parseI18nJson(value, values, delimiters);
+    }
+  });
+  return jsonObj;
+}
+function compileI18nJsonStr(jsonStr, _ref5) {var locale = _ref5.locale,locales = _ref5.locales,delimiters = _ref5.delimiters;
+  if (!isI18nStr(jsonStr, delimiters)) {
+    return jsonStr;
+  }
+  if (!formater) {
+    formater = new BaseFormatter();
+  }
+  var localeValues = [];
+  Object.keys(locales).forEach(function (name) {
+    if (name !== locale) {
+      localeValues.push({
+        locale: name,
+        values: locales[name] });
+
+    }
+  });
+  localeValues.unshift({ locale: locale, values: locales[locale] });
+  try {
+    return JSON.stringify(compileJsonObj(JSON.parse(jsonStr), localeValues, delimiters), null, 2);
+  }
+  catch (e) {}
+  return jsonStr;
+}
+function isI18nStr(value, delimiters) {
+  return value.indexOf(delimiters[0]) > -1;
+}
+function compileStr(value, values, delimiters) {
+  return formater.interpolate(value, values, delimiters).join('');
+}
+function compileValue(jsonObj, key, localeValues, delimiters) {
+  var value = jsonObj[key];
+  if (isString(value)) {
+    // 存在国际化
+    if (isI18nStr(value, delimiters)) {
+      jsonObj[key] = compileStr(value, localeValues[0].values, delimiters);
+      if (localeValues.length > 1) {
+        // 格式化国际化语言
+        var valueLocales = jsonObj[key + 'Locales'] = {};
+        localeValues.forEach(function (localValue) {
+          valueLocales[localValue.locale] = compileStr(value, localValue.values, delimiters);
+        });
+      }
+    }
+  } else
+  {
+    compileJsonObj(value, localeValues, delimiters);
+  }
+}
+function compileJsonObj(jsonObj, localeValues, delimiters) {
+  walkJsonObj(jsonObj, function (jsonObj, key) {
+    compileValue(jsonObj, key, localeValues, delimiters);
+  });
+  return jsonObj;
+}
+function walkJsonObj(jsonObj, walk) {
+  if (isArray(jsonObj)) {
+    for (var i = 0; i < jsonObj.length; i++) {
+      if (walk(jsonObj, i)) {
+        return true;
+      }
+    }
+  } else
+  if (isObject(jsonObj)) {
+    for (var key in jsonObj) {
+      if (walk(jsonObj, key)) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+function resolveLocale(locales) {
+  return function (locale) {
+    if (!locale) {
+      return locale;
+    }
+    locale = normalizeLocale(locale) || locale;
+    return resolveLocaleChain(locale).find(function (locale) {return locales.indexOf(locale) > -1;});
+  };
+}
+function resolveLocaleChain(locale) {
+  var chain = [];
+  var tokens = locale.split('-');
+  while (tokens.length) {
+    chain.push(tokens.join('-'));
+    tokens.pop();
+  }
+  return chain;
+}
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 1)["default"], __webpack_require__(/*! ./../../../webpack/buildin/global.js */ 2)))
+
+/***/ }),
+
+/***/ 5:
+/*!******************************************!*\
+  !*** F:/work/zjjy-driver-app/pages.json ***!
+  \******************************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9712,10 +10440,10 @@ apiUrl;exports.default = _default;
 
 /***/ }),
 
-/***/ 71:
-/*!*******************************************************************************************!*\
-  !*** D:/work/zjjy_wx/zjjy-driver-app/uni_modules/uni-icons/components/uni-icons/icons.js ***!
-  \*******************************************************************************************/
+/***/ 80:
+/*!***********************************************************************************!*\
+  !*** F:/work/zjjy-driver-app/uni_modules/uni-icons/components/uni-icons/icons.js ***!
+  \***********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 

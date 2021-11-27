@@ -43,8 +43,7 @@
   font-weight: bold;
 }
 .text-box .table-box.data-v-1fef6839 {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 10pt 30pt;
   width: 100%;
   font-size: 11pt;

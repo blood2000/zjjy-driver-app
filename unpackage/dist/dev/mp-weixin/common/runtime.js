@@ -105,11 +105,11 @@
 /******/
 /******/
 /******/ 		// mini-css-extract-plugin CSS loading
-/******/ 		var cssChunks = {"uni_modules/uni-icons/components/uni-icons/uni-icons":1};
+/******/ 		var cssChunks = {"uni_modules/uni-icons/components/uni-icons/uni-icons":1,"pages/scan/components/freightCard":1};
 /******/ 		if(installedCssChunks[chunkId]) promises.push(installedCssChunks[chunkId]);
 /******/ 		else if(installedCssChunks[chunkId] !== 0 && cssChunks[chunkId]) {
 /******/ 			promises.push(installedCssChunks[chunkId] = new Promise(function(resolve, reject) {
-/******/ 				var href = "" + ({"uni_modules/uni-icons/components/uni-icons/uni-icons":"uni_modules/uni-icons/components/uni-icons/uni-icons"}[chunkId]||chunkId) + ".wxss";
+/******/ 				var href = "" + ({"uni_modules/uni-icons/components/uni-icons/uni-icons":"uni_modules/uni-icons/components/uni-icons/uni-icons","pages/scan/components/receiving":"pages/scan/components/receiving","pages/scan/components/shipments":"pages/scan/components/shipments","pages/scan/components/freightCard":"pages/scan/components/freightCard"}[chunkId]||chunkId) + ".wxss";
 /******/ 				var fullhref = __webpack_require__.p + href;
 /******/ 				var existingLinkTags = document.getElementsByTagName("link");
 /******/ 				for(var i = 0; i < existingLinkTags.length; i++) {

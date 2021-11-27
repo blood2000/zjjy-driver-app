@@ -28,40 +28,8 @@
   overflow-y: auto;
   padding-top: 30rpx;
 }
-.order-box.data-v-1bc8b2f8 {
-  padding: 0;
-}
 .padding-box.data-v-1bc8b2f8 {
   padding-top: 30rpx;
-}
-.status.data-v-1bc8b2f8 {
-  font-size: 24rpx;
-  color: #fff;
-  padding: 0 6rpx;
-  -webkit-transform: skewX(-10deg);
-          transform: skewX(-10deg);
-}
-.status1.data-v-1bc8b2f8 {
-  background: #febe4d;
-}
-.status2.data-v-1bc8b2f8 {
-  background: #24b1b8;
-}
-.addr.data-v-1bc8b2f8 {
-  width: 70%;
-}
-.rotate-right.data-v-1bc8b2f8 {
-  width: 16%;
-  text-align: center;
-  -webkit-transform: rotate(-90deg);
-          transform: rotate(-90deg);
-}
-.floor-start.data-v-1bc8b2f8,
-.floor-end.data-v-1bc8b2f8 {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  max-width: 42%;
 }
 .unit.data-v-1bc8b2f8 {
   padding-left: 10rpx;
@@ -76,7 +44,6 @@
   background-size: 32rpx 32rpx;
 }
 .active.data-v-1bc8b2f8 {
-  -webkit-box-shadow: 2rpx 4rpx 20rpx 0 rgba(22, 15, 15, 0.6);
-          box-shadow: 2rpx 4rpx 20rpx 0 rgba(22, 15, 15, 0.6);
+  box-shadow: 2rpx 4rpx 20rpx 0 rgba(22, 15, 15, 0.6);
 }
 

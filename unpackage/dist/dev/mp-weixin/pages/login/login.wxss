@@ -1,20 +1,10 @@
 
 .content {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
-  display: -webkit-box;
-  display: -webkit-flex;
+  box-sizing: border-box;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
-          flex-direction: column;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-          justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   height: 100%;
   background: #ffffff;
 }
@@ -24,8 +14,7 @@
   border-radius: 50%;
 }
 .prop {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   padding: 40rpx;
   width: 80%;
   height: 100px;
@@ -39,8 +28,7 @@
   word-break: break-word;
 }
 .main {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   position: absolute;
   padding: 100rpx 70rpx 0;
   top: 450rpx;
@@ -61,15 +49,10 @@
   font-size: 28rpx;
 }
 .login-type {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   width: 100%;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-box-pack: justify;
-  -webkit-justify-content: space-between;
-          justify-content: space-between;
+  justify-content: space-between;
   padding: 24rpx 0 8rpx;
   font-size: 28rpx;
   color: #333;
@@ -95,16 +78,11 @@
   color: #686868;
   font-size: 26rpx;
   height: 50rpx;
-  display: -webkit-box;
-  display: -webkit-flex;
   display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-          align-items: center;
+  align-items: center;
 }
 .as-check {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   height: 30rpx;
   width: 30rpx;
   border: 1rpx solid #686868;
