@@ -13,7 +13,10 @@
           <div class="user-card-msg">
             <div class="user-name-box"> 
               <div class="user-name">{{vehicleMsg.name}}</div>
-              <div class="user-name-icon"> {{vehicleMsg.auth ? '已认证' : '未认证'}} </div>
+              <div class="user-name-icon">
+                <div class="user-name-icon-left"> v</div>
+                <div class="user-name-icon-right"> {{vehicleMsg.auth ? '已认证' : '未认证'}} </div>
+              </div>
             </div>
             <div class="user-tel"> {{vehicleMsg.phone}} </div>
           </div>
@@ -30,15 +33,15 @@
     <div class="main">
       <div class="main-content">
         <div class="main-content-item">
-          <div>预约排号</div>
+          <div class="title1">预约排号 <span class="corner"></span></div>
           <div class="main-content-item-img"></div>
         </div>
         <div class="main-content-item">
-          <div>我的车辆</div>
+          <div class="title1">我的车辆 <span class="corner"></span></div>
           <div class="main-content-item-img"></div>
         </div>
         <div class="main-content-item">
-          <div>认证信息</div>
+          <div class="title1">认证信息 <span class="corner"></span></div>
           <div class="main-content-item-img"></div>
         </div>
       </div>
@@ -104,6 +107,13 @@ export default {
 }
 
 .item-line {
+  box-sizing: border-box;
   height: 60rpx;
+  margin: 0 -10rpx;
+  padding: 0 10rpx;
+  border-radius: 30rpx;
+  background: linear-gradient(93deg, #eff4fe 0%, #fffefe 100%);
 }
+
+
 </style>
