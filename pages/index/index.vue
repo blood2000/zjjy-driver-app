@@ -14,7 +14,7 @@
             <div class="user-name-box"> 
               <div class="user-name">{{vehicleMsg.name}}</div>
               <div class="user-name-icon">
-                <div class="user-name-icon-left"> v</div>
+                <div class="user-name-icon-left">V</div>
                 <div class="user-name-icon-right"> {{vehicleMsg.auth ? '已认证' : '未认证'}} </div>
               </div>
             </div>
@@ -25,25 +25,21 @@
       </div>
       <div class="zjjy-box">
         <div class="item-line">
-          <uni-icons type="email" size="24" color="#2198bd"></uni-icons>
+          <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
+          <div class="msg-icon"></div>
           <div class="item-line-msg">您有一条新的系统通知，请及时查看</div>
         </div>
       </div>
     </div>
     <div class="main">
       <div class="main-content">
-        <div class="main-content-item">
-          <div class="title1">预约排号 <span class="corner"></span></div>
-          <div class="main-content-item-img"></div>
+        <div class="main-content-item" v-for="(item, index) in funcModules" :key="index">
+          <div class="title1">{{item.name}} <span class="corner"></span></div>
+          <div class="main-content-item-img">
+            <image :src="item.img" mode=""></image>
+          </div>
         </div>
-        <div class="main-content-item">
-          <div class="title1">我的车辆 <span class="corner"></span></div>
-          <div class="main-content-item-img"></div>
-        </div>
-        <div class="main-content-item">
-          <div class="title1">认证信息 <span class="corner"></span></div>
-          <div class="main-content-item-img"></div>
-        </div>
+        
       </div>
     </div>
   </view>
@@ -55,6 +51,11 @@ export default {
   data() {
     return {
       avatar: '',
+      funcModules: [
+        {name: '预约排号', img: '../../static/index_queue.png'},
+        {name: '我的车辆', img: '../../static/index_vehicle.png'},
+        {name: '认证信息', img: '../../static/index_auth.png'},
+      ],
     };
   },
 
@@ -115,5 +116,11 @@ export default {
   background: linear-gradient(93deg, #eff4fe 0%, #fffefe 100%);
 }
 
+.msg-icon {
+  width: 61rpx;
+  height: 54rpx;
+  background: url('../../static/msg.png') no-repeat;
+  background-size: 100%;
+}
 
 </style>

@@ -92,9 +92,9 @@
   height: 40rpx;
   line-height: 40rpx;
   text-align: left;
-  font-size: 28rpx;
+  font-size: 36rpx;
   font-weight: bold;
-  color: #333;
+  color: #fff;
   z-index: 1;
 }
 
@@ -229,7 +229,8 @@ image {
 
     .user-tel {
       font-size: 28rpx;
-      color: #aaa;
+      color: #fff;
+      opacity: .7;
     }
   }
   &-right {
@@ -274,7 +275,7 @@ image {
       height: 260rpx;
       padding: 20rpx 20rpx 10rpx;
       // margin: 0 0 20rpx 4%;
-      margin: 0 0 20rpx 0;
+      margin: 0 0 30rpx 0;
       background: #fff;
       border-radius: 10rpx;
       box-shadow: 0 4rpx 10rpx 0 rgba(0, 0, 0, 0.2);
@@ -288,6 +289,10 @@ image {
         height: 160rpx;
         border-radius: 50%;
         background: #e9f0ff;
+        img {
+          width: 100%;
+          height: 100%;
+        }
       }
     }
   }
