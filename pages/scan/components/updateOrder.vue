@@ -10,8 +10,8 @@
       <FreightCard :typesFreight="1" />
     </div>
     <div class="btn-box-two fixed-bottom">
-      <div class="as-btn-flexItem as-btn-FFF" @click="submit">不更换</div>
-      <div class="as-btn-flexItem as-btn-blue" @click="submit">更换新运单</div>
+      <div class="as-btn-flexItem as-btn-FFF" @click="closed">不更换</div>
+      <div class="as-btn-flexItem as-btn-blue" @click="this.$emit('jumpTo')">更换新运单</div>
     </div>
   </div>
 </template>
@@ -28,6 +28,11 @@ export default {
       userInfo: (state) => state.user.userInfo,
     })
   },
+   methods: {
+     closed(){
+       
+     }
+   }
 };
 </script>
 

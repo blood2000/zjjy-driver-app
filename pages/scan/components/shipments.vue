@@ -19,7 +19,7 @@
       </div>
     </div>
     <div class="btn-box fixed-bottom">
-      <div class="as-btn" @click="submit">确认接单</div>
+      <div class="as-btn" @click="$emit('jumpTo')">确认接单</div>
     </div>
   </div>
 </template>

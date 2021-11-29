@@ -134,14 +134,15 @@ export default {
     },
 
     submit() {
-      if (this.imgSuccessList.length === 0) {
-        uni.showToast({
-          title: "请上传凭证!",
-          duration: 1500,
-          icon: "error",
-        });
-        return;
-      }
+      // if (this.imgSuccessList.length === 0) {
+      //   uni.showToast({
+      //     title: "请上传凭证!",
+      //     duration: 1500,
+      //     icon: "error",
+      //   });
+      //   return;
+      // }
+      this.$emit('jumpTo')
     },
   },
 };
