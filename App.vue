@@ -4,7 +4,7 @@ export default {
     console.log("App Launch");
     const token = uni.getStorageSync("token");
     console.log(process.env.NODE_ENV);
-    //用于调试
+    // 用于调试
     // uni.redirectTo({
     //   url: "pages/index/index",
     // });

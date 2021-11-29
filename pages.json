@@ -59,6 +59,17 @@
       }
     },
     {
+      "path": "pages/reserve/reserve",
+      "style": {
+        "navigationBarTitleText": "预约排号",
+        "enablePullDownRefresh": false,
+        "navigationStyle": "custom",
+        "app-plus": {
+          "titleNView": "false"
+        }
+      }
+    },
+    {
       "path": "pages/index/vehicle",
       "style": {
         "navigationBarTitleText": "至简集运司机端",

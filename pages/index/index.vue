@@ -8,56 +8,96 @@
       <div class="user-card">
         <div class="user-card-left">
           <div class="avatar">
-            <img  :src="avatar" alt="">
+            <img :src="avatar" alt="" />
           </div>
           <div class="user-card-msg">
-            <div class="user-name-box"> 
-              <div class="user-name">{{vehicleMsg.name}}</div>
+            <div class="user-name-box">
+              <div class="user-name">{{ vehicleMsg.name }}</div>
               <div class="user-name-icon">
                 <div class="user-name-icon-left">V</div>
-                <div class="user-name-icon-right"> {{vehicleMsg.auth ? '已认证' : '未认证'}} </div>
+                <div class="user-name-icon-right">
+                  {{ vehicleMsg.auth ? "已认证" : "未认证" }}
+                </div>
               </div>
             </div>
-            <div class="user-tel"> {{vehicleMsg.phone}} </div>
+            <div class="user-tel">{{ vehicleMsg.phone }}</div>
           </div>
         </div>
-        <div class="user-card-right"> {{vehicleMsg.vehicleCode}} </div>
+        <div class="user-card-right">{{ vehicleMsg.vehicleCode }}</div>
       </div>
       <div class="zjjy-box">
         <div class="item-line">
           <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
           <div class="msg-icon"></div>
-          <div class="item-line-msg">您有一条新的系统通知，请及时查看</div>
+          <div class="item-line-msg">{{ orderMsg || "暂无新消息" }}</div>
         </div>
       </div>
     </div>
     <div class="main">
       <div class="main-content">
-        <div class="main-content-item" v-for="(item, index) in funcModules" :key="index">
-          <div class="title1">{{item.name}} <span class="corner"></span></div>
+        <div
+          class="main-content-item"
+          v-for="(item, index) in funcModules"
+          :key="index"
+          @click="jumpModule(item)"
+        >
+          <div class="title1">{{ item.name }} <span class="corner"></span></div>
           <div class="main-content-item-img">
             <image :src="item.img" mode=""></image>
           </div>
         </div>
-        
       </div>
     </div>
+    <!-- 弹窗 -->
+    <my-modal
+      v-if="showModal"
+      :content="modalContent"
+      @closeModal="closeModal"
+      @confirmModal="confirmModal"
+    >
+      <div class="zjjy-modal-slot">
+        排队号: <span> {{ queueCode }} </span>
+      </div>
+    </my-modal>
   </view>
 </template>
 
 <script>
 import { mapState } from "vuex";
+import MyModal from "../../components/MyModal.vue";
+import urlConfig from "../../config/urlConfig.js";
+import { uniRequest } from "../../config/request.js";
 export default {
+  components: { MyModal },
   data() {
     return {
-      avatar: '',
+      avatar: "",
+      orderMsg: "您有一条新的系统通知，请及时查看",
       funcModules: [
-        {name: '预约排号', img: '../../static/index_queue.png'},
-        {name: '我的车辆', img: '../../static/index_vehicle.png'},
-        {name: '认证信息', img: '../../static/index_auth.png'},
+        {
+          name: "预约排号",
+          img: "../../static/index_queue.png",
+          module: "reserve",
+        },
+        {
+          name: "我的车辆",
+          img: "../../static/index_vehicle.png",
+          module: "vehicle",
+        },
+        {
+          name: "认证信息",
+          img: "../../static/index_auth.png",
+          module: "auth",
+        },
       ],
+      showModal: false,
+      modalContent:
+        "您已进入排队等候区，系统已为您自动分配排队号，请按照排队号码顺序依次有序进场。感谢您的配合！如不按顺序进场将根据场区管理制度进行相应处罚！",
+      queueCode: 30,
     };
   },
+
+  compontents: { MyModal },
 
   computed: {
     ...mapState({
@@ -68,9 +108,9 @@ export default {
 
   onLoad() {
     console.log(this.userInfo);
-    this.avatar = uni.getStorageSync("avatar") || '../../static/avatar.png';
-    
-    console.log(this.avatar)
+    this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
+
+    console.log(this.avatar);
   },
 
   onShow() {
@@ -83,7 +123,17 @@ export default {
   },
 
   methods: {
-
+    getDriverInfo() {
+      const config = {
+        url: "driverInfo",
+        method: "GET",
+        params: {userCode: ''}
+      };
+      uniRequest(config).then(res => {
+        console.log('首页获取司机信息', res);
+        
+      })
+    },
     toVehicle() {
       uni.navigateTo({
         url: "./vehicle",
@@ -94,11 +144,33 @@ export default {
         url: "../scan/scanOrder",
       });
     },
+
+    jumpModule(item) {
+      console.log(item);
+      switch (item.module) {
+        case "reserve":
+          uni.navigateTo({
+            url: "../reserve/reserve",
+          });
+          break;
+        case "vehicle":
+          console.log(2);
+          break;
+      }
+    },
+
+    closeModal() {
+      this.showModal = false;
+    },
+
+    confirmModal() {
+      //TODO...
+      this.showModal = false;
+    },
   },
 };
 </script>
 <style lang="scss" scoped>
-
 .main {
   padding-top: 0;
 }
@@ -119,8 +191,17 @@ export default {
 .msg-icon {
   width: 61rpx;
   height: 54rpx;
-  background: url('../../static/msg.png') no-repeat;
+  background: url("../../static/msg.png") no-repeat;
   background-size: 100%;
 }
 
+.zjjy-modal-slot {
+  margin-bottom: 30rpx;
+  > span {
+    font-size: 40rpx;
+    font-weight: bold;
+    color: #2366f2;
+    padding-left: 20rpx;
+  }
+}
 </style>
