@@ -4,24 +4,26 @@
     <FreightCard :typesFreight="typesFreight" />
     <!-- 收货运输 -->
     <Receiving v-if="types === 0" v-model="queryParams" />
-    <Shipments v-if="types === 1"  v-model="queryParams"/>
+    <Shipments v-if="types === 1" v-model="queryParams" />
+    <UpdateOrder v-if="types === 2" />
   </div>
 </template>
 
 <script>
 import FreightCard from "./components/freightCard";
 import Receiving from "./components/receiving";
-import Shipments from './components/shipments'
+import Shipments from "./components/shipments";
+import UpdateOrder from "./components/updateOrder";
 export default {
-  components: { FreightCard, Receiving , Shipments},
+  components: { FreightCard, Receiving, Shipments, UpdateOrder },
   data() {
     return {
       //订单信息
       queryParams: {
         weight: "", // 发货净重
       },
-      types:0,
-      typesFreight:0
+      types: 2,
+      typesFreight: 0,
     };
   },
   methods: {},

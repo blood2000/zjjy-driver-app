@@ -3,10 +3,10 @@
     <div class="zjjy-box-title">本次扫码要接的运单</div>
     <div class="zjjy-box-main">
       <div class="zjjy-box-main-floor">
-        <div class="zjjy-floor-left status " :class="typesFreight ===0?'status1':'status2'">
-          {{
-            typesFreight ===0?'收获运输':'发货运输'
-          }}</div>
+        <!-- :class="typesFreight ===0?'status1':'status2'" -->
+        <div class="zjjy-floor-left status " >
+          <image  :src="freightImage" alt=""/>
+         </div>
         <div class="zjjy-floor-right addr">
           <div class="floor-start">五福洗煤厂</div>
           <div class="rotate-right">
@@ -21,7 +21,12 @@
       </div>
       <div class="zjjy-box-main-floor">
         <div class="zjjy-floor-left">运输公司</div>
-        <div class="zjjy-floor-right">超好运</div>
+        <div class="zjjy-floor-right">
+          <image
+          style="width:136rpx;height:28rpx"
+            :src="companyImage"
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -35,6 +40,16 @@ export default {
       default: 0,
     },
   },
+  computed:{
+    freightImage(){
+      return this.typesFreight === 0?'../../../static/order/Receiving.png':'../../../static/order/shipments.png'
+    },
+    companyImage(){
+      return '../../../static/order/chy.png'
+    }
+
+  }
+  
 };
 </script>
 
@@ -56,10 +71,8 @@ export default {
   padding: 0;
 }
 .status {
-  font-size: 24rpx;
-  color: #fff;
-  padding: 0 6rpx;
-  transform: skewX(-10deg);
+ width:127rpx;
+ height: 36rpx;
 }
 
 .status1 {

@@ -38,7 +38,9 @@ export default {
     },
   },
   data() {
-    return {};
+    return {
+      vehicleIndex: 0, // 车牌
+    };
   },
   computed: {
     ...mapState({
@@ -54,9 +56,14 @@ export default {
       },
     },
   },
-   methods: {
-       
-   }
+  methods: {
+    changeVehicle(e) {
+      this.vehicleIndex = e.detail.value;
+    },
+    addVehicle() {
+      this.$store.commit("setLicenseNumbers", "闽A888999");
+    },
+  },
 };
 </script>
 
