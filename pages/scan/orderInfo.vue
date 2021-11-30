@@ -143,7 +143,7 @@
           />
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required">*</span>驾驶证类型</div>
+          <div class="title1">驾驶证类型</div>
           <!-- <input
             class="my-input"
             maxlength="32"
