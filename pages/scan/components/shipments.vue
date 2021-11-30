@@ -3,19 +3,29 @@
     <div class="zjjy-box">
       <div class="input-item">
         <div class="title1">车牌号 <span class="required">*</span></div>
-        <picker
-          mode="selector"
-          :range="licenseNumbers"
-          @change="changeVehicle"
-          v-if="licenseNumbers.length > 0"
-        >
-          <view class="building-picker-btn">
-            {{ licenseNumbers[vehicleIndex] }}
-            <uni-icons type="forward" size="14"></uni-icons>
-          </view>
-          <view class="no-choose" v-if="noChoose">请选择</view>
-        </picker>
-        <div class="add-vehicle" v-else @click="addVehicle">添加车牌</div>
+        <div class="vehicle-item">
+          <picker
+            mode="selector"
+            :range="licenseNumbers"
+            @change="changeVehicle"
+          >
+            <view class="building-picker-btn">
+              {{
+                licenseNumbers[vehicleIndex]
+                  ? licenseNumbers[vehicleIndex]
+                  : "请选择"
+              }}
+              <uni-icons type="forward" size="14"></uni-icons>
+            </view>
+          </picker>
+          <!-- <div class="add-vehicle" v-else @click="addVehicle">添加车牌</div> -->
+          <img
+            class="add_car"
+            src="../../../static/order/add_vehicle.png"
+            @click="addVehicle"
+            alt=""
+          />
+        </div>
       </div>
     </div>
     <div class="btn-box fixed-bottom">
@@ -61,11 +71,26 @@ export default {
       this.vehicleIndex = e.detail.value;
     },
     addVehicle() {
-      this.$store.commit("setLicenseNumbers", "闽A888999");
+       console.log("111");
+      uni.navigateTo({
+        url: "./car/addCar",
+      });
+      // this.$store.commit("setLicenseNumbers", "闽A888999");
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
+.vehicle-item {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+}
+.add_car {
+  width: 52rpx;
+  height: 52rpx;
+  margin-left: 28rpx;
+}
 </style>

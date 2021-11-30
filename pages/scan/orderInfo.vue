@@ -144,14 +144,28 @@
         </div>
         <div class="input-item">
           <div class="title1"><span class="required">*</span>驾驶证类型</div>
-          <input
+          <!-- <input
             class="my-input"
             maxlength="32"
             placeholder="支持自动识别"
             type="text"
             v-model="driverType"
             cursor-spacing="150"
-          />
+          /> -->
+          <picker
+            mode="selector"
+            :range="driverPostList"
+            @change="changedriverPost"
+          >
+            <view class="building-picker-btn">
+              {{
+                driverPostIndex === null
+                  ? "支持自动识别"
+                  : driverPostList[driverPostIndex]
+              }}
+              <uni-icons type="forward" size="14"></uni-icons>
+            </view>
+          </picker>
         </div>
         <div class="input-item">
           <div class="title1"><span class="required">*</span>生效日期</div>
@@ -225,14 +239,24 @@
         </div>
         <div class="input-item">
           <div class="title1">从业资格证类型</div>
-          <input
+          <!-- <input
             class="my-input"
             maxlength="32"
             placeholder="支持自动识别"
-            type="text"
+            type="text" 
             v-model="obtainType"
             cursor-spacing="150"
-          />
+          /> -->
+          <picker mode="selector" :range="loadList" @change="changeobtainType">
+            <view class="building-picker-btn">
+              {{
+                obtainTypeIndex === null
+                  ? "支持自动识别"
+                  : loadList[obtainTypeIndex]
+              }}
+              <uni-icons type="forward" size="14"></uni-icons>
+            </view>
+          </picker>
         </div>
         <div class="input-item">
           <div class="title1">生效日期</div>
@@ -291,7 +315,7 @@
 
 <script>
 import FreightCard from "./components/freightCard";
-import { perpetualList } from "./config";
+import { perpetualList, driverPostList, loadList } from "./config";
 import pickRegions from "@/components/pick-regions/pick-regions.vue";
 
 export default {
@@ -302,8 +326,12 @@ export default {
       typesFreight: 0, //信息类型
       imageSize: 3145728, //上传图片限制
       perpetualList, //是否长期列表
+      driverPostList,
+      loadList,
       perpetualIndex: 0, //身份证是否长期
       driverPerpetualIndex: 0, //驾驶证是否长期
+      driverPostIndex: null,
+      obtainTypeIndex: null,
       region: [],
       region1: [],
       // form
@@ -335,7 +363,7 @@ export default {
         ? this.region[0].name
         : this.region.map((item) => item.name).join(" ");
     },
-     regionName1() {
+    regionName1() {
       // 转为字符串
       return this.region1.length === 1
         ? this.region1[0].name
@@ -351,7 +379,7 @@ export default {
           });
         },
         1: () => {
-          console.log('走走走')
+          console.log("走走走");
           uni.navigateTo({
             url: "./orderSucceed",
           });
@@ -359,12 +387,22 @@ export default {
       };
       obj[type]();
     },
+    // 驾驶证
+    changedriverPost(e) {
+      console.log("e", e);
+      this.driverPostIndex = Number(e.detail.value);
+    },
+    // 从业
+    changeobtainType(e) {
+      console.log("e", e);
+      this.obtainTypeIndex = Number(e.detail.value);
+    },
     // 获取选择的地区
     handleGetRegion(region) {
       console.log("region", region);
       this.region = region;
     },
-     // 获取选择的地区
+    // 获取选择的地区
     handleGetRegion1(region) {
       console.log("region", region);
       this.region1 = region;
