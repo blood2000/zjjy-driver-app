@@ -5,7 +5,6 @@
     <!-- 收货运输 -->
     <Receiving v-if="types === 0" @jumpTo="jumpTo" v-model="queryParams" />
     <Shipments v-if="types === 1"  @jumpTo="jumpTo" v-model="queryParams" />
-    <UpdateOrder v-if="types === 2"  @jumpTo="jumpTo" />
   </div>
 </template>
 
@@ -13,17 +12,15 @@
 import FreightCard from "./components/freightCard";
 import Receiving from "./components/receiving";
 import Shipments from "./components/shipments";
-import UpdateOrder from "./components/updateOrder";
 export default {
-  components: { FreightCard, Receiving, Shipments, UpdateOrder },
+  components: { FreightCard, Receiving, Shipments },
   data() {
     return {
       //订单信息
       queryParams: {
         weight: "", // 发货净重
       },
-      types: 0,
-      typesFreight: 0,
+      types: 1,
       info: {},
     };
   },
@@ -32,7 +29,7 @@ export default {
     jumpTo() {
       console.log('123')
       uni.navigateTo({
-        url: "./orderInfo",
+        url: "./orderSucceed",
       });
     },
   },
