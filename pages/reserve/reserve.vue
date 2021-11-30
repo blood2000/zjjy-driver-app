@@ -3,7 +3,9 @@
   <div class="content">
     <div class="tab-header">
       <image src="../../static/reserve/header_bg.png" mode=""></image>
-      <div class="tab-back" @click="back"><uni-icons type="back" size="24" color="#333"></uni-icons></div>
+      <div class="tab-back" @click="back">
+        <uni-icons type="back" size="24" color="#333"></uni-icons>
+      </div>
       <view class="header-title">预约排号</view>
 
       <div class="user-card">
@@ -27,7 +29,83 @@
       </div>
     </div>
     <div class="user-box">
-      <div class="reserve-card"></div>
+      <!-- 预约信息卡片 -->
+      <div class="reserve-card">
+        <div class="reserve-card-left">
+          <div class="reserve-card-left-item">
+            <div class="reserve-card-left-item-name">预约</div>
+            <div class="reserve-card-left-item-value">
+              26 <span class="reserve-card-unit">次</span>
+            </div>
+          </div>
+          <div class="reserve-card-left-item">
+            <div class="reserve-card-left-item-name">取消</div>
+            <div class="reserve-card-left-item-value">
+              9 <span class="reserve-card-unit">次</span>
+            </div>
+          </div>
+        </div>
+        <div class="user-card-right" @click="toScanOrderInfo">
+          {{ vehicleMsg.vehicleCode }}
+        </div>
+      </div>
+      <div class="reserve-content-box">
+        <div
+          class="main-content-item"
+          v-for="(item, index) in funcModules"
+          :key="index"
+          @click="jumpModule(item)"
+        >
+          <div class="title1">{{ item.name }} <span class="corner"></span></div>
+          <div class="main-content-item-img">
+            <image :src="item.img" mode=""></image>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 预约项展示区域 -->
+    <div class="main">
+      <div class="zjjy-box">
+        <div class="reserve-box">
+          <div class="reserve-box-title">
+            <div class="reserve-box-title-left">
+              <div class="reserve-box-title-icon"></div>
+              <div class="reserve-box-title-text">五福洗煤厂</div>
+            </div>
+
+            <div class="title1">09:30</div>
+          </div>
+          <div class="reserve-box-floor">
+            <div>原煤</div>
+            <div>/</div>
+            <div>大道成物流科技有限公司</div>
+          </div>
+          <div class="reserve-box-floor reserve-box-date-floor">
+            <div>预约实际:</div>
+            <div>2021-11-28 13:26:25</div>
+          </div>
+        </div>
+
+        <div class="reserve-box">
+          <div class="reserve-box-title">
+            <div class="reserve-box-title-left">
+              <div class="reserve-box-title-icon"></div>
+              <div class="reserve-box-title-text">五福洗煤厂</div>
+            </div>
+
+            <div class="title1">09:30</div>
+          </div>
+          <div class="reserve-box-floor">
+            <div>原煤</div>
+            <div>/</div>
+            <div>大道成物流科技有限公司</div>
+          </div>
+          <div class="reserve-box-floor reserve-box-date-floor">
+            <div>预约实际:</div>
+            <div>2021-11-28 13:26:25</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -38,9 +116,21 @@ import MyModal from "../../components/MyModal.vue";
 import urlConfig from "../../config/urlConfig.js";
 import { uniRequest } from "../../config/request.js";
 export default {
-  data () {
+  data() {
     return {
-      avatar: '',
+      avatar: "",
+      funcModules: [
+        {
+          name: "扫码预约",
+          img: "../../static/reserve/scan.png",
+          module: "reserve",
+        },
+        {
+          name: "现场取号",
+          img: "../../static/reserve/code.png",
+          module: "code",
+        },
+      ],
     };
   },
 
@@ -57,16 +147,14 @@ export default {
     this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
   },
 
-
   methods: {
     back() {
       uni.navigateBack({
-      	delta: 1
-      })
+        delta: 1,
+      });
     },
-  }
-}
-
+  },
+};
 </script>
 <style lang='scss' scoped>
 .header-title {
@@ -77,6 +165,27 @@ export default {
 
 .tab-back {
   bottom: 270rpx;
+}
+
+.user-box {
+  height: 354rpx;
+  padding: 0;
+}
+
+.reserve-content-box {
+  box-sizing: border-box;
+  position: absolute;
+  width: 90%;
+  left: 5%;
+  top: 64rpx;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 100;
+}
+
+.main-content-item {
+  width: 45%;
 }
 
 .user-card {
@@ -97,7 +206,15 @@ export default {
   }
   .user-tel {
     color: #363636;
-    opacity: .7;
+    opacity: 0.7;
   }
+}
+
+.main {
+  padding-top: 0;
+}
+
+.zjjy-box {
+  padding: 20rpx;
 }
 </style>

@@ -22,7 +22,7 @@
           <div class="title2">车牌号 <span class="required">*</span></div>
           <input
             class="my-input"
-            maxlength="32"
+            maxlength="10"
             placeholder="请输入车牌号"
             type="text"
             v-model="vehicleMsg.vehicleCode"
