@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="content">
     <FreightCard :typesFreight="0" />
     <UpdateOrder @jumpTo="jumpTo" />
   </div>
@@ -7,9 +7,10 @@
 
 <script>
 import UpdateOrder from "./components/updateOrder";
+import FreightCard from "./components/freightCard";
 
 export default {
-      components: { UpdateOrder },
+      components: { UpdateOrder ,FreightCard },
 
       onLaunch() {},
   methods: {
@@ -23,4 +24,8 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.content {
+  overflow-y: auto;
+  padding-top: 30rpx;
+}
 </style>
