@@ -46,6 +46,7 @@
         }
       }
     },
+
     {
       "path": "pages/index/index",
       "style": {
@@ -67,6 +68,7 @@
         "app-plus": {
           "bounce": "none",
           "titleNView": "false"
+          
         }
       }
     },
@@ -111,16 +113,12 @@
       }
     },
     {
-      "path": "pages/reserve/reserveMsg",
+      "path": "pages/scan/changeDriverInfo",
       "style": {
-        "navigationBarTitleText": "预约信息",
-        "path": "pages/scan/changeDriverInfo",
-        "style": {
-          "navigationBarTitleText": "扫码接单",
-          "enablePullDownRefresh": false,
-          "app-plus": {
-            "bounce": "none"
-          }
+        "navigationBarTitleText": "扫码接单",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
         }
       }
     },
@@ -128,6 +126,16 @@
       "path": "pages/scan/car/addCar",
       "style": {
         "navigationBarTitleText": "添加车辆",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/reserve/reserveMsg",
+      "style": {
+        "navigationBarTitleText": "预约信息",
         "enablePullDownRefresh": false,
         "app-plus": {
           "bounce": "none"
