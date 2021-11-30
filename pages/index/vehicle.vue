@@ -85,7 +85,7 @@ export default {
       uniRequest(config).then((res) => {
         console.log("司机注册", res);
         if (res.data.code === 200) {
-          this.$store.commit("getVehicleMsg", this.vehicleMsg);
+          this.$store.commit("setVehicleMsg", this.vehicleMsg);
           // uni.setStorageSync("driverInfo", JSON.stringify(this.vehicleMsg));
           uni.redirectTo({
             url: "./index",

@@ -13,6 +13,10 @@ const store = {
 		},
 		// licenseNumbers: ["闽A123123", "闽A223123", "闽A423123"],
 		licenseNumbers: [],
+		locationInfo: {
+			latitude: 26.0527,
+			longitude: 119.3141,
+		},
 	},
 	// getters: {
 	// 	headerInfo: state => state.headerInfo
@@ -32,7 +36,7 @@ const store = {
 		getStatusBarHeight: (state, val) => {
 			state.statusBarHeight = val || 0;
 		},
-		getVehicleMsg: (state, obj) => {
+		setVehicleMsg: (state, obj) => {
 			state.vehicleMsg = Object.assign(state.vehicleMsg, obj);
 		},
 		setLicenseNumbers: (state, val) => {
@@ -51,10 +55,10 @@ const store = {
 		}, val) => {
 			commit('getStatusBarHeight', val)
 		},
-		getVehicleMsgAction: ({
+		setVehicleMsgAction: ({
 			commit
 		}, val) => {
-			commit('getVehicleMsg', val)
+			commit('setVehicleMsg', val)
 		},
 		setLicenseNumbersAction: ({
 			commit

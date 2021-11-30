@@ -14,10 +14,10 @@
             <div class="user-name-box">
               <div class="user-name">{{ vehicleMsg.name }}</div>
               <div class="user-name-icon">
-                <div class="user-name-icon-left">V</div>
+                <!-- <div class="user-name-icon-left">V</div>
                 <div class="user-name-icon-right">
                   {{ vehicleMsg.auth ? "已认证" : "未认证" }}
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="user-tel">{{ vehicleMsg.phone }}</div>
@@ -109,8 +109,16 @@ export default {
   onLoad() {
     console.log(this.userInfo);
     this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
-
+    this.getDriverInfo();
     console.log(this.avatar);
+  },
+
+  onPullDownRefresh() {
+    console.log("refresh");
+    this.getDriverInfo();
+    setTimeout(function () {
+      uni.stopPullDownRefresh();
+    }, 1000);
   },
 
   onShow() {
@@ -127,12 +135,19 @@ export default {
       const config = {
         url: "driverInfo",
         method: "GET",
-        params: {userCode: ''}
       };
-      uniRequest(config).then(res => {
-        console.log('首页获取司机信息', res);
-        
-      })
+      uniRequest(config).then((res) => {
+        console.log("首页获取司机信息", res);
+        if (res.data.code === 200) {
+          let vehicleInfo = {
+            name: res.data.data.name,
+            vehicleCode: res.data.data.vehicleInfoVo.licenseNumber,
+            phone: res.data.data.telphone,
+            auth: res.data.data.authStatus,
+          };
+          this.$store.commit("setVehicleMsg", vehicleInfo);
+        }
+      });
     },
     toVehicle() {
       uni.navigateTo({
@@ -150,6 +165,7 @@ export default {
       switch (item.module) {
         case "reserve":
           uni.navigateTo({
+            // url: "../reserve/reserveMsg",
             url: "../reserve/reserve",
           });
           break;

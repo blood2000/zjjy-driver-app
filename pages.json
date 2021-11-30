@@ -51,9 +51,10 @@
       "path": "pages/index/index",
       "style": {
         "navigationBarTitleText": "首页",
-        "enablePullDownRefresh": false,
+        "enablePullDownRefresh": true,
         "navigationStyle": "custom",
         "app-plus": {
+          "bounce": "none",
           "titleNView": "false"
         }
       }
@@ -65,7 +66,9 @@
         "enablePullDownRefresh": false,
         "navigationStyle": "custom",
         "app-plus": {
+          "bounce": "none",
           "titleNView": "false"
+          
         }
       }
     },
@@ -103,6 +106,16 @@
       "path": "pages/scan/orderSucceed",
       "style": {
         "navigationBarTitleText": "提交成功",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/reserve/reserveMsg",
+      "style": {
+        "navigationBarTitleText": "预约信息",
         "enablePullDownRefresh": false,
         "app-plus": {
           "bounce": "none"

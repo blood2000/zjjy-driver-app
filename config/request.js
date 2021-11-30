@@ -6,7 +6,7 @@ const baseUrl = PRO_URL;
 const defaultHeader = {
   // "Authorization": "ab3b6e7b-5d89-4b47-946a-03cdae6c9ffb",
   "App-Type": "1",
-  "App-Code": "a837654fa9e540eca0502d612ba1b178",
+  "App-Code": "6489184f76fa456d86529500ba94be9f",
   "App-Version": "1.0.0",
   "Produce-Code": "2c3c8c43b487432b9d67934a6c4dcbbe",
   "Terminal-Type": "WeChat",

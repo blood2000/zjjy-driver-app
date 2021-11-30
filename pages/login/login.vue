@@ -95,7 +95,7 @@ export default {
       that.data.encryptedData = e.detail.encryptedData;
       that.data.ivStr = e.detail.iv;
       that.data.code = that.code;
-      that.data.appId = "wx763fd03600fb1e0c";
+      that.data.appId = "wx2b8c78933f4a9aa5";
       console.log("微信iv、encrypted ==>>", that.data);
       // const baseUrl = urlConfig.BASE_URL;
       const config = {
