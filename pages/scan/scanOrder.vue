@@ -3,9 +3,9 @@
   <div class="content">
     <FreightCard :typesFreight="typesFreight" />
     <!-- 收货运输 -->
-    <Receiving v-if="types === 0" v-model="queryParams" />
-    <Shipments v-if="types === 1" v-model="queryParams" />
-    <UpdateOrder v-if="types === 2" />
+    <Receiving v-if="types === 0" @jumpTo="jumpTo" v-model="queryParams" />
+    <Shipments v-if="types === 1"  @jumpTo="jumpTo" v-model="queryParams" />
+    <UpdateOrder v-if="types === 2"  @jumpTo="jumpTo" />
   </div>
 </template>
 
@@ -22,11 +22,20 @@ export default {
       queryParams: {
         weight: "", // 发货净重
       },
-      types: 2,
+      types: 0,
       typesFreight: 0,
+      info: {},
     };
   },
-  methods: {},
+  onLaunch() {},
+  methods: {
+    jumpTo() {
+      console.log('123')
+      uni.navigateTo({
+        url: "./orderInfo",
+      });
+    },
+  },
 };
 </script>
 <style lang='scss' scoped>

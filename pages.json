@@ -88,6 +88,26 @@
           "bounce": "none"
         }
       }
+    },
+    {
+      "path": "pages/scan/orderInfo",
+      "style": {
+        "navigationBarTitleText": "扫码接单",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/scan/orderSucceed",
+      "style": {
+        "navigationBarTitleText": "提交成功",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
     }
   ],
   "globalStyle": {
