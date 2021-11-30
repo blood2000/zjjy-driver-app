@@ -15,10 +15,10 @@
             <div class="user-name-box">
               <div class="user-name">{{ vehicleMsg.name }}</div>
               <div class="user-name-icon">
-                <div class="user-name-icon-left">V</div>
+                <!-- <div class="user-name-icon-left">V</div>
                 <div class="user-name-icon-right">
                   {{ vehicleMsg.auth ? "已认证" : "未认证" }}
-                </div>
+                </div> -->
               </div>
             </div>
             <div class="user-tel">{{ vehicleMsg.phone }}</div>
@@ -81,7 +81,7 @@ export default {
 
 .user-card {
   width: 100%;
-  padding: 0 20rpx;
+  padding: 0 4%;
   border-radius: 0;
   background: transparent;
   top: 160rpx;

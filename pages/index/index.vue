@@ -165,8 +165,8 @@ export default {
       switch (item.module) {
         case "reserve":
           uni.navigateTo({
-            // url: "../reserve/reserveMsg",
-            url: "../reserve/reserve",
+            url: "../reserve/reserveMsg",
+            // url: "../reserve/reserve",
           });
           break;
         case "vehicle":
