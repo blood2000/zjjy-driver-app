@@ -28,7 +28,7 @@
           v-model="queryParams.weight"
           cursor-spacing="150"
         />
-        <span class="unit">吨</span>
+        <span class="unit" style="padding-left:9rpx">吨</span>
       </div>
     </div>
     <div class="zjjy-box padding-box">

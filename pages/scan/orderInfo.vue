@@ -272,8 +272,8 @@
         </div>
         <div class="input-item">
           <div class="title1">从业证办理省份名称</div>
-          <pick-regions limit="1" @getRegion="handleGetRegion">
-            <div>{{ regionName ? regionName : "支持自动识别" }}</div>
+          <pick-regions limit="1" @getRegion="handleGetRegion1">
+            <div>{{ regionName1 ? regionName1 : "支持自动识别" }}</div>
           </pick-regions>
         </div>
       </div>
@@ -305,6 +305,7 @@ export default {
       perpetualIndex: 0, //身份证是否长期
       driverPerpetualIndex: 0, //驾驶证是否长期
       region: [],
+      region1: [],
       // form
       idFront: null, // 国徽面
       idBack: null, // 人像面
@@ -334,6 +335,12 @@ export default {
         ? this.region[0].name
         : this.region.map((item) => item.name).join(" ");
     },
+     regionName1() {
+      // 转为字符串
+      return this.region1.length === 1
+        ? this.region1[0].name
+        : this.region1.map((item) => item.name).join(" ");
+    },
   },
   methods: {
     jumpTo(type) {
@@ -356,6 +363,11 @@ export default {
     handleGetRegion(region) {
       console.log("region", region);
       this.region = region;
+    },
+     // 获取选择的地区
+    handleGetRegion1(region) {
+      console.log("region", region);
+      this.region1 = region;
     },
 
     // 是否长期有效
