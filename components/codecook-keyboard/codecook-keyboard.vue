@@ -98,6 +98,7 @@
     left: 0;
     width: 100%;
     background-color: #F5F5F5;
+    z-index: 100;
   }
 
   .status-bar {

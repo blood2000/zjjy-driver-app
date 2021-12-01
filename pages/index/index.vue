@@ -183,6 +183,9 @@ export default {
           break;
         case "vehicle":
           console.log(2);
+          uni.navigateTo({
+            url: "../car/carList",
+          });
           break;
         case "auth":
           uni.navigateTo({

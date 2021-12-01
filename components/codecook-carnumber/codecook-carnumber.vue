@@ -19,7 +19,6 @@
         <view class="border"></view>
       </view>
     </view>
-    <view class="bans" :class="current >= 7?'bans-ok':'bans-no'">确认添加</view>
 
     <key-board
       v-if="focus"
@@ -48,17 +47,23 @@ export default {
       type: Number,
       default: 8,
     },
+    focus: {
+      type: Boolean,
+      default: false,
+    },
+    current: {
+        type: Number,
+      default: -1,
+    },
   },
   data() {
     return {
-      focus: false,
-      current: 0,
       fill: new Array(this.length).fill(""),
     };
   },
   computed: {
     kType() {
-      return this.current === 0 ? "provinces" : "areas";
+      return this.current === 0 || this.current === null ? "provinces" : "areas";
     },
   },
   watch: {
@@ -69,9 +74,10 @@ export default {
   },
   methods: {
     focusHandler(index = 0) {
-      this.focus = true;
-
-      this.current = index;
+      // this.focus = true;
+      this.$emit("changeFocus", true);
+      this.$emit("changeCurrent", index);
+      // this.current = index;
       console.log(this.current);
     },
     keyDeleteHandler() {
@@ -80,8 +86,9 @@ export default {
       if (this.current <= 0) {
         return;
       }
-
-      this.current -= 1;
+      
+      this.$emit("changeCurrentDel");
+      // this.current -= 1;
     },
     keyInputHandler(key) {
       this.$set(this.fill, this.current, key);
@@ -89,11 +96,12 @@ export default {
       if (this.current >= this.length - 1) {
         return;
       }
-
-      this.current += 1;
+      this.$emit("changeCurrentAdd");
+      // this.current += 1;
     },
     keyHideHandler() {
-      this.focus = false;
+      // this.focus = false;
+      this.$emit("changeFocus", false);
     },
   },
   beforeMount() {
@@ -104,12 +112,10 @@ export default {
         }
         this.$set(this.fill, index, key);
       });
+      this.$emit("changeCurrent", Math.min(this.value.length, this.length - 1));
 
-      this.current = Math.min(this.value.length, this.length - 1);
+      // this.current = Math.min(this.value.length, this.length - 1);
     }
-  },
-  mounted() {
-    this.focus = true;
   },
 };
 </script>
@@ -167,27 +173,5 @@ export default {
 }
 .grays {
   color: rgb(152, 152, 152);
-}
-.bans {
-  width: 702rpx;
-  height: 90rpx;
-  
-  border-radius: 10rpx;
-  font-size: 32rpx;
-  font-family: PingFang SC;
-  font-weight: bold;
-  
-  line-height: 90rpx;
-  text-align: center;
-  margin-top: 81rpx;
-}
-.bans-ok{
-background: #2366f2;
-color: #ffffff;
-}
-.bans-no{
-background: #DBDCDD;
-color: #BFBFBF;
-
 }
 </style>

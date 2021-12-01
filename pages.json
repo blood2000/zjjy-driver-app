@@ -123,9 +123,29 @@
       }
     },
     {
-      "path": "pages/scan/car/addCar",
+      "path": "pages/car/addCar",
       "style": {
         "navigationBarTitleText": "添加车辆",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/car/carList",
+      "style": {
+        "navigationBarTitleText": "车辆管理",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/car/approve",
+      "style": {
+        "navigationBarTitleText": "提交S认证",
         "enablePullDownRefresh": false,
         "app-plus": {
           "bounce": "none"

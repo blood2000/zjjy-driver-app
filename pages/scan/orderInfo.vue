@@ -380,8 +380,16 @@ export default {
         },
         1: () => {
           console.log("走走走");
-          uni.navigateTo({
-            url: "./orderSucceed",
+          uni.showModal({
+            title: "提示",
+            content: "已认证成功",
+            showCancel: false,
+            success: (res) => {
+              console.log("res", res);
+              uni.navigateTo({
+                url: "../index/index",
+              });
+            },
           });
         },
       };

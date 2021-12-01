@@ -1,7 +1,7 @@
 <template>
   <div class="content">
     <FreightCard :typesFreight="0" />
-    <UpdateOrder @jumpTo="jumpTo" />
+    <UpdateOrder  />
   </div>
 </template>
 
@@ -19,6 +19,8 @@ export default {
       uni.navigateTo({
         url: "./orderInfo",
       });
+
+      
     },
   },
 };
