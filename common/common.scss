@@ -76,6 +76,35 @@
   text-align: right;
 }
 
+.no-data {
+  width: 100%;
+  padding-bottom: 20rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &-text {
+    font-size: 32rpx;
+    color: #121212;
+    display: flex;
+    align-items: center;
+    .no-data-refresh {
+      width: 41rpx;
+      height: 41rpx;
+      margin-left: 20rpx;
+      background: url("../static/reserve/refresh.png") no-repeat center;
+      background-size: 40rpx 40rpx;
+    }
+    > span {
+      opacity: 0.5;
+    }
+  }
+  .no-reserve {
+    width: 520rpx;
+    height: 316rpx;
+  }
+}
+
 /* 首页 */
 .tab-header {
   position: relative;
@@ -746,7 +775,37 @@ image {
     font-size: 24rpx;
     color: #121212;
     > div {
-      opacity: .5;
+      opacity: 0.5;
+    }
+  }
+
+  &-card {
+    box-sizing: border-box;
+    height: 200rpx;
+    margin-top: 20rpx;
+    padding: 30rpx 40rpx;
+    background: #ffffff;
+    border-radius: 12rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-left {
+      margin-right: 160rpx;
+      font-size: 60rpx;
+      font-weight: bold;
+      color: #121212;
+    }
+    &-right {
+      font-size: 28rpx;
+      font-weight: bold;
+      color: #121212;
+      > div:not(:last-child) {
+        margin-bottom: 20rpx;
+      }
+      span {
+        padding-right: 10rpx;
+        opacity: 0.6;
+      }
     }
   }
 }

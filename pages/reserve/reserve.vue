@@ -65,44 +65,68 @@
     </div>
     <!-- 预约项展示区域 -->
     <div class="main">
-      <div class="zjjy-box">
+      <!-- 无数据 -->
+      <div class="zjjy-box" v-if="noData">
+        <div class="no-data">
+          <image
+            class="no-reserve"
+            src="../../static/reserve/no_data.png"
+            mode=""
+          ></image>
+          <div class="no-data-text">
+            <span>暂无排队信息</span>
+            <div class="no-data-refresh" @click="refresh"></div>
+          </div>
+        </div>
+      </div>
+      <!-- 预约详情 -->
+      <div class="zjjy-box" v-else @click="toReserveMsg">
         <div class="reserve-box">
           <div class="reserve-box-title">
             <div class="reserve-box-title-left">
               <div class="reserve-box-title-icon"></div>
-              <div class="reserve-box-title-text">五福洗煤厂</div>
+              <div class="reserve-box-title-text">{{ reserveInfo.start }}</div>
             </div>
 
             <div class="title1">09:30</div>
           </div>
           <div class="reserve-box-floor">
-            <div>原煤</div>
+            <div>{{ reserveInfo.material }}</div>
             <div>/</div>
-            <div>大道成物流科技有限公司</div>
+            <div>{{ reserveInfo.end }}</div>
           </div>
           <div class="reserve-box-floor reserve-box-date-floor">
-            <div>预约实际:</div>
-            <div>2021-11-28 13:26:25</div>
+            <div>预约时间:</div>
+            <div>{{ reserveInfo.reserveDate }}</div>
           </div>
         </div>
 
-        <div class="reserve-box">
+        <div class="reserve-box" >
           <div class="reserve-box-title">
             <div class="reserve-box-title-left">
               <div class="reserve-box-title-icon"></div>
-              <div class="reserve-box-title-text">五福洗煤厂</div>
+              <div class="reserve-box-title-text">{{ reserveInfo.start }}</div>
             </div>
 
             <div class="title1">09:30</div>
           </div>
+          <div class="reserve-box-card">
+            <div class="reserve-box-card-left">
+              {{ reserveInfo.reserveNum }}
+            </div>
+            <div class="reserve-box-card-right">
+              <div><span>当前叫号:</span> {{ reserveInfo.curNum }}</div>
+              <div><span>等候车次:</span> {{ reserveInfo.waitNum }}</div>
+            </div>
+          </div>
           <div class="reserve-box-floor">
-            <div>原煤</div>
+            <div>{{ reserveInfo.material }}</div>
             <div>/</div>
-            <div>大道成物流科技有限公司</div>
+            <div>{{ reserveInfo.end }}</div>
           </div>
           <div class="reserve-box-floor reserve-box-date-floor">
-            <div>预约实际:</div>
-            <div>2021-11-28 13:26:25</div>
+            <div>预约时间:</div>
+            <div>{{ reserveInfo.reserveDate }}</div>
           </div>
         </div>
       </div>
@@ -131,6 +155,16 @@ export default {
           module: "code",
         },
       ],
+      reserveInfo: {
+        start: "五福洗煤厂",
+        end: "大道成物流科技有限公司",
+        reserveDate: "2021-11-28 13:26:25",
+        material: "原煤",
+        curNum: 122, //当前叫号
+        reserveNum: 130, //预约号码
+        waitNum: 8,
+      },
+      noData: false,
     };
   },
 
@@ -151,6 +185,20 @@ export default {
     back() {
       uni.navigateBack({
         delta: 1,
+      });
+    },
+
+    refresh() {
+      console.log("刷新页面");
+      uni.showLoading();
+      setTimeout(() => {
+        uni.hideLoading();
+      }, 1000);
+    },
+    toReserveMsg() {
+      console.log('跳转预约信息')
+      uni.navigateTo({
+        url: "./reserveMsg",
       });
     },
   },
@@ -212,6 +260,7 @@ export default {
 
 .main {
   padding-top: 0;
+  overflow-y: auto;
 }
 
 .zjjy-box {
