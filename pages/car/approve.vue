@@ -135,6 +135,11 @@
         </div>
       </div>
     </div>
+       <view
+      class="bans"
+      @click="submit"
+      >提交认证</view
+    >
   </div>
 </template>
 
@@ -189,6 +194,7 @@ export default {
     httpImage(localUrl, type) {
       this[type] = localUrl;
     },
+    submit(){}
   },
 
   change(e, type) {
@@ -221,5 +227,18 @@ export default {
 .zjjy-box {
   width: 702rpx;
   padding: 0 36rpx;
+}
+.bans {
+  width: 702rpx;
+  height: 90rpx;
+  margin: 0 24rpx;
+  border-radius: 10rpx;
+  font-size: 32rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+
+  line-height: 90rpx;
+  text-align: center;
+  margin-top: 81rpx;
 }
 </style>
