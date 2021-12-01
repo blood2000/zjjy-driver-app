@@ -123,7 +123,7 @@
       }
     },
     {
-      "path": "pages/scan/car/addCar",
+      "path": "pages/car/addCar",
       "style": {
         "navigationBarTitleText": "添加车辆",
         "enablePullDownRefresh": false,

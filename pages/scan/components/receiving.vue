@@ -114,7 +114,7 @@ export default {
     addVehicle() {
       console.log("111");
       uni.navigateTo({
-        url: "./car/addCar",
+        url: "../car/addCar",
       });
       // this.$store.commit("setLicenseNumbers", "闽A888999");
     },
