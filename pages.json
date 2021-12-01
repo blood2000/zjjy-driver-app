@@ -133,6 +133,26 @@
       }
     },
     {
+      "path": "pages/car/carList",
+      "style": {
+        "navigationBarTitleText": "车辆管理",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/car/approve",
+      "style": {
+        "navigationBarTitleText": "提交S认证",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
       "path": "pages/reserve/reserveMsg",
       "style": {
         "navigationBarTitleText": "预约信息",

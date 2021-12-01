@@ -4,7 +4,7 @@
       <image src="../../static/header-bg.png" mode=""></image>
       <view class="header-title">至简集运司机端</view>
     </div>
-    <div class="user-box" >
+    <div class="user-box">
       <div class="user-card">
         <div class="user-card-left" @click="toScanOrder">
           <div class="avatar">
@@ -23,9 +23,11 @@
             <div class="user-tel">{{ vehicleMsg.phone }}</div>
           </div>
         </div>
-        <div class="user-card-right"  @click="toScanOrderInfo">{{ vehicleMsg.vehicleCode }}</div>
+        <div class="user-card-right" @click="toScanOrderInfo">
+          {{ vehicleMsg.vehicleCode }}
+        </div>
       </div>
-      <div class="zjjy-box"  @click="toScanOrderChange">
+      <div class="zjjy-box" @click="toScanOrderChange">
         <div class="item-line">
           <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
           <div class="msg-icon"></div>
@@ -159,13 +161,13 @@ export default {
         url: "../scan/scanOrder",
       });
     },
-    toScanOrderInfo(){
-       uni.navigateTo({
+    toScanOrderInfo() {
+      uni.navigateTo({
         url: "../scan/orderInfo",
       });
     },
-    toScanOrderChange(){
-       uni.navigateTo({
+    toScanOrderChange() {
+      uni.navigateTo({
         url: "../scan/changeDriverInfo",
       });
     },
@@ -181,6 +183,9 @@ export default {
           break;
         case "vehicle":
           console.log(2);
+          uni.navigateTo({
+            url: "../car/carList",
+          });
           break;
       }
     },

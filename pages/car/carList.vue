@@ -15,8 +15,10 @@ export default {
        
       },
       methods: {
+        
       },
       beforeMount() {
+
       },
 };
 </script>
