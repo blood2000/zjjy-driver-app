@@ -90,15 +90,17 @@
           @click="change(null, 'radioValue')"
           v-model="radioValue"
         /> -->
-                                <checkbox v-model="radioValue" />
+        <checkbox  @click="handleRadioValue" value="radioValue" />
       </div>
     </div>
-    <view class="bans" :class="current >= 7 ? 'bans-ok' : 'bans-no'"
+    <view
+      class="bans"
+      :class="carNumber.length >= 7 ? 'bans-ok' : 'bans-no'"
+      @click="add"
       >确认添加</view
     >
   </div>
 </template>
-
 
 <script>
 import CarNumber from "@/components/codecook-carnumber/codecook-carnumber.vue";
@@ -108,7 +110,7 @@ export default {
   },
   data() {
     return {
-      carNumber: "", //车牌
+      carNumber: "闽AAAAAA", //车牌
       focus: false, //车牌是否聚焦
       current: -1, //车牌当前选择
       vehicleTypeList: [],
@@ -133,17 +135,13 @@ export default {
     },
   },
   methods: {
-    change(e, type) {
-      const me = this
+    handleRadioValue(){
       this.focus = false;
-      const obj = {
-        radioValue: () => {
-          me.radioValue = !me.radioValue;
-          console.log("e", me.$refs.radio1 );
-          // this.$refs.radio.value = !this.radioValue;
-        },
-      };
-      obj[type]();
+      const me = this;
+       me.radioValue = !me.radioValue;
+    },
+    change(e, type) {
+      this.focus = false;
     },
     changeCurrent(val) {
       this.current = val;
@@ -159,6 +157,15 @@ export default {
     },
     changeFocus(val) {
       this.focus = val;
+    },
+    add() {
+      console.log("add", this.radioValue);
+      if (this.radioValue) {
+        uni.navigateTo({
+          url: "./approve",
+        });
+        return;
+      }
     },
   },
 };
@@ -190,5 +197,4 @@ export default {
   background: #dbdcdd;
   color: #bfbfbf;
 }
-
 </style>
