@@ -267,6 +267,11 @@ image {
           color: #333;
         }
       }
+
+      .no-auth {
+        background: url("../static/noauth.png") no-repeat center;
+        background-size: 100% 100%;
+      }
     }
 
     .user-tel {
