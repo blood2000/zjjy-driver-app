@@ -18,20 +18,20 @@ export default {
   computed: {},
 
   onLoad(options) {
-    const q = decodeURIComponent(options.q); // 获取到二维码原始链接内容
-    console.log("获取链接参数", q);
-    // this.getOrderStatus(q);
+    const code = decodeURIComponent(options.code); // 获取到二维码原始链接内容
+    console.log("获取链接参数", code);
+    // this.getOrderStatus(code);
   },
 
   onShow() {},
 
   methods: {
-    getOrderStatus(q) {
+    getOrderStatus(code) {
       const config = {
         url: "scannerCodeOrOpenLink",
         method: "POST",
         data: {
-          code: "asdfas",
+          code: code,
           openType: "1",
         },
       };
