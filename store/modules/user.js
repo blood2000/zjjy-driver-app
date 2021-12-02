@@ -6,10 +6,14 @@ const store = {
 		},
 		statusBarHeight: 0,
 		vehicleMsg: {
-			name: '辛弃疾',
-			vehicleCode: '闽A123456',
-			phone: '13566668888',
-			auth: true,
+			// name: '辛弃疾',
+			// vehicleCode: '闽A123456',
+			// phone: '13566668888',
+			// auth: true,
+			name: '',
+			vehicleCode: '',
+			phone: '',
+			auth: false,
 		},
 		// licenseNumbers: ["闽A123123", "闽A223123", "闽A423123"],
 		licenseNumbers: [],
@@ -17,6 +21,7 @@ const store = {
 			latitude: 26.0527,
 			longitude: 119.3141,
 		},
+		scanInfo: {},
 	},
 	// getters: {
 	// 	headerInfo: state => state.headerInfo
@@ -24,6 +29,11 @@ const store = {
 	mutations: {
 		setUserInfo: (state, val) => {
 			state.userInfo = {
+				...val
+			};
+		},
+		setScanInfo: (state, val) => {
+			state.scanInfo = {
 				...val
 			};
 		},

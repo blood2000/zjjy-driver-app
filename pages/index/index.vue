@@ -13,7 +13,7 @@
           <div class="user-card-msg">
             <div class="user-name-box">
               <div class="user-name">{{ vehicleMsg.name }}</div>
-              <div class="user-name-icon">
+              <div class="user-name-icon" :class="vehicleMsg.auth ? '' : 'no-auth'">
                 <!-- <div class="user-name-icon-left">V</div>
                 <div class="user-name-icon-right">
                   {{ vehicleMsg.auth ? "已认证" : "未认证" }}
@@ -108,14 +108,10 @@ export default {
     }),
   },
 
-  onLaunch(options) {
-    console.log(123)
-    const query = options.query; // 这个就是你的参数，是个json对象
-    console.log('url scheme携带参数', options); // 场景值为 1065
-  },
 
   onLoad() {
     console.log(this.userInfo);
+    //TODO: 判断是否扫码跳转：跳转到扫码接单页面
     this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
     this.getDriverInfo();
     console.log(this.avatar);

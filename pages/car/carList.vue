@@ -39,7 +39,7 @@ export default {
       list: [
         {
           id: 1,
-          img: "dfaf.png",
+          img: "https://zos.alipayobjects.com/rmsportal/EMQSSlFQtGYEnWx.png",
           text: "Senior Product Designer1",
         },
         {

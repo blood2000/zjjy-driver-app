@@ -16,9 +16,9 @@ export default {
   computed: {},
 
   onLoad(options) {
-    console.log(options.status);
-    this.status = options.status;
-    console.log('扫码接单状态', this.status)
+    const q = decodeURIComponent(options.q); // 获取到二维码原始链接内容
+    console.log("获取链接参数", q);
+    return;
     if (this.status === '0') {
       uni.redirectTo({
         url: "./scanOrder",
