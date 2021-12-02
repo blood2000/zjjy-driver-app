@@ -1,6 +1,5 @@
 {
   "pages": [
-    //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {
       "path": "pages/startPage/startPage",
       "style": {
@@ -76,6 +75,16 @@
       "path": "pages/index/vehicle",
       "style": {
         "navigationBarTitleText": "至简集运司机端",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/scan/index",
+      "style": {
+        "navigationBarTitleText": "扫码接单入口",
         "enablePullDownRefresh": false,
         "app-plus": {
           "bounce": "none"

@@ -45,7 +45,7 @@
             </div>
           </div>
         </div>
-        <div class="user-card-right" @click="toScanOrderInfo">
+        <div class="user-card-right">
           {{ vehicleMsg.vehicleCode }}
         </div>
       </div>
@@ -80,8 +80,8 @@
         </div>
       </div>
       <!-- 预约详情 -->
-      <div class="zjjy-box" v-else @click="toReserveMsg">
-        <div class="reserve-box">
+      <div class="zjjy-box" v-else>
+        <div class="reserve-box" @click="toReserveMsg">
           <div class="reserve-box-title">
             <div class="reserve-box-title-left">
               <div class="reserve-box-title-icon"></div>
@@ -101,7 +101,7 @@
           </div>
         </div>
 
-        <div class="reserve-box" >
+        <div class="reserve-box" @click="toEntryMsg">
           <div class="reserve-box-title">
             <div class="reserve-box-title-left">
               <div class="reserve-box-title-icon"></div>
@@ -177,7 +177,9 @@ export default {
     }),
   },
 
-  onLoad() {
+  onLoad(options) {
+    console.log(options)
+    
     this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
   },
 
@@ -196,10 +198,26 @@ export default {
       }, 1000);
     },
     toReserveMsg() {
-      console.log('跳转预约信息')
+      console.log("跳转预约信息");
       uni.navigateTo({
         url: "./reserveMsg",
       });
+    },
+    jumpModule(item) {
+      switch (item.module) {
+        case "reserve":
+          // uni.navigateTo({
+          //   url: "../reserve/reserve",
+          // });
+          console.log('跳转扫码预约')
+          break;
+        case "code":
+          console.log('跳转现场取号')
+          // uni.navigateTo({
+          //   url: "../car/carList",
+          // });
+          break;
+      }
     },
   },
 };

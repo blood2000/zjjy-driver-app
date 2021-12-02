@@ -25,6 +25,8 @@ export default {
 
   computed: {},
 
+
+
   props: {
     title: {
       type: String,

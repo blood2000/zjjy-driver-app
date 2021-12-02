@@ -74,7 +74,7 @@ export default {
   data() {
     return {
       avatar: "",
-      orderMsg: "您有一条新的系统通知，请及时查看",
+      orderMsg: "",
       funcModules: [
         {
           name: "预约排号",
@@ -106,6 +106,12 @@ export default {
       vehicleMsg: (state) => state.user.vehicleMsg,
       userInfo: (state) => state.user.userInfo,
     }),
+  },
+
+  onLaunch(options) {
+    console.log(123)
+    const query = options.query; // 这个就是你的参数，是个json对象
+    console.log('url scheme携带参数', options); // 场景值为 1065
   },
 
   onLoad() {
