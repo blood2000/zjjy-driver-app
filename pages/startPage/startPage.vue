@@ -12,7 +12,15 @@ export default {
     console.log("startPage load");
     const q = decodeURIComponent(query.q); // 获取到二维码原始链接内容
     console.log("获取链接参数", q);
-
+    if (q && q.split('?')[1]) {
+      
+      const paramsUrl = q.split('?')[1];
+      const params = paramsUrl.split('=')[1];
+      let obj = {
+        code: params
+      }
+      this.$store.commit('setScanInfo', obj);
+    }
 
     const token = uni.getStorageSync("token");
     

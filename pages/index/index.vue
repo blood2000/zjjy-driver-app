@@ -105,14 +105,22 @@ export default {
     ...mapState({
       vehicleMsg: (state) => state.user.vehicleMsg,
       userInfo: (state) => state.user.userInfo,
+      scanInfo: (state) => state.user.scanInfo
     }),
   },
 
 
   onLoad() {
-    console.log(this.userInfo);
+    console.log('已获取的链接参数code==>', this.scanInfo);
     //TODO: 判断是否扫码跳转：跳转到扫码接单页面
     this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
+    if (this.scanInfo.code) {
+      let code = this.scanInfo.code;
+      uni.navigateTo({
+        url: "../scan/index?code=" + code,
+      });
+      return;
+    }
     this.getDriverInfo();
     console.log(this.avatar);
   },
