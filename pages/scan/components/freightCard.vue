@@ -4,9 +4,9 @@
     <div class="zjjy-box-main">
       <div class="zjjy-box-main-floor">
         <!-- :class="typesFreight ===0?'status1':'status2'" -->
-        <div class="zjjy-floor-left status " >
-          <image  :src="freightImage" alt=""/>
-         </div>
+        <div class="zjjy-floor-left status">
+          <image :src="freightImage" alt="" />
+        </div>
         <div class="zjjy-floor-right addr">
           <div class="floor-start">五福洗煤厂</div>
           <div class="rotate-right">
@@ -22,10 +22,7 @@
       <div class="zjjy-box-main-floor">
         <div class="zjjy-floor-left">运输公司</div>
         <div class="zjjy-floor-right">
-          <image
-          style="width:136rpx;height:28rpx"
-            :src="companyImage"
-          />
+          <image style="width: 136rpx; height: 28rpx" :src="companyImage" />
         </div>
       </div>
     </div>
@@ -39,17 +36,21 @@ export default {
       type: Number,
       default: 0,
     },
-  },
-  computed:{
-    freightImage(){
-      return this.typesFreight === 0?'../../../static/order/Receiving.png':'../../../static/order/shipments.png'
+    pageData: {
+      type: Object,
+      default: {},
     },
-    companyImage(){
-      return '../../../static/order/chy.png'
-    }
-
-  }
-  
+  },
+  computed: {
+    freightImage() {
+      return this.typesFreight === 0
+        ? "../../../static/order/Receiving.png"
+        : "../../../static/order/shipments.png";
+    },
+    companyImage() {
+      return "../../../static/order/chy.png";
+    },
+  },
 };
 </script>
 
@@ -71,8 +72,8 @@ export default {
   padding: 0;
 }
 .status {
- width:127rpx;
- height: 36rpx;
+  width: 127rpx;
+  height: 36rpx;
 }
 
 .status1 {

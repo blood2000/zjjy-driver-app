@@ -6,7 +6,7 @@
       >
     </div>
     <div class="info">
-      <FreightCard :typesFreight="typesFreight" />
+      <FreightCard :pageData="pageData" :typesFreight="typesFreight" />
       <div class="zjjy-box">
         <div class="photo-box">
           <div class="title2">
@@ -165,7 +165,7 @@
           <picker
             mode="selector"
             :range="driverPostList"
-            @change="changedriverPost"
+            @change="changeDriverPost"
           >
             <view class="uni-input-default">
               <span v-if="driverPostIndex !== -1">{{
@@ -262,7 +262,7 @@
         </div>
         <div class="input-item">
           <div class="title1">从业资格证类型</div>
-          <picker mode="selector" :range="loadList" @change="changeobtainType">
+          <picker mode="selector" :range="loadList" @change="changeObtainType">
             <view class="uni-input-default">
               <span v-if="obtainTypeIndex !== -1">{{
                 loadList[obtainTypeIndex]
@@ -340,12 +340,14 @@
 import FreightCard from "./components/freightCard";
 import { perpetualList, driverPostList, loadList } from "./config";
 import pickRegions from "@/components/pick-regions/pick-regions.vue";
+import { uniRequest } from "../../config/request";
 
 export default {
   components: { FreightCard, pickRegions },
   name: "orderInfo",
   data() {
     return {
+      pageData: {},
       typesFreight: 0, //信息类型
       imageSize: 3145728, //上传图片限制
       perpetualList, //是否长期列表
@@ -379,6 +381,9 @@ export default {
       obtainProvince: null, //从业证办理省份名称
     };
   },
+  onLoad(options) {
+    this.dealPageData(JSON.parse(options.data));
+  },
   computed: {
     regionName() {
       // 转为字符串
@@ -394,7 +399,27 @@ export default {
     },
   },
   methods: {
+    // 页面跳转赋值
+    dealPageData(data) {
+      this.pageData = data;
+      this.typesFreight = data && data.receiveType;
+    },
+    // 认证成功执行
+    successD() {
+      uni.showModal({
+        title: "提示",
+        content: "已认证成功",
+        showCancel: false,
+        success: (res) => {
+          console.log("res", res);
+          uni.navigateTo({
+            url: `./scanOrder?data=${JSON.stringify(me.pageData)}`,
+          });
+        },
+      });
+    },
     jumpTo(type) {
+      const me = this;
       const obj = {
         0: () => {
           uni.navigateTo({
@@ -402,29 +427,30 @@ export default {
           });
         },
         1: () => {
-          console.log("走走走");
-          uni.showModal({
-            title: "提示",
-            content: "已认证成功",
-            showCancel: false,
-            success: (res) => {
-              console.log("res", res);
-              uni.navigateTo({
-                url: "../index/index",
-              });
-            },
+          const config = {
+            url: "authDriverTeam",
+            method: "PUT",
+            data:this.formToRequest(),
+          };
+          uniRequest(config).then(res=>{
+                if(res.code == 200){
+                  this.successD()
+                }
           });
         },
       };
       obj[type]();
     },
+    formToRequest(){
+      return {}
+    },
     // 驾驶证
-    changedriverPost(e) {
+    changeDriverPost(e) {
       console.log("e", e);
       this.driverPostIndex = Number(e.detail.value);
     },
     // 从业
-    changeobtainType(e) {
+    changeObtainType(e) {
       console.log("e", e);
       this.obtainTypeIndex = Number(e.detail.value);
     },

@@ -10,5 +10,6 @@ const orderUrl = {
   scannerCodeOrOpenLink: '/jyz/wxmp/jyz-waybill-opera/scannerCodeOrOpenLink', //扫码或点击链接获取 
   receiveOrder: '/jyz/wxmp/jyz-waybill-opera/receiveOrder',//接单
   addVehicle: '/jyz/wxmp/jyz-waybill-opera/addVehicle',//添加车辆
+  authDriverTeam:'/assets/driver-app/authDriverTeam'
 }
 export default { ...orderUrl, ...apiUrl }
