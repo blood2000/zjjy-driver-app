@@ -41,7 +41,7 @@
           />
           <div class="list-item-content">
             <div class="list-item-content-top">
-              <div>闽A54772</div>
+              <div class="title22">闽A54772</div>
               <img src="../../static/order/svip.png" alt="" />
             </div>
             <div class="list-item-content-bottom">车型：普通重型半挂车</div>
@@ -244,5 +244,11 @@ export default {
       }
     }
   }
+}
+.title22{
+font-size: 32rpx;
+font-family: PingFang SC;
+font-weight: bold;
+color: #333333;
 }
 </style>

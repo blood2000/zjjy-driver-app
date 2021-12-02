@@ -20,7 +20,7 @@ export default {
       queryParams: {
         weight: "", // 发货净重
       },
-      types: 1,
+      types: 0,
       info: {},
     };
   },

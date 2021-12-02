@@ -9,12 +9,11 @@
             :range="licenseNumbers"
             @change="changeVehicle"
           >
-            <view class="building-picker-btn">
-              {{
+            <view class="uni-input-default">
+              <span v-if="vehicleIndex !== -1">{{
                 licenseNumbers[vehicleIndex]
-                  ? licenseNumbers[vehicleIndex]
-                  : "请选择"
-              }}
+              }}</span>
+              <span v-else class="uni-input-placeholder">请选择</span>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
           </picker>
@@ -49,7 +48,7 @@ export default {
   },
   data() {
     return {
-      vehicleIndex: 0, // 车牌
+      vehicleIndex: -1, // 车牌
     };
   },
   computed: {
@@ -71,7 +70,7 @@ export default {
       this.vehicleIndex = e.detail.value;
     },
     addVehicle() {
-       console.log("111");
+      console.log("111");
       uni.navigateTo({
         url: "../car/addCar",
       });

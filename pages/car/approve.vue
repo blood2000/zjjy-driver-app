@@ -19,12 +19,11 @@
           :range="energyTypeList"
           @change="change($event, 'energyType')"
         >
-          <view class="building-picker-btn">
-            {{
-              energyTypeIndex === -1
-                ? "请选择车辆能源类型"
-                : energyTypeList[energyTypeIndex]
-            }}
+          <view class="uni-input-default">
+            <span v-if="energyTypeIndex !== -1">{{
+              energyTypeList[energyTypeIndex]
+            }}</span>
+            <span v-else class="uni-input-placeholder">请选择车辆能源类型</span>
             <uni-icons type="forward" size="14"></uni-icons>
           </view>
           <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
@@ -51,12 +50,11 @@
           :range="vehicleColorList"
           @change="change($event, 'vehicleColor')"
         >
-          <view class="building-picker-btn">
-            {{
-              vehicleColorIndex === -1
-                ? "请选择车身颜色"
-                : vehicleColorList[vehicleColorIndex]
-            }}
+          <view class="uni-input-default">
+            <span v-if="vehicleColorIndex !== -1">{{
+              vehicleColorList[vehicleColorIndex]
+            }}</span>
+            <span v-else class="uni-input-placeholder">请选择车身颜色</span>
             <uni-icons type="forward" size="14"></uni-icons>
           </view>
           <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
@@ -70,8 +68,11 @@
           :range="axlesList"
           @change="change($event, 'axles')"
         >
-          <view class="building-picker-btn">
-            {{ axlesIndex === -1 ? "请选择轴数" : axlesList[axlesIndex] }}
+          <view class="uni-input-default">
+            <span v-if="axlesIndex !== -1">{{
+              axlesList[axlesIndex]
+            }}</span>
+            <span v-else class="uni-input-placeholder">请选择轴数</span>
             <uni-icons type="forward" size="14"></uni-icons>
           </view>
           <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
@@ -135,11 +136,7 @@
         </div>
       </div>
     </div>
-       <view
-      class="bans"
-      @click="submit"
-      >提交认证</view
-    >
+    <view class="bans" @click="submit">提交认证</view>
   </div>
 </template>
 
@@ -194,7 +191,7 @@ export default {
     httpImage(localUrl, type) {
       this[type] = localUrl;
     },
-    submit(){}
+    submit() {},
   },
 
   change(e, type) {
@@ -231,14 +228,15 @@ export default {
 .bans {
   width: 702rpx;
   height: 90rpx;
-  margin: 0 24rpx;
   border-radius: 10rpx;
   font-size: 32rpx;
   font-family: PingFang SC;
   font-weight: bold;
-
+    background: #2366f2;
+  color: #ffffff;
   line-height: 90rpx;
   text-align: center;
-  margin-top: 81rpx;
+  margin:  81rpx 24rpx; 
+  margin-bottom: 160rpx;
 }
 </style>

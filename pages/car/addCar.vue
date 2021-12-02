@@ -19,14 +19,13 @@
           :range="vehicleTypeList"
           @change="change($event, 'vehicleType')"
         >
-          <view class="building-picker-btn">
-            {{
-              vehicleTypeIndex === -1
-                ? "请选择车型"
-                : vehicleTypeList[vehicleTypeIndex]
-            }}
-            <uni-icons type="forward" size="14"></uni-icons>
-          </view>
+            <view class="uni-input-default">
+              <span v-if="vehicleTypeIndex !== -1">{{
+                vehicleTypeList[vehicleTypeIndex]
+              }}</span>
+              <span v-else class="uni-input-placeholder">请选择车型</span>
+              <uni-icons type="forward" size="14"></uni-icons>
+            </view>
           <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
         </picker>
       </div>

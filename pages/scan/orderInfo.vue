@@ -60,9 +60,11 @@
                   :value="idStart"
                   @change="bindDateChange($event, 'idStart')"
                 >
-                  <view class="uni-input">{{
-                    idStart ? idStart : "请选择日期"
-                  }}</view>
+                  <view class="uni-input-default">
+                    <span v-if="idStart">{{ idStart }}</span>
+                    <span v-else class="uni-input-placeholder">请选择日期</span>
+                    <uni-icons type="forward" size="14"></uni-icons>
+                  </view>
                 </picker>
               </view>
             </view>
@@ -78,9 +80,11 @@
                   :value="idEnd"
                   @change="bindDateChange($event, 'idEnd')"
                 >
-                  <view class="uni-input">{{
-                    idEnd ? idEnd : "请选择日期"
-                  }}</view>
+                  <view class="uni-input-default">
+                    <span v-if="idEnd">{{ idEnd }}</span>
+                    <span v-else class="uni-input-placeholder">请选择日期</span>
+                    <uni-icons type="forward" size="14"></uni-icons>
+                  </view>
                 </picker>
               </view>
             </view>
@@ -103,7 +107,13 @@
         <div class="input-item">
           <div class="title1"><span class="required">*</span>所在区域</div>
           <pick-regions limit="3" @getRegion="handleGetRegion">
-            <div>{{ regionName ? regionName : "支持自动识别" }}</div>
+            <!-- <div class="">{{ regionName ? regionName : "支持自动识别" }}</div> -->
+            <view class="uni-input-default">
+              <span v-if="regionName">{{ regionName }}</span>
+              <span v-else class="uni-input-placeholder">支持自动识别</span>
+              <uni-icons type="forward" size="14"></uni-icons>
+              <uni-icons type="forward" size="14"></uni-icons>
+            </view>
           </pick-regions>
         </div>
       </div>
@@ -157,12 +167,11 @@
             :range="driverPostList"
             @change="changedriverPost"
           >
-            <view class="building-picker-btn">
-              {{
-                driverPostIndex === null
-                  ? "支持自动识别"
-                  : driverPostList[driverPostIndex]
-              }}
+            <view class="uni-input-default">
+              <span v-if="driverPostIndex !== -1">{{
+                driverPostList[driverPostIndex]
+              }}</span>
+              <span v-else class="uni-input-placeholder">支持自动识别</span>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
           </picker>
@@ -177,9 +186,16 @@
                   :value="driverStart"
                   @change="bindDateChange($event, 'driverStart')"
                 >
-                  <view class="uni-input">{{
+                  <!-- <view class="uni-input">{{
                     driverStart ? driverStart : "请选择日期"
-                  }}</view>
+                  }}</view> -->
+                  <view class="uni-input-default">
+                    <span v-if="driverStart">{{ driverStart }}</span>
+                    <span v-else class="uni-input-placeholder"
+                      >支持自动识别</span
+                    >
+                    <uni-icons type="forward" size="14"></uni-icons>
+                  </view>
                 </picker>
               </view>
             </view>
@@ -195,9 +211,16 @@
                   :value="driverEnd"
                   @change="bindDateChange($event, 'driverEnd')"
                 >
-                  <view class="uni-input">{{
+                  <!-- <view class="uni-input">{{
                     driverEnd ? driverEnd : "请选择日期"
-                  }}</view>
+                  }}</view> -->
+                  <view class="uni-input-default">
+                    <span v-if="driverEnd">{{ driverEnd }}</span>
+                    <span v-else class="uni-input-placeholder"
+                      >支持自动识别</span
+                    >
+                    <uni-icons type="forward" size="14"></uni-icons>
+                  </view>
                 </picker>
               </view>
             </view>
@@ -239,21 +262,12 @@
         </div>
         <div class="input-item">
           <div class="title1">从业资格证类型</div>
-          <!-- <input
-            class="my-input"
-            maxlength="32"
-            placeholder="支持自动识别"
-            type="text" 
-            v-model="obtainType"
-            cursor-spacing="150"
-          /> -->
           <picker mode="selector" :range="loadList" @change="changeobtainType">
-            <view class="building-picker-btn">
-              {{
-                obtainTypeIndex === null
-                  ? "支持自动识别"
-                  : loadList[obtainTypeIndex]
-              }}
+            <view class="uni-input-default">
+              <span v-if="obtainTypeIndex !== -1">{{
+                loadList[obtainTypeIndex]
+              }}</span>
+              <span v-else class="uni-input-placeholder">支持自动识别</span>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
           </picker>
@@ -268,9 +282,11 @@
                   :value="obtainStart"
                   @change="bindDateChange($event, 'obtainStart')"
                 >
-                  <view class="uni-input">{{
-                    obtainStart ? obtainStart : "请选择日期"
-                  }}</view>
+                  <view class="uni-input-default">
+                    <span v-if="obtainStart">{{ obtainStart }}</span>
+                    <span v-else class="uni-input-placeholder">请选择日期</span>
+                    <uni-icons type="forward" size="14"></uni-icons>
+                  </view>
                 </picker>
               </view>
             </view>
@@ -286,9 +302,11 @@
                   :value="obtainEnd"
                   @change="bindDateChange($event, 'obtainEnd')"
                 >
-                  <view class="uni-input">{{
-                    obtainEnd ? obtainEnd : "请选择日期"
-                  }}</view>
+                  <view class="uni-input-default">
+                    <span v-if="obtainEnd">{{ obtainEnd }}</span>
+                    <span v-else class="uni-input-placeholder">请选择日期</span>
+                    <uni-icons type="forward" size="14"></uni-icons>
+                  </view>
                 </picker>
               </view>
             </view>
@@ -297,7 +315,12 @@
         <div class="input-item">
           <div class="title1">从业证办理省份名称</div>
           <pick-regions limit="1" @getRegion="handleGetRegion1">
-            <div>{{ regionName1 ? regionName1 : "支持自动识别" }}</div>
+            <!-- <div>{{ regionName1 ? regionName1 : "支持自动识别" }}</div> -->
+            <view class="uni-input-default">
+              <span v-if="regionName1">{{ regionName1 }}</span>
+              <span v-else class="uni-input-placeholder">支持自动识别</span>
+              <uni-icons type="forward" size="14"></uni-icons>
+            </view>
           </pick-regions>
         </div>
       </div>
@@ -330,8 +353,8 @@ export default {
       loadList,
       perpetualIndex: 0, //身份证是否长期
       driverPerpetualIndex: 0, //驾驶证是否长期
-      driverPostIndex: null,
-      obtainTypeIndex: null,
+      driverPostIndex: -1,
+      obtainTypeIndex: -1,
       region: [],
       region1: [],
       // form
