@@ -63,7 +63,13 @@ export default {
 						title: '提示',
 						content: res.data.msg,
 						showCancel: false,
-					});
+              success: (res) => {
+          console.log("res", res);
+          uni.navigateTo({
+            url: `../index/index`,
+          });
+        },
+					})
         }
         obj[res.data.code]();
       });
