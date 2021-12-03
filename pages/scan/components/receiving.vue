@@ -8,10 +8,11 @@
             mode="selector"
             :range="licenseNumbers"
             @change="changeVehicle"
+            range-key="licenseNumber"
           >
             <view class="uni-input-default">
               <span v-if="vehicleIndex !== -1">{{
-                licenseNumbers[vehicleIndex]
+                licenseNumbers[vehicleIndex].licenseNumber
               }}</span>
               <span v-else class="uni-input-placeholder">请选择</span>
               <uni-icons type="forward" size="14"></uni-icons>
@@ -34,7 +35,7 @@
           maxlength="32"
           placeholder="请输入发货净重"
           type="text"
-          v-model="queryParams.weight"
+          v-model="queryParams.netWeight"
           cursor-spacing="150"
         />
         <span class="unit" style="padding-left: 9rpx">吨</span>
@@ -44,7 +45,6 @@
       <div class="title1">上传磅单 <span>（最多上传9张图片）</span></div>
       <div class="zjjy-img-box">
         <!-- 用户上传图片，触发实现 -->
-
         <block v-for="(item, index) in imgSuccessList" :key="index">
           <div class="img-box" :class="activeIndex === index ? 'active' : ''">
             <div class="img" @click="imgPreview(index)">
@@ -53,7 +53,6 @@
             <div class="close-icon" @click="deleteImg(index)"></div>
           </div>
         </block>
-
         <div
           v-if="imgSuccessList.length < 9"
           class="load-temp img-box"
@@ -61,18 +60,17 @@
         >
           <uni-icons type="camera" color="#a2a2a2" size="30"></uni-icons>
         </div>
-        <!-- <div class="no-img" v-if="!imgSuccessList && !edit">无</div> -->
+        <div class="no-img" v-if="!imgSuccessList && !edit">无</div>
       </div>
     </div>
     <div class="btn-box fixed-bottom">
-      <div class="as-btn" @click="submit">确认接单</div>
+      <div class="as-btn" @click="$emit('jumpTo')">确认接单</div>
     </div>
   </div>
 </template>
 
 <script>
-import urlConfig from "../../../config/urlConfig.js";
-import { uniRequest, uniUpload } from "../../../config/request.js";
+import { uniUpload } from "../../../config/request.js";
 import { mapState } from "vuex";
 
 export default {
@@ -83,18 +81,22 @@ export default {
         return {};
       },
     },
+    licenseNumbers: {
+      type: Array,
+      default: [],
+    },
   },
   data() {
     return {
-      vehicleIndex:-1, // 车牌
-      imgSuccessList: [], //已上传的图片列表
+      vehicleIndex: -1, // 车牌
       imgSrcList: [], //图片列表
+      imgSuccessList:[],
       activeIndex: -1, //图标选中下标
     };
   },
   computed: {
     ...mapState({
-      licenseNumbers: (state) => state.user.licenseNumbers,
+      // licenseNumbers: (state) => state.user.licenseNumbers,
       userInfo: (state) => state.user.userInfo,
     }),
     queryParams: {
@@ -108,7 +110,13 @@ export default {
   },
   methods: {
     changeVehicle(e) {
-      this.vehicleIndex = e.detail.value;
+      this.vehicleIndex = Number(e.detail.value);
+      console.log("this.queryParams", this.queryParams);
+      this.queryParams.vehicleCode =
+        this.licenseNumbers[this.vehicleIndex].vehicleCode;
+      this.queryParams.licenseNumber =
+        this.licenseNumbers[this.vehicleIndex].licenseNumber;
+      console.log("this.queryParams", this.queryParams);
     },
     addVehicle() {
       console.log("111");
@@ -130,16 +138,22 @@ export default {
       });
     },
     // 上传图片
-    uploadImg() {
+    async uploadImg() {
       let limitLen = 9 - this.imgSuccessList.length;
       let len =
         limitLen > this.imgSrcList.length ? this.imgSrcList.length : limitLen;
-
       uni.showLoading();
       for (let i = 0; i < len; i++) {
-        this.imgSuccessList.push(this.imgSrcList[i]);
-        uni.hideLoading();
+        const config = {
+          url: "uploadImg",
+          file: this.imgSrcList[i],
+        };
+        const res = await uniUpload(config);
+        if (res.code == 200) {
+          this.imgSuccessList.push(this.imgSrcList[i]);
+        }
       }
+      uni.hideLoading();
     },
     // 删除图片
     deleteImg(index) {
@@ -147,14 +161,6 @@ export default {
     },
 
     submit() {
-      // if (this.imgSuccessList.length === 0) {
-      //   uni.showToast({
-      //     title: "请上传凭证!",
-      //     duration: 1500,
-      //     icon: "error",
-      //   });
-      //   return;
-      // }
       this.$emit("jumpTo");
     },
   },

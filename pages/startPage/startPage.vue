@@ -12,18 +12,18 @@ export default {
     console.log("startPage load");
     const q = decodeURIComponent(query.q); // 获取到二维码原始链接内容
     console.log("获取链接参数", q);
-    if (q && q.split('?')[1]) {
-      
-      const paramsUrl = q.split('?')[1];
-      const params = paramsUrl.split('=')[1];
+    const tmp = this.getlocationParams(q);
+    console.log("tmp 解码对象", tmp);
+    if (tmp && tmp.code && tmp.type) {
       let obj = {
-        code: params
-      }
-      this.$store.commit('setScanInfo', obj);
+        code: tmp.code,
+        type: tmp.type,
+      };
+      this.$store.commit("setScanInfo", obj);
     }
 
     const token = uni.getStorageSync("token");
-    
+
     if (!token) {
       uni.reLaunch({
         url: "../login/login", //跳转到登录页面--wx
@@ -54,7 +54,24 @@ export default {
   },
 
   methods: {
-    
+    // 获取url地址上参数
+    getlocationParams(docval) {
+      if (!docval) return null;
+      const valStr = docval.split("?")[1];
+      if (!valStr) return null;
+      console.log("valStr", valStr);
+      const tmp = valStr.split("&");
+      if (!tmp) return null;
+      console.log("valStr", tmp);
+      const obj = {};
+      if (!tmp || tmp.length == 0) return obj;
+      tmp.forEach((element) => {
+        const tmp1 = element.split("=");
+        obj[tmp1[0]] = tmp1[1];
+      });
+      console.log("obj", obj);
+      return obj;
+    },
   },
 };
 </script>

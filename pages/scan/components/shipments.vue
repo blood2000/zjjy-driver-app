@@ -8,10 +8,11 @@
             mode="selector"
             :range="licenseNumbers"
             @change="changeVehicle"
+            range-key="licenseNumber"
           >
             <view class="uni-input-default">
               <span v-if="vehicleIndex !== -1">{{
-                licenseNumbers[vehicleIndex]
+                licenseNumbers[vehicleIndex].licenseNumber
               }}</span>
               <span v-else class="uni-input-placeholder">请选择</span>
               <uni-icons type="forward" size="14"></uni-icons>
@@ -34,8 +35,6 @@
 </template>
 
 <script>
-import urlConfig from "../../../config/urlConfig.js";
-import { uniRequest, uniUpload } from "../../../config/request.js";
 import { mapState } from "vuex";
 export default {
   props: {
@@ -45,6 +44,10 @@ export default {
         return {};
       },
     },
+    licenseNumbers:{
+      type:Array,
+      default:[]
+    }
   },
   data() {
     return {
@@ -53,7 +56,7 @@ export default {
   },
   computed: {
     ...mapState({
-      licenseNumbers: (state) => state.user.licenseNumbers,
+      // licenseNumbers: (state) => state.user.licenseNumbers,
       userInfo: (state) => state.user.userInfo,
     }),
     queryParams: {
@@ -67,7 +70,13 @@ export default {
   },
   methods: {
     changeVehicle(e) {
-      this.vehicleIndex = e.detail.value;
+       this.vehicleIndex = Number(e.detail.value);
+      console.log("this.queryParams", this.queryParams);
+      this.queryParams.vehicleCode =
+        this.licenseNumbers[this.vehicleIndex].vehicleCode;
+      this.queryParams.licenseNumber =
+        this.licenseNumbers[this.vehicleIndex].licenseNumber;
+      console.log("this.queryParams", this.queryParams);
     },
     addVehicle() {
       console.log("111");

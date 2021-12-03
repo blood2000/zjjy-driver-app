@@ -115,9 +115,9 @@ export default {
     //TODO: 判断是否扫码跳转：跳转到扫码接单页面
     this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
     if (this.scanInfo.code) {
-      let code = this.scanInfo.code;
       uni.navigateTo({
-        url: "../scan/index?code=" + code,
+        // url: "../scan/index?code=" + code,
+        url:`../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`
       });
       return;
     }

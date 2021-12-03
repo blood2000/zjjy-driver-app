@@ -17,24 +17,24 @@
         <div class="right-text flexss">
           <div
             :class="
-              typesFreight === 0 ? 'address-text-shou' : 'address-text-fa'
+              typesFreight === 1 ? 'address-text-shou' : 'address-text-fa'
             "
             class="address-text"
           >
-            {{ typesFreight === 0 ? "收" : "发" }}
+            {{ typesFreight === 1 ? "收" : "发" }}
           </div>
-          <div>五福洗煤大厂</div>
+          <div>{{ pageData.startAddress }}</div>
           <div class="address-to">到</div>
-          <div>富邦总部大楼</div>
+          <div>{{ pageData.endAddress }}</div>
         </div>
       </div>
       <div class="input-item">
         <div class="title1">货品类型</div>
-        <div class="right-text">原煤</div>
+        <div class="right-text">{{ pageData.goodsName }}</div>
       </div>
       <div class="input-item">
         <div class="title1">发货净重</div>
-        <div class="right-text">999.99吨</div>
+        <div class="right-text">{{ pageData.netWeight }}吨</div>
       </div>
       <div class="input-item">
         <div class="title1">运输公司</div>
@@ -50,8 +50,20 @@
 <script>
 export default {
   name: "orderSuccessd",
+  data() {
+    return {
+      pageData: {},
+      typesFreight: 0,
+    };
+  },
+  onLoad(options) {
+    console.log("orderSuccessd", options);
+    this.pageData = JSON.parse(options);
+    this.typesFreight = this.pageData.receiveType;
+  },
   methods: {
     jumpTo() {
+      this.$store.commit("setScanInfo", {});
       uni.navigateTo({
         url: "../index/index",
       });

@@ -18,24 +18,25 @@ export default {
   computed: {},
 
   onLoad(options) {
+        console.log("获取链接参数1111", options);
     const code = decodeURIComponent(options.code); // 获取到二维码原始链接内容
-    console.log("获取链接参数1111", code);
-    this.getOrderStatus(code);
+    const type = options.type
+    this.getOrderStatus(code,type);
   },
 
   onShow() {},
 
   methods: {
-    getOrderStatus(code) {
+    getOrderStatus(code,type) {
       const config = {
         url: "scannerCodeOrOpenLink",
         method: "POST",
         data: {
           code: code,
-          openType: "1",
+          openType: type,
         },
       };
-      console.log("config", config);
+      console.log("11config", config);
       uniRequest(config).then((res) => {
         console.log("scannerCodeOrOpenLink", res);
         const obj = {

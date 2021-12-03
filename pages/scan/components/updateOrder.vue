@@ -23,6 +23,12 @@ import { mapState } from "vuex";
 
 export default {
   components: { FreightCard },
+  props: {
+    pageData: {
+      type: Object,
+      default: {},
+    },
+  },
   computed: {
     ...mapState({
       licenseNumbers: (state) => state.user.licenseNumbers,
@@ -33,13 +39,13 @@ export default {
     closed() {
       console.log("co");
       uni.navigateTo({
-        url: '../index/index'
+        url: "../index/index",
       });
     },
     update() {
-      console.log('update')
+      console.log("update");
       uni.navigateTo({
-        url: "./scanOrder"
+        url: `./scanOrder?data=${JSON.stringify(this.pageData)}`,
       });
     },
   },
