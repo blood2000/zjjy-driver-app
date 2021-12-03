@@ -18,16 +18,16 @@ export default {
   computed: {},
 
   onLoad(options) {
-        console.log("获取链接参数1111", options);
+    console.log("获取链接参数1111", options);
     const code = decodeURIComponent(options.code); // 获取到二维码原始链接内容
-    const type = options.type
-    this.getOrderStatus(code,type);
+    const type = options.type;
+    this.getOrderStatus(code, type);
   },
 
   onShow() {},
 
   methods: {
-    getOrderStatus(code,type) {
+    getOrderStatus(code, type) {
       const config = {
         url: "scannerCodeOrOpenLink",
         method: "POST",
