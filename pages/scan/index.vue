@@ -35,7 +35,7 @@ export default {
           openType: "1",
         },
       };
-      console.log('config',config)
+      console.log("config", config);
       uniRequest(config).then((res) => {
         console.log("scannerCodeOrOpenLink", res);
         const obj = {
@@ -58,18 +58,19 @@ export default {
             });
           },
         };
-        if(res.data.code == 500){
+        if (res.data.code == 500) {
           uni.showModal({
-						title: '提示',
-						content: res.data.msg,
-						showCancel: false,
-              success: (res) => {
-          console.log("res", res);
-          uni.navigateTo({
-            url: `../index/index`,
+            title: "提示",
+            content: res.data.msg,
+            showCancel: false,
+            success: (res) => {
+              console.log("res", res);
+              this.$store.commit("setScanInfo", {});
+              uni.navigateTo({
+                url: `../index/index`,
+              });
+            },
           });
-        },
-					})
         }
         obj[res.data.code]();
       });
