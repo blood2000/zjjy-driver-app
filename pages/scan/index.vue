@@ -19,8 +19,8 @@ export default {
 
   onLoad(options) {
     const code = decodeURIComponent(options.code); // 获取到二维码原始链接内容
-    console.log("获取链接参数", code);
-    // this.getOrderStatus(code);
+    console.log("获取链接参数1111", code);
+    this.getOrderStatus(code);
   },
 
   onShow() {},
@@ -35,7 +35,9 @@ export default {
           openType: "1",
         },
       };
+      console.log('config',config)
       uniRequest(config).then((res) => {
+        console.log("scannerCodeOrOpenLink", res);
         const obj = {
           200: () => {
             console.log("code ===", 200);
@@ -56,7 +58,14 @@ export default {
             });
           },
         };
-        obj[res.code]();
+        if(res.data.code == 500){
+          uni.showModal({
+						title: '提示',
+						content: res.data.msg,
+						showCancel: false,
+					});
+        }
+        obj[res.data.code]();
       });
     },
   },

@@ -24,7 +24,10 @@ export default {
       info: {},
     };
   },
-  onLaunch() {},
+  onLoad(options) {
+    console.log('options',options)
+    
+  }, 
   methods: {
     jumpTo() {
       console.log('123')
