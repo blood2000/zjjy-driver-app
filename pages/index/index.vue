@@ -150,7 +150,7 @@ export default {
       };
       uniRequest(config).then((res) => {
         console.log("首页获取司机信息", res);
-        if (res.data.code === 200) {
+        if (res.data.code === 200 && res.data.data) {
           let vehicleInfo = {
             name: res.data.data.name,
             vehicleCode: res.data.data.vehicleInfoVo.licenseNumber,

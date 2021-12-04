@@ -3,6 +3,7 @@ const apiUrl = {
   registerDriver: '/zjz1-jyz-service/wxmp/login/registerDriver',//微信授权登录
   uploadImg: '/aiotweb/config/common/v1/uploadFile',
   driverInfo: '/zjz1-jyz-service/wxmp/login/getDriver',
+  uploadFile: '/assets/upload/uploadToHW',
 }
 
 

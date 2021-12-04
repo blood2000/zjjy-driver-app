@@ -58,6 +58,11 @@ export const uniRequest = function(config) {
 		url = apiUrl[config.url]
 	}
 	console.log('请求地址', baseUrl + url)
+	if (config.data) {
+		console.log('请求参数', config.data)
+	}
+	
+
 	return new Promise((resolve, reject) => {
 		uni.request({
 			url: baseUrl + url,
@@ -126,6 +131,7 @@ export const uniUpload = function(config) {
 	console.log(defaultHeader)
 	
 	let url = apiUrl[config.url];
+	console.log('请求地址', baseUrl + url)
 	return new Promise((resolve, reject) => {
 		uni.uploadFile({
 			url: baseUrl + url,

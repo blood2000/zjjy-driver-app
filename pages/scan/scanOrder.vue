@@ -62,27 +62,34 @@ export default {
     },
     queryParamsToRequest() {
       return {
-        orderPlanCode: queryParams.orderPlanCode, //货源计划Code 不能为null
-        licenseNumber: queryParams.licenseNumber, //车牌 不能为null
-        vehicleCode: queryParams.vehicleCode, //车辆Code 不能为null
-        netWeight: queryParams.netWeight, //净重
-        attachments: queryParams.attachments, //附件列表 属性包括url  attachmentCode type
-        beforeWaybillCode: queryParams.beforeWaybillCode || null, //要更换的运单Code 如果是要更换运单 这个一定要带上
+        orderPlanCode: this.queryParams.orderPlanCode, //货源计划Code 不能为null
+        licenseNumber: this.queryParams.licenseNumber, //车牌 不能为null
+        vehicleCode: this.queryParams.vehicleCode, //车辆Code 不能为null
+        netWeight: this.queryParams.netWeight, //净重
+        attachments: this.queryParams.attachments, //附件列表 属性包括url  attachmentCode type
+        beforeWaybillCode: this.queryParams.beforeWaybillCode || null, //要更换的运单Code 如果是要更换运单 这个一定要带上
       };
     },
-    jumpTo() {
-      console.log("123", this.queryParams);
+
+    jumpTo(params) {
+      console.log("接单的参数", this.queryParams);
+      console.log("子组件传的参数", params);
+      let data = params;
+      data.orderPlanCode = this.queryParams.orderPlanCode;
       const config = {
         url: "receiveOrder",
         method: "POST",
-        data: this.queryParamsToRequest(),
+        // data: this.queryParamsToRequest(),
+        data: data,
       };
       uniRequest(config).then((res) => {
         console.log("接单 res", res);
-        return;
-        uni.navigateTo({
-          url: `./orderSucceed?data=${JSON.stringify(res.data)}`,
-        });
+        if (res.data.code === 200) {
+          uni.navigateTo({
+            url: `./orderSucceed?data=${JSON.stringify(res.data)}`,
+          });
+        }
+       
       });
     },
   },

@@ -35,7 +35,7 @@
           maxlength="32"
           placeholder="请输入发货净重"
           type="text"
-          v-model="queryParams.netWeight"
+          v-model="netWeight"
           cursor-spacing="150"
         />
         <span class="unit" style="padding-left: 9rpx">吨</span>
@@ -64,7 +64,8 @@
       </div>
     </div>
     <div class="btn-box fixed-bottom">
-      <div class="as-btn" @click="$emit('jumpTo')">确认接单</div>
+      <!-- <div class="as-btn" @click="$emit('jumpTo')">确认接单</div> -->
+      <div class="as-btn" @click="submit">确认接单</div>
     </div>
   </div>
 </template>
@@ -90,8 +91,14 @@ export default {
     return {
       vehicleIndex: -1, // 车牌
       imgSrcList: [], //图片列表
-      imgSuccessList:[],
+      imgSuccessList: [],
       activeIndex: -1, //图标选中下标
+      netWeight: "", //净重
+      vehicleMsg: {
+        vehicleCode: "",
+        licenseNumber: "",
+      },
+      attachments: [],  //图片资料
     };
   },
   computed: {
@@ -115,6 +122,10 @@ export default {
       this.queryParams.vehicleCode =
         this.licenseNumbers[this.vehicleIndex].vehicleCode;
       this.queryParams.licenseNumber =
+        this.licenseNumbers[this.vehicleIndex].licenseNumber;
+      this.vehicleMsg.vehicleCode =
+        this.licenseNumbers[this.vehicleIndex].vehicleCode;
+      this.vehicleMsg.licenseNumber =
         this.licenseNumbers[this.vehicleIndex].licenseNumber;
       console.log("this.queryParams", this.queryParams);
     },
@@ -145,11 +156,17 @@ export default {
       uni.showLoading();
       for (let i = 0; i < len; i++) {
         const config = {
-          url: "uploadImg",
+          url: "uploadFile",
           file: this.imgSrcList[i],
         };
         const res = await uniUpload(config);
         if (res.code == 200) {
+          console.log("上传图片返回", res);
+          this.attachments.push({
+            url: res.data.path,
+            attachmentCode: res.data.code,
+            type: 1,
+          });
           this.imgSuccessList.push(this.imgSrcList[i]);
         }
       }
@@ -161,7 +178,38 @@ export default {
     },
 
     submit() {
-      this.$emit("jumpTo");
+      console.log(this.vehicleMsg, this.netWeight,this.attachments)
+      if (!this.vehicleMsg.licenseNumber) {
+        uni.showToast({
+          title: "请选择车牌号",
+          icon: "none",
+          duration: 1500,
+        });
+        return;
+      }
+      if (!this.netWeight) {
+        uni.showToast({
+          title: "请输入净重",
+          icon: "none",
+          duration: 1500,
+        });
+        return;
+      }
+      if (this.attachments.length === 0) {
+        uni.showToast({
+          title: "请上传图片",
+          icon: "none",
+          duration: 1500,
+        });
+        return;
+      }
+      let params = {
+        netWeight: this.netWeight, // 发货净重
+        licenseNumber: this.vehicleMsg.licenseNumber,
+        vehicleCode: this.vehicleMsg.vehicleCode,
+        attachments: this.attachments,
+      }
+      this.$emit("jumpTo", params);
     },
   },
 };
