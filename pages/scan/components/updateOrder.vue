@@ -8,7 +8,7 @@
       />
     </div>
     <div>
-      <FreightCard :typesFreight="1" />
+      <FreightCard :typesFreight="pageData.receiveType || 0" :pageData="pageData"/>
     </div>
     <div class="btn-box-two fixed-bottom">
       <div class="as-btn-flexItem as-btn-FFF" @click="closed">不更换</div>
@@ -23,15 +23,21 @@ import { mapState } from "vuex";
 
 export default {
   components: { FreightCard },
+  
   props: {
     pageData: {
       type: Object,
       default: {},
     },
+    beforeWaybillCode: {
+      type: String,
+      default: '',
+    },
   },
   computed: {
     ...mapState({
       licenseNumbers: (state) => state.user.licenseNumbers,
+      beforeWaybillCode: (state) => state.user.beforeWaybillCode,
       userInfo: (state) => state.user.userInfo,
     }),
   },
@@ -44,8 +50,10 @@ export default {
     },
     update() {
       console.log("update");
+      let data = {...this.pageData};
+      data.beforeWaybillCode = beforeWaybillCode;
       uni.navigateTo({
-        url: `./scanOrder?data=${JSON.stringify(this.pageData)}`,
+        url: `./scanOrder?data=${JSON.stringify(data)}`,
       });
     },
   },

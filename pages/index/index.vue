@@ -61,12 +61,20 @@
         排队号: <span> {{ queueCode }} </span>
       </div>
     </my-modal>
+
+    <!-- 卸货单提示 -->
+    <!-- <div class="modal">
+      <div class="modal-box">
+        <FreightCard :title="unloadTitle" :pageData="unloadData" />
+      </div>
+    </div> -->
   </view>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import MyModal from "../../components/MyModal.vue";
+import FreightCard from "../scan/components/freightCard.vue";
 import urlConfig from "../../config/urlConfig.js";
 import { uniRequest } from "../../config/request.js";
 export default {
@@ -75,6 +83,13 @@ export default {
     return {
       avatar: "",
       orderMsg: "",
+      unloadTitle: '需要卸货的运单',
+      unloadData: {
+        startAddress: '1',
+        endAddress: '1',
+        goodsName: '1',
+        transCompany: 'chy',
+      },
       funcModules: [
         {
           name: "预约排号",
@@ -99,7 +114,7 @@ export default {
     };
   },
 
-  compontents: { MyModal },
+  compontents: { MyModal, FreightCard },
 
   computed: {
     ...mapState({
@@ -119,7 +134,7 @@ export default {
         // url: "../scan/index?code=" + code,
         url:`../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`
       });
-      return;
+      // return;
     }
     this.getDriverInfo();
     console.log(this.avatar);
@@ -156,6 +171,7 @@ export default {
             vehicleCode: res.data.data.vehicleInfoVo.licenseNumber,
             phone: res.data.data.telphone,
             auth: res.data.data.authStatus,
+            userCode: res.data.data.userCode
           };
           this.$store.commit("setVehicleMsg", vehicleInfo);
         }
@@ -250,4 +266,6 @@ export default {
     padding-left: 20rpx;
   }
 }
+
+
 </style>

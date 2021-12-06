@@ -29,7 +29,7 @@
       </div>
     </div>
     <div class="btn-box fixed-bottom">
-      <div class="as-btn" @click="$emit('jumpTo')">确认接单</div>
+      <div class="as-btn" @click="submit">确认接单</div>
     </div>
   </div>
 </template>
@@ -52,6 +52,10 @@ export default {
   data() {
     return {
       vehicleIndex: -1, // 车牌
+      vehicleMsg: {
+        vehicleCode: "",
+        licenseNumber: "",
+      },
     };
   },
   computed: {
@@ -71,12 +75,11 @@ export default {
   methods: {
     changeVehicle(e) {
        this.vehicleIndex = Number(e.detail.value);
-      console.log("this.queryParams", this.queryParams);
-      this.queryParams.vehicleCode =
+      this.vehicleMsg.vehicleCode =
         this.licenseNumbers[this.vehicleIndex].vehicleCode;
-      this.queryParams.licenseNumber =
+      this.vehicleMsg.licenseNumber =
         this.licenseNumbers[this.vehicleIndex].licenseNumber;
-      console.log("this.queryParams", this.queryParams);
+      // console.log("this.queryParams", this.queryParams);
     },
     addVehicle() {
       console.log("111");
@@ -84,6 +87,21 @@ export default {
         url: "../car/addCar",
       });
       // this.$store.commit("setLicenseNumbers", "闽A888999");
+    },
+    submit() {
+      if (!this.vehicleMsg.licenseNumber) {
+        uni.showToast({
+          title: "请选择车牌号",
+          icon: "none",
+          duration: 1500,
+        });
+        return;
+      }
+      let params = {
+        licenseNumber: this.vehicleMsg.licenseNumber,
+        vehicleCode: this.vehicleMsg.vehicleCode,
+      }
+      this.$emit("jumpTo", params);
     },
   },
 };

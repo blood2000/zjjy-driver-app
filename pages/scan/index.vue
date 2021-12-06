@@ -43,19 +43,31 @@ export default {
           200: () => {
             console.log("code ===", 200);
             uni.redirectTo({
-              url: `./scanOrder?data=${JSON.stringify(res.data)}`,
+              url: `./scanOrder?data=${JSON.stringify(res.data.data.currentScannerWaybill)}`,
             });
           },
           50001: () => {
             console.log("code ===", 50001);
-            uni.navigateTo({
-              url: `./orderInfo?data=${JSON.stringify(res.data)}`,
+            uni.redirectTo({
+              url: `./orderInfo?data=${JSON.stringify(res.data.data.currentScannerWaybill)}`,
             });
           },
           50002: () => {
             console.log("code ===", 50002);
-            uni.navigateTo({
-              url: `./changeDriverInfo?data=${JSON.stringify(res.data)}`,
+            uni.redirectTo({
+              url: `./changeDriverInfo?data=${JSON.stringify(res.data.data.currentScannerWaybill)}`,
+            });
+          },
+          50003: () => {
+            console.log('允许卸货')
+            uni.redirectTo({
+              url: `./unload?data=${JSON.stringify(res.data.data.currentScannerWaybill)}&&isAllow=1`,
+            });
+          },
+          50004: () => {
+            console.log('不允许卸货');
+            uni.redirectTo({
+              url: `./unload?data=${JSON.stringify(res.data.data.currentScannerWaybill)}&&isAllow=0`,
             });
           },
         };

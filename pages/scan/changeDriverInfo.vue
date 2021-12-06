@@ -1,6 +1,6 @@
 <template>
   <div class="content">
-    <FreightCard :typesFreight="0" :pageData="pageData.ingWaybill" />
+    <FreightCard :typesFreight="typesFreight" :title="title" :isCur='true' :pageData="pageData.ingWaybill" />
     <UpdateOrder :pageData="pageData.currentScannerWaybill" />
   </div>
 </template>
@@ -13,13 +13,15 @@ export default {
   components: { UpdateOrder, FreightCard },
   data(){
     return {
+      title: '当前进行的运单',
       pageData:{},
       typesFreight:0
     }
   },
-  onLaunch(options) {
+  onLoad(options) {
     this.pageData = JSON.parse(options.data)
-    this.typesFreight = this.pageData.ingWaybill.receiveType
+    this.typesFreight = this.pageData.ingWaybill.receiveType;
+    this.$store.commit('setBeforeWaybillCode', this.pageData.ingWaybill.waybillCode);
   },
   methods: {
     // jumpTo() {

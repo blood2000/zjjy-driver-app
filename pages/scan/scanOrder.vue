@@ -1,7 +1,7 @@
 <!-- 扫码接单 -->
 <template>
   <div class="content">
-    <FreightCard :typesFreight="typesFreight" :pageData="pageData" />
+    <FreightCard :typesFreight="types" :pageData="pageData" />
     <!-- 收货运输 -->
     <Receiving
       v-if="types === 1"
@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import { uniRequest } from "../../config/request";
 import FreightCard from "./components/freightCard";
 import Receiving from "./components/receiving";
@@ -41,20 +42,18 @@ export default {
       licenseNumbers: [],
     };
   },
+  computed: {
+    ...mapState({
+      beforeWaybillCode: (state) => state.user.beforeWaybillCode,
+    }),
+  },
   onLoad(options) {
     console.log("options", options);
-    if (
-      options &&
-      JSON.stringify(options) !== "{}" &&
-      JSON.parse(options.data).data
-    ) {
-      this.pageData = JSON.parse(options.data).data.currentScannerWaybill;
-      console.log("JSON.parse(options.data)", JSON.parse(options.data));
-      console.log("this.pageData", this.pageData);
-      this.types = this.pageData.receiveType;
-      this.queryParams.orderPlanCode = this.pageData.orderPlanCode;
-      this.licenseNumbers = this.pageData.vehicles;
-    }
+    this.pageData = JSON.parse(options.data);
+    console.log("this.pageData", this.pageData);
+    this.types = this.pageData.receiveType;
+    this.queryParams.orderPlanCode = this.pageData.orderPlanCode;
+    this.licenseNumbers = this.pageData.vehicles;
   },
   methods: {
     setQueryParams(key, value) {
@@ -72,10 +71,12 @@ export default {
     },
 
     jumpTo(params) {
-      console.log("接单的参数", this.queryParams);
+      // console.log("接单的参数", this.queryParams);
       console.log("子组件传的参数", params);
       let data = params;
       data.orderPlanCode = this.queryParams.orderPlanCode;
+      console.log('beforeWaybillCode', this.beforeWaybillCode)
+      data.beforeWaybillCode = this.pageData.beforeWaybillCode || null;
       const config = {
         url: "receiveOrder",
         method: "POST",
@@ -84,12 +85,18 @@ export default {
       };
       uniRequest(config).then((res) => {
         console.log("接单 res", res);
+        //清楚beforeWaybillCode
         if (res.data.code === 200) {
           uni.navigateTo({
-            url: `./orderSucceed?data=${JSON.stringify(res.data)}`,
+            url: `./orderSucceed?data=${JSON.stringify(res.data.data)}&&orderType=0`,
+          });
+        } else {
+          uni.showModal({
+            title: "提示",
+            content: res.data.msg,
+            showCancel: false,
           });
         }
-       
       });
     },
   },

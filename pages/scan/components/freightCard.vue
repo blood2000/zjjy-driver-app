@@ -1,6 +1,6 @@
 <template>
 	<div class="zjjy-box-freughtCard order-box">
-		<div class="zjjy-box-title">本次扫码要接的运单</div>
+		<div class="zjjy-box-title" :class="isCur? 'zjjy-box-title-cur' : ''"> {{title}} </div>
 		<div class="zjjy-box-main">
 			<div class="zjjy-box-main-floor">
 				<!-- :class="typesFreight ===0?'status1':'status2'" -->
@@ -22,7 +22,7 @@
 			<div class="zjjy-box-main-floor">
 				<div class="zjjy-floor-left">运输公司</div>
 				<div class="zjjy-floor-right">
-					<image v-if="pageData.transCompany === 'chy'" style="width: 136rpx; height: 28rpx"
+					<image v-if="pageData.transCompany === 'chy' || pageData.transCompany === '超好运'" style="width: 136rpx; height: 28rpx"
 						:src="companyImage" />
 					<span v-else>{{pageData.transCompany}}</span>
 				</div>
@@ -34,6 +34,14 @@
 <script>
 	export default {
 		props: {
+			title: {
+				type: String,
+				default: '本次扫码要接的运单',
+			},
+			isCur: {      //是否当前运单
+				type: Boolean,
+				default: false,
+			},
 			typesFreight: {
 				type: Number,
 				default: 0,
@@ -42,6 +50,7 @@
 				type: Object,
 				default: {},
 			},
+
 		},
 		computed: {
 			freightImage() {

@@ -109,6 +109,30 @@ checkbox .wx-checkbox-input {
   }
 }
 
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 101;
+}
+
+.modal-box {
+  box-sizing: border-box;
+  position: fixed;
+  top: 50%;
+  left: 5%;
+  transform: translateY(-50%);
+  width: 90%;
+  min-height: 200rpx;
+  padding: 40rpx 30rpx 60rpx;
+  background: #fff;
+  border-radius: 20rpx;
+  z-index: 102;
+}
+
 /* 首页 */
 .tab-header {
   position: relative;
@@ -635,6 +659,10 @@ image {
   color: #fff;
   background: #3a65ff;
   font-size: 28rpx;
+}
+
+.zjjy-box-title-cur {
+  background: #d4e0fc;
 }
 
 .zjjy-box-main {

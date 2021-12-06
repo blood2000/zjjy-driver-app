@@ -132,6 +132,16 @@
       }
     },
     {
+      "path": "pages/scan/unload",
+      "style": {
+        "navigationBarTitleText": "扫码卸货",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
       "path": "pages/car/addCar",
       "style": {
         "navigationBarTitleText": "添加车辆",

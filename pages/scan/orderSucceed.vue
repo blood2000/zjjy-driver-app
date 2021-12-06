@@ -1,16 +1,16 @@
 <template>
   <div>
     <div class="prompt-box box-paddy colorss">
-      <span>您已成功提交运单，请前往指定地点进行装卸货操作</span>
+      <span> {{promptMsg[promptIndex]}} </span>
     </div>
     <div class="zjjy-box margina">
       <div class="input-item">
         <div class="title1">当前账号</div>
-        <div class="right-text">18012345678</div>
+        <div class="right-text">{{vehicleMsg.phone}}</div>
       </div>
       <div class="input-item">
         <div class="title1">车牌号</div>
-        <div class="right-text">闽A12345</div>
+        <div class="right-text">{{pageData.licenseNumber}}</div>
       </div>
       <div class="input-item">
         <div class="title1">运输路线</div>
@@ -34,11 +34,11 @@
       </div>
       <div class="input-item">
         <div class="title1">发货净重</div>
-        <div class="right-text">{{ pageData.netWeight }}吨</div>
+        <div class="right-text">{{ pageData.netWeight ? pageData.netWeight + '吨' : '-'}}</div>
       </div>
       <div class="input-item">
         <div class="title1">运输公司</div>
-        <div class="right-text">自营</div>
+        <div class="right-text"> {{pageData.transName}} </div>
       </div>
     </div>
     <div class="btn-box fixed-bottom">
@@ -48,17 +48,31 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 export default {
   name: "orderSuccessd",
   data() {
     return {
       pageData: {},
       typesFreight: 0,
+      promptMsg: {
+        '0': '您已成功提交运单，请前往指定地点进行装卸货操作',
+        '1': '您已成功卸货该运单'
+      },
+      promptIndex: '0'
     };
+  },
+   computed: {
+    ...mapState({
+      vehicleMsg: (state) => state.user.vehicleMsg,
+      userInfo: (state) => state.user.userInfo,
+      scanInfo: (state) => state.user.scanInfo
+    }),
   },
   onLoad(options) {
     console.log("orderSuccessd", options);
-    this.pageData = JSON.parse(options);
+    this.pageData = JSON.parse(options.data);
+    this.promptIndex = options.orderType;  //0-接单, 1-卸货
     this.typesFreight = this.pageData.receiveType;
   },
   methods: {

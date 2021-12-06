@@ -16,6 +16,15 @@
           <div class="id-image">
             <template>
               <img
+                v-if="!idBack"
+                src="../../static/order/id_renxiang.png"
+                alt="图片"
+                @click="upload('idBack')"
+              />
+              <img v-else :src="idBack" alt="图片" @click="upload('idBack')" />
+            </template>
+            <template>
+              <img
                 v-if="!idFront"
                 src="../../static/order/id_guohui.png"
                 alt="图片"
@@ -27,15 +36,6 @@
                 alt="图片"
                 @click="upload('idFront')"
               />
-            </template>
-            <template>
-              <img
-                v-if="!idBack"
-                src="../../static/order/id_renxiang.png"
-                alt="图片"
-                @click="upload('idFront')"
-              />
-              <img v-else :src="idBack" alt="图片" @click="upload('idBack')" />
             </template>
           </div>
         </div>
@@ -107,11 +107,9 @@
         <div class="input-item">
           <div class="title1"><span class="required">*</span>所在区域</div>
           <pick-regions limit="3" @getRegion="handleGetRegion">
-            <!-- <div class="">{{ regionName ? regionName : "支持自动识别" }}</div> -->
             <view class="uni-input-default">
               <span v-if="regionName">{{ regionName }}</span>
               <span v-else class="uni-input-placeholder">支持自动识别</span>
-              <uni-icons type="forward" size="14"></uni-icons>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
           </pick-regions>
@@ -315,7 +313,6 @@
         <div class="input-item">
           <div class="title1">从业证办理省份名称</div>
           <pick-regions limit="1" @getRegion="handleGetRegion1">
-            <!-- <div>{{ regionName1 ? regionName1 : "支持自动识别" }}</div> -->
             <view class="uni-input-default">
               <span v-if="regionName1">{{ regionName1 }}</span>
               <span v-else class="uni-input-placeholder">支持自动识别</span>
@@ -340,7 +337,7 @@
 import FreightCard from "./components/freightCard";
 import { perpetualList, driverPostList, loadList } from "./config";
 import pickRegions from "@/components/pick-regions/pick-regions.vue";
-import { uniRequest } from "../../config/request";
+import { uniRequest, uniUpload } from "../../config/request";
 
 export default {
   components: { FreightCard, pickRegions },
@@ -382,7 +379,15 @@ export default {
     };
   },
   onLoad(options) {
-    this.dealPageData(JSON.parse(options.data));
+    // this.dealPageData(JSON.parse(options.data));
+    // console.log('司机认证页面options', this.pageData)
+    this.dealPageData({
+      endAddress: "富邦总部大楼",
+      goodsName: "煤炭及制品",
+      receiveType: 1,
+      startAddress: "台江",
+      transCompany: "超好运",
+    });
   },
   computed: {
     regionName() {
@@ -402,7 +407,7 @@ export default {
     // 页面跳转赋值
     dealPageData(data) {
       this.pageData = data;
-      this.typesFreight = data && data.receiveType;
+      this.typesFreight = data.receiveType;
     },
     // 认证成功执行
     successD() {
@@ -430,19 +435,19 @@ export default {
           const config = {
             url: "authDriverTeam",
             method: "PUT",
-            data:this.formToRequest(),
+            data: this.formToRequest(),
           };
-          uniRequest(config).then(res=>{
-                if(res.code == 200){
-                  this.successD()
-                }
+          uniRequest(config).then((res) => {
+            if (res.code == 200) {
+              this.successD();
+            }
           });
         },
       };
       obj[type]();
     },
-    formToRequest(){
-      return {}
+    formToRequest() {
+      return {};
     },
     // 驾驶证
     changeDriverPost(e) {
@@ -497,8 +502,39 @@ export default {
       });
     },
     // 获取远程图片
-    httpImage(localUrl, type) {
-      this[type] = localUrl;
+    httpImage(url, type) {
+      // this[type] = localUrl;
+      const config = {
+        url: "uploadFile",
+        file: url,
+      };
+      uniUpload(config).then((res) => {
+        console.log("图片上传", res);
+        if (res.code == 200) {
+          // res.data.path
+          // res.data.code
+
+          this[type] = res.data.path;
+          //TODO...上传OCR识别
+          this.uploadOCR(url, type);
+        }
+      });
+    },
+
+    // OCR识别：华为云
+    uploadOCR(url, type) {
+      uni.request({
+        url: 'https://{endpoint}/v2/{project_id}/ocr/id-card',
+        method: "POST",
+        data: {
+          url: url,
+          side: 'front'
+        },
+        header: {
+          'X-Auth-Token': '',
+          'Content-Type': 'application/json',
+        },
+      });
     },
   },
 };

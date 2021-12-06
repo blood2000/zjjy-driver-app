@@ -6,10 +6,7 @@ const store = {
 		},
 		statusBarHeight: 0,
 		vehicleMsg: {
-			// name: '辛弃疾',
-			// vehicleCode: '闽A123456',
-			// phone: '13566668888',
-			// auth: true,
+			userCode: '',
 			name: '',
 			vehicleCode: '',
 			phone: '',
@@ -22,6 +19,7 @@ const store = {
 			longitude: 119.3141,
 		},
 		scanInfo: {},
+		beforeWaybillCode: '',
 	},
 	// getters: {
 	// 	headerInfo: state => state.headerInfo
@@ -51,6 +49,9 @@ const store = {
 		},
 		setLicenseNumbers: (state, val) => {
 			state.licenseNumbers.push(val);
+		},
+		setBeforeWaybillCode: (state, val) => {
+			state.beforeWaybillCode = val;
 		},
 	},
 	actions: {

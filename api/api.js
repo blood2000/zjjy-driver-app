@@ -11,6 +11,9 @@ const orderUrl = {
   scannerCodeOrOpenLink: '/jyz/wxmp/jyz-waybill-opera/scannerCodeOrOpenLink', //扫码或点击链接获取 
   receiveOrder: '/jyz/wxmp/jyz-waybill-opera/receiveOrder',//接单
   addVehicle: '/jyz/wxmp/jyz-waybill-opera/addVehicle',//添加车辆
-  authDriverTeam: '/assets/driver-app/authDriverTeam'
+  authDriverTeam: '/assets/driver-app/authDriverTeam',
+  unload: '/jyz/wxmp/jyz-waybill-opera/unload',  //卸货
+  driverAuth: '/assets/driver-app/submitCertificate',  //司机认证
+  driverAuth: '/fmsweb/basic/common/v1/uploadCertAndGetInfoWithoutToken',  //ocr识别
 }
 export default { ...orderUrl, ...apiUrl }
