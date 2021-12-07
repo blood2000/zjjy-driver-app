@@ -180,7 +180,8 @@
               <span v-if="driverPostIndex !== -1">{{
                 driverPostList[driverPostIndex]
               }}</span>
-              <span v-else class="uni-input-placeholder">支持自动识别</span>
+              <!-- <span v-else class="uni-input-placeholder">支持自动识别</span> -->
+              <span v-else class="uni-input-placeholder">请输入发证机关</span>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
           </picker>
@@ -657,6 +658,7 @@ export default {
     // 获取远程图片
     httpImage(url, type) {
       // this[type] = localUrl;
+      let that = this;
       const config = {
         url: "uploadFile",
         file: url,
@@ -669,23 +671,63 @@ export default {
           //TODO...上传OCR识别
           //判断OCR权限是否过期
           let autoToken = uni.getStorageSync("authToken");
+          const cardType = {
+            driverFront: {
+              name: "driverLicense",
+              fun: (res) => {
+                that.driverOCRHandle(res);
+              },
+            },
+            idFront: {
+              name: "idCard",
+              fun: that.idCardOCRHandle,
+            },
+            idBack: {
+              name: "idCard",
+              fun: that.idCardOCRHandle,
+            },
+            obtainFront: {
+              name: "obtainFront",
+              fun:(res) => {
+                console.log('从业资格证')
+              },
+            }
+          };
           if (autoToken) {
             autoToken = JSON.parse(autoToken);
             let now = new Date().getTime();
             let last = autoToken.time;
             let leap = now - last < 24 * 3600 * 1000;
             if (leap) {
-              this.uploadOCR(this[type], type);
+              this.uploadOCR(cardType[type].name, this[type], type).then(
+                (resOCR) => {
+                  // this.idCardOCRHandle(resOCR);
+                  cardType[type].fun(resOCR);
+                }
+              );
             } else {
               //过期重启获取OCR token
               this.autoOCR().then(() => {
-                this.uploadOCR(this[type], type);
+                this.uploadOCR(cardType[type].name, this[type], type).then(
+                  (resOCR) => {
+                    console.log("cardType", cardType[type]);
+                    if (cardType[type] === "idCard") {
+                      this.idCardOCRHandle(resOCR);
+                    } else {
+                      console.log("驾驶证");
+                    }
+                  }
+                );
               });
             }
           } else {
             //无OCR token
             this.autoOCR().then(() => {
-              this.uploadOCR(this[type], type);
+              this.uploadOCR(cardType[type].name, this[type], type).then(
+                (resOCR) => {
+                  this.idCardOCRHandle(resOCR);
+                }
+              );
             });
           }
         }
@@ -740,21 +782,40 @@ export default {
     },
 
     // OCR识别：华为云
-    uploadOCR(url, type) {
+    uploadOCR(OCRType, imgUrl, sideType) {
+      //OCRType: 识别卡片类型，imgUrl： 图片地址，sideType：卡片正反面
       let side = {
         idFront: "front",
         idBack: "back",
       };
+      const OCRobj = {
+        idCard: {
+          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/id-card",
+          data: {
+            url: imgUrl,
+            // side: side[sideType],
+          },
+        },
+        driverLicense: {
+          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/driver-license",
+          data: {
+            url: imgUrl,
+          },
+        },
+        obtainFront: {
+          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/business-license",
+          data: {
+            url: imgUrl,
+          },
+        }
+      };
+
       let token = JSON.parse(uni.getStorageSync("authToken")).token;
       return new Promise((resolve, reject) => {
         uni.request({
-          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/id-card",
+          url: OCRobj[OCRType].url,
           method: "POST",
-          data: {
-            url: url,
-            side: side[type],
-            // "return_verificationL": true,
-          },
+          data: OCRobj[OCRType].data,
           header: {
             "X-Auth-Token": token,
             "Content-Type": "application/json",
@@ -762,18 +823,7 @@ export default {
           success: (resOCR) => {
             console.log("OCR识别", resOCR);
             uni.hideLoading();
-            if (resOCR.statusCode === 200) {
-              let result = resOCR.data.result;
-              this.name = result.name;
-              this.id = result.number;
-              if (result.valid_from) {
-                this.idStart = this.handleDate(result.valid_from);
-              }
-              if (result.valid_to) {
-                this.idEnd = this.handleDate(result.valid_to);
-                this.idEnd && (this.perpetualIndex = 0);
-              }
-            }
+            resolve(resOCR);
           },
           fail: () => {
             uni.hideLoading();
@@ -781,9 +831,47 @@ export default {
         });
       });
     },
-    handleDate(date) {
+    //身份证ocr处理
+    idCardOCRHandle(resOCR) {
+      if (resOCR.statusCode === 200) {
+        let result = resOCR.data.result;
+        this.name = result.name;
+        this.id = result.number;
+        if (result.valid_from) {
+          this.idStart = this.handleDate(result.valid_from, 0);
+        }
+        if (result.valid_to) {
+          this.idEnd = this.handleDate(result.valid_to, 0);
+          this.idEnd && (this.perpetualIndex = 0);
+        }
+      }
+    },
+    driverOCRHandle(resOCR) {
+      if (resOCR.statusCode === 200) {
+        let result = resOCR.data.result;
+        this.driverNumber = result.number;
+        this.driverPostList.map((item, index) => {
+          if (item === result.class) {
+            this.driverPostIndex = index
+          }
+        })
+        if (result.valid_from) {
+          this.driverStart = this.handleDate(result.valid_from, 1);
+        }
+        if (result.valid_to) {
+          this.driverEnd = this.handleDate(result.valid_to, 1);
+          this.driverEnd && (this.driverPerpetualIndex = 0);
+        }
+        
+       
+        
+      }
+    },
+    handleDate(date, type) {
+      //type: 0-身份证，1-驾驶证
       if (date === "长期") {
-        this.perpetualIndex = 1;
+        (type === 0) && (this.perpetualIndex = 1);
+        (type === 1) && (this.driverPerpetualIndex = 1);
         return "";
       }
 
