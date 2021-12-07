@@ -13,7 +13,10 @@
           <div class="user-card-msg">
             <div class="user-name-box">
               <div class="user-name">{{ vehicleMsg.name }}</div>
-              <div class="user-name-icon" :class="vehicleMsg.auth ? '' : 'no-auth'">
+              <div
+                class="user-name-icon"
+                :class="vehicleMsg.auth ? '' : 'no-auth'"
+              >
                 <!-- <div class="user-name-icon-left">V</div>
                 <div class="user-name-icon-right">
                   {{ vehicleMsg.auth ? "已认证" : "未认证" }}
@@ -27,7 +30,7 @@
           {{ vehicleMsg.vehicleCode }}
         </div>
       </div>
-      <div class="zjjy-box" @click="toScanOrderChange">
+      <div class="zjjy-box" @click="openUnloadModal">
         <div class="item-line">
           <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
           <div class="msg-icon"></div>
@@ -63,32 +66,47 @@
     </my-modal>
 
     <!-- 卸货单提示 -->
-    <!-- <div class="modal">
+    <div class="modal" v-if="showUnloadModal" @click="cancelUnloadModal">
       <div class="modal-box">
-        <FreightCard :title="unloadTitle" :pageData="unloadData" />
+        <freight-card
+          :title="unloadTitle"
+          :typesFreight="typesFreight"
+          :pageData="unloadData"
+        />
+        <div
+          class="unload-modal-btn unload-allow"
+          v-if="isAllowUnload"
+          @click="toUnload"
+        >
+          <div>称重已完成，确认卸货</div>
+        </div>
+        <div class="unload-modal-btn unload-not" v-else>
+          <div>称重未完成，请先完成称重再进行卸货</div>
+        </div>
       </div>
-    </div> -->
+    </div>
   </view>
 </template>
 
 <script>
 import { mapState } from "vuex";
 import MyModal from "../../components/MyModal.vue";
-import FreightCard from "../scan/components/freightCard.vue";
 import urlConfig from "../../config/urlConfig.js";
 import { uniRequest } from "../../config/request.js";
+import FreightCard from "../scan/components/freightCard.vue";
 export default {
-  components: { MyModal },
+  components: { MyModal, FreightCard },
   data() {
     return {
       avatar: "",
       orderMsg: "",
-      unloadTitle: '需要卸货的运单',
+      unloadTitle: "需要卸货的运单",
       unloadData: {
-        startAddress: '1',
-        endAddress: '1',
-        goodsName: '1',
-        transCompany: 'chy',
+        endAddress: "富邦总部大楼",
+        goodsName: "煤炭及制品",
+        receiveType: 1,
+        startAddress: "台江",
+        transCompany: "超好运",
       },
       funcModules: [
         {
@@ -111,6 +129,9 @@ export default {
       modalContent:
         "您已进入排队等候区，系统已为您自动分配排队号，请按照排队号码顺序依次有序进场。感谢您的配合！如不按顺序进场将根据场区管理制度进行相应处罚！",
       queueCode: 30,
+      showUnloadModal: false,
+      isAllowUnload: true, //是否可以卸货
+      typesFreight: 1,
     };
   },
 
@@ -120,19 +141,18 @@ export default {
     ...mapState({
       vehicleMsg: (state) => state.user.vehicleMsg,
       userInfo: (state) => state.user.userInfo,
-      scanInfo: (state) => state.user.scanInfo
+      scanInfo: (state) => state.user.scanInfo,
     }),
   },
 
-
   onLoad() {
-    console.log('已获取的链接参数code==>', this.scanInfo);
+    console.log("已获取的链接参数code==>", this.scanInfo);
     //TODO: 判断是否扫码跳转：跳转到扫码接单页面
     this.avatar = uni.getStorageSync("avatar") || "../../static/avatar.png";
     if (this.scanInfo.code) {
       uni.navigateTo({
         // url: "../scan/index?code=" + code,
-        url:`../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`
+        url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
       });
       // return;
     }
@@ -171,7 +191,7 @@ export default {
             vehicleCode: res.data.data.vehicleInfoVo.licenseNumber,
             phone: res.data.data.telphone,
             auth: res.data.data.authStatus,
-            userCode: res.data.data.userCode
+            userCode: res.data.data.userCode,
           };
           this.$store.commit("setVehicleMsg", vehicleInfo);
         }
@@ -229,6 +249,42 @@ export default {
       //TODO...
       this.showModal = false;
     },
+    openUnloadModal() {
+      this.showUnloadModal = true;
+    },
+    cancelUnloadModal() {
+      this.showUnloadModal = false;
+    },
+    //卸货
+    toUnload() {
+      let data = {
+        vehicleInfoCode: this.unloadData.vehicleInfoCode,
+        driverInfoCode: this.unloadData.driverInfoCode,
+        userCode: this.vehicleMsg.userCode,
+      };
+
+      const config = {
+        url: "unload",
+        method: "POST",
+        // data: this.queryParamsToRequest(),
+        data: data,
+      };
+      uniRequest(config).then((res) => {
+        console.log("卸货res", res);
+        //清楚beforeWaybillCode
+        if (res.data.code === 200) {
+          uni.navigateTo({
+            url: `../scan/orderSucceed?data=${JSON.stringify(res.data.data)}&&orderType=1`,
+          });
+        } else {
+          uni.showModal({
+            title: "提示",
+            content: res.data.msg,
+            showCancel: false,
+          });
+        }
+      });
+    },
   },
 };
 </script>
@@ -266,6 +322,4 @@ export default {
     padding-left: 20rpx;
   }
 }
-
-
 </style>

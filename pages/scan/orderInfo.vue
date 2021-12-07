@@ -16,17 +16,8 @@
           <div class="id-image">
             <template>
               <img
-                v-if="!idBack"
-                src="../../static/order/id_renxiang.png"
-                alt="图片"
-                @click="upload('idBack')"
-              />
-              <img v-else :src="idBack" alt="图片" @click="upload('idBack')" />
-            </template>
-            <template>
-              <img
                 v-if="!idFront"
-                src="../../static/order/id_guohui.png"
+                src="../../static/order/id_renxiang.png"
                 alt="图片"
                 @click="upload('idFront')"
               />
@@ -37,7 +28,27 @@
                 @click="upload('idFront')"
               />
             </template>
+            <template>
+              <img
+                v-if="!idBack"
+                src="../../static/order/id_guohui.png"
+                alt="图片"
+                @click="upload('idBack')"
+              />
+              <img v-else :src="idBack" alt="图片" @click="upload('idBack')" />
+            </template>
           </div>
+        </div>
+        <div class="input-item">
+          <div class="title1"><span class="required">*</span>姓名</div>
+          <input
+            class="my-input"
+            maxlength="32"
+            placeholder="请输入姓名"
+            type="text"
+            v-model="name"
+            cursor-spacing="150"
+          />
         </div>
         <div class="input-item">
           <div class="title1"><span class="required">*</span>身份证号</div>
@@ -104,7 +115,7 @@
             <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
           </picker>
         </div>
-        <div class="input-item">
+        <!-- <div class="input-item">
           <div class="title1"><span class="required">*</span>所在区域</div>
           <pick-regions limit="3" @getRegion="handleGetRegion">
             <view class="uni-input-default">
@@ -113,7 +124,7 @@
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
           </pick-regions>
-        </div>
+        </div> -->
       </div>
       <div class="zjjy-box">
         <div class="photo-box">
@@ -127,7 +138,7 @@
           </div>
         </div>
         <div class="input-item">
-          <div class="title1">驾驶证号</div>
+          <div class="title1"><span class="empty"></span>驾驶证号</div>
           <input
             class="my-input"
             maxlength="32"
@@ -151,7 +162,7 @@
           />
         </div>
         <div class="input-item">
-          <div class="title1">驾驶证类型</div>
+          <div class="title1"><span class="empty"></span>驾驶证类型</div>
           <!-- <input
             class="my-input"
             maxlength="32"
@@ -356,13 +367,15 @@ export default {
       obtainTypeIndex: -1,
       region: [],
       region1: [],
-      // form
-      idFront: null, // 国徽面
-      idBack: null, // 人像面
+      // idCard
+      name: "",
+      idFront: null, // 人像面
+      idBack: null, // 国徽面
       id: null, //  身份id
       idStart: null, // 生效时间
       idEnd: null, // 失效时间
       idPerpetual: false, // 是否有效
+      //driver
       driverFront: null, // 驾驶证照片
       driverNumber: null, // 驾驶证号
       driverOrg: null, // 机构
@@ -370,6 +383,7 @@ export default {
       driverStart: null, // 生效时间
       driverEnd: null, // 失效时间
       driverPerpetual: false, // 是否长期
+      //从业
       obtainFront: null, //从业资格证
       obtainNumber: null, //从业资格号
       obtainType: null, //驾驶证类型
@@ -432,12 +446,15 @@ export default {
           });
         },
         1: () => {
+          let leap = this.formValitor();
+          if (!leap) return;
           const config = {
-            url: "authDriverTeam",
-            method: "PUT",
+            url: "driverAuth",
+            method: "POST",
             data: this.formToRequest(),
           };
           uniRequest(config).then((res) => {
+            console.log("司机认证", res);
             if (res.code == 200) {
               this.successD();
             }
@@ -446,8 +463,144 @@ export default {
       };
       obj[type]();
     },
+    formValitor() {
+      if (!this.name) {
+        uni.showToast({
+          title: "请输入姓名",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.id) {
+        uni.showToast({
+          title: "请输入身份证号",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.idFront) {
+        uni.showToast({
+          title: "请上传身份证国徽面",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.idBack) {
+        uni.showToast({
+          title: "请上传身份证人像面",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.idStart) {
+        uni.showToast({
+          title: "请选择有效起始日期",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.idEnd) {
+        uni.showToast({
+          title: "请选择有效终止日期",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.idFront) {
+        uni.showToast({
+          title: "请上传身份证国徽面",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.driverFront) {
+        uni.showToast({
+          title: "请上传驾驶证照片",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.driverOrg) {
+        uni.showToast({
+          title: "请输入驾驶证发证机构",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.driverStart) {
+        uni.showToast({
+          title: "请选择驾驶证生效日期",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.driverEnd) {
+        uni.showToast({
+          title: "请选择驾驶证失效日期",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+
+      return true;
+    },
     formToRequest() {
-      return {};
+      const idCard = {
+        identificationBackimage: this.idBack,
+        identificationBegintime: this.idStart,
+        identificationEffective: this.idPerpetual,
+        identificationEndTime: this.idEnd,
+        identificationImage: this.idFront,
+        identificationNumber: this.id,
+        name: this.name,
+      };
+      // driverFront: null, // 驾驶证照片
+      // driverNumber: null, // 驾驶证号
+      // driverOrg: null, // 机构
+      // driverType: null, // 类型
+      // driverStart: null, // 生效时间
+      // driverEnd: null, // 失效时间
+      // driverPerpetual: false, // 是否长期
+      const drivingLicense = {
+        driverLicense: "",
+        driverLicenseCarNumber: this.driverNumber,
+        driverLicenseImage: this.driverFront,
+        driverLicenseType: this.driverType,
+        issuingOrganizations: this.driverOrg,
+        validPeriodAlways: this.driverPerpetual,
+        validPeriodFrom: this.driverStart,
+        validPeriodTo: this.driverEnd,
+        name: "",
+      };
+      // obtainFront: null, //从业资格证
+      // obtainNumber: null, //从业资格号
+      // obtainType: null, //类型
+      // obtainStart: null, //生效时间
+      // obtainEnd: null, // 失效时间
+      // obtainProvince: null, //从业证办理省份名称
+      const qualificationCertificateCard = {
+        workLicense: "",
+        workLicenseDueDate: "",
+        workLicenseImage: "",
+        workLicenseProvinceCode: "",
+        workLicenseProvinceName: "",
+      };
+
+      return {
+        idCard,
+        drivingLicense,
+      };
     },
     // 驾驶证
     changeDriverPost(e) {
@@ -508,33 +661,137 @@ export default {
         url: "uploadFile",
         file: url,
       };
+      uni.showLoading();
       uniUpload(config).then((res) => {
         console.log("图片上传", res);
         if (res.code == 200) {
-          // res.data.path
-          // res.data.code
-
           this[type] = res.data.path;
           //TODO...上传OCR识别
-          this.uploadOCR(url, type);
+          //判断OCR权限是否过期
+          let autoToken = uni.getStorageSync("authToken");
+          if (autoToken) {
+            autoToken = JSON.parse(autoToken);
+            let now = new Date().getTime();
+            let last = autoToken.time;
+            let leap = now - last < 24 * 3600 * 1000;
+            if (leap) {
+              this.uploadOCR(this[type], type);
+            } else {
+              //过期重启获取OCR token
+              this.autoOCR().then(() => {
+                this.uploadOCR(this[type], type);
+              });
+            }
+          } else {
+            //无OCR token
+            this.autoOCR().then(() => {
+              this.uploadOCR(this[type], type);
+            });
+          }
         }
+      });
+    },
+
+    //OCR鉴权
+    autoOCR() {
+      let params = {
+        auth: {
+          identity: {
+            methods: ["password"],
+            password: {
+              user: {
+                name: "ddcwl668", //替换为实际用户名
+                password: "ddc753159", //替换为实际的用户密码
+                domain: {
+                  name: "ddcwl668", //替换为实际账号名
+                },
+              },
+            },
+          },
+          scope: {
+            project: {
+              name: "cn-north-4", //替换为实际的project name，如cn-north-4
+            },
+          },
+        },
+      };
+      return new Promise((resolve, reject) => {
+        uni.request({
+          url: "https://iam.cn-north-4.myhuaweicloud.com/v3/auth/tokens",
+          method: "POST",
+          data: params,
+          header: {
+            "Content-Type": "application/json",
+          },
+          success: (res) => {
+            console.log("OCR获取token", res);
+            if (res.header["X-Subject-Token"]) {
+              let authToken = {
+                token: res.header["X-Subject-Token"],
+                time: new Date().getTime(),
+              };
+              uni.setStorageSync("authToken", JSON.stringify(authToken));
+            }
+
+            resolve(res);
+          },
+        });
       });
     },
 
     // OCR识别：华为云
     uploadOCR(url, type) {
-      uni.request({
-        url: 'https://{endpoint}/v2/{project_id}/ocr/id-card',
-        method: "POST",
-        data: {
-          url: url,
-          side: 'front'
-        },
-        header: {
-          'X-Auth-Token': '',
-          'Content-Type': 'application/json',
-        },
+      let side = {
+        idFront: "front",
+        idBack: "back",
+      };
+      let token = JSON.parse(uni.getStorageSync("authToken")).token;
+      return new Promise((resolve, reject) => {
+        uni.request({
+          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/id-card",
+          method: "POST",
+          data: {
+            url: url,
+            side: side[type],
+            // "return_verificationL": true,
+          },
+          header: {
+            "X-Auth-Token": token,
+            "Content-Type": "application/json",
+          },
+          success: (resOCR) => {
+            console.log("OCR识别", resOCR);
+            uni.hideLoading();
+            if (resOCR.statusCode === 200) {
+              let result = resOCR.data.result;
+              this.name = result.name;
+              this.id = result.number;
+              if (result.valid_from) {
+                this.idStart = this.handleDate(result.valid_from);
+              }
+              if (result.valid_to) {
+                this.idEnd = this.handleDate(result.valid_to);
+                this.idEnd && (this.perpetualIndex = 0);
+              }
+            }
+          },
+          fail: () => {
+            uni.hideLoading();
+          },
+        });
       });
+    },
+    handleDate(date) {
+      if (date === "长期") {
+        this.perpetualIndex = 1;
+        return "";
+      }
+
+      let arr = date.split("-");
+      if (arr.length === 3) {
+        return date;
+      }
+      return "";
     },
   },
 };
