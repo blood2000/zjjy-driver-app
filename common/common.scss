@@ -6,7 +6,7 @@
 
 checkbox .wx-checkbox-input {
   border-radius: 50% !important;
- }
+}
 .content {
   box-sizing: border-box;
   height: 100%;
@@ -53,6 +53,10 @@ checkbox .wx-checkbox-input {
   border-top: 8rpx solid transparent;
   border-right: 8rpx solid transparent;
   border-bottom: 8rpx solid transparent;
+}
+
+.empty {
+  padding-left: 16rpx;
 }
 
 .required {
@@ -123,14 +127,53 @@ checkbox .wx-checkbox-input {
   box-sizing: border-box;
   position: fixed;
   top: 50%;
-  left: 5%;
+  left: 0;
   transform: translateY(-50%);
-  width: 90%;
+  width: 100%;
   min-height: 200rpx;
   padding: 40rpx 30rpx 60rpx;
-  background: #fff;
   border-radius: 20rpx;
   z-index: 102;
+  .order-box {
+    border-radius: 0;
+    margin-bottom: 0;
+    box-shadow: none;
+    border-top-left-radius: 16rpx;
+    border-top-right-radius: 16rpx;
+  }
+  .unload-modal-btn {
+    width: 92%;
+    margin: 0 auto;
+    height: 120rpx;
+    background: #fff;
+    border-bottom-left-radius: 16rpx;
+    border-bottom-right-radius: 16rpx;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    div {
+      height: 60rpx;
+      padding: 0 30rpx;
+      line-height: 60rpx;
+      text-align: center;
+      font-size: 28rpx;
+      border-radius: 10rpx;
+    }
+  }
+  .unload-not {
+    div {
+      background: #ddd;
+      color: #000;
+    }
+
+  }
+
+  .unload-allow {
+    div {
+      background: #3a65ff;
+      color: #fff;
+    }
+  }
 }
 
 /* 首页 */
@@ -889,10 +932,10 @@ image {
     }
   }
 }
-.uni-input-default{
+.uni-input-default {
   font-size: 28rpx;
   height: 80rpx;
 }
-.uni-input-placeholder{
-  color: #999999 ;
+.uni-input-placeholder {
+  color: #999999;
 }

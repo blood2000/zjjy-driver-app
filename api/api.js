@@ -14,6 +14,6 @@ const orderUrl = {
   authDriverTeam: '/assets/driver-app/authDriverTeam',
   unload: '/jyz/wxmp/jyz-waybill-opera/unload',  //卸货
   driverAuth: '/assets/driver-app/submitCertificate',  //司机认证
-  driverAuth: '/fmsweb/basic/common/v1/uploadCertAndGetInfoWithoutToken',  //ocr识别
+  authOCR: '/fmsweb/basic/common/v1/uploadCertAndGetInfoWithoutToken',  //ocr识别
 }
 export default { ...orderUrl, ...apiUrl }
