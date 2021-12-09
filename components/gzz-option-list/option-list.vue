@@ -1,8 +1,8 @@
 <template>
   <view class="list-box">
     <view
-      v-for="(item, index) in dataList"
-      :key="index"
+      v-for="(item) in dataList"
+      :key="item.code"
       class="item"
       style="height: 168rpx"
       @tap="tap(item)"
@@ -35,16 +35,27 @@
         <!-- <slot :item="item"></slot> -->
         <view class="list-item">
           <image
-            :src="item.img"
-            @error="imageError($event, index)"
+            :src="item.vehicle_image"
+            v-if="item.vehicle_image"
+            mode="aspectFill"
+          />
+          <image
+            v-else
+            src="../../static/order/vehicle-moren.png"
             mode="aspectFill"
           />
           <div class="list-item-content">
             <div class="list-item-content-top">
-              <div class="title22">闽A54772</div>
-              <img src="../../static/order/svip.png" alt="" />
+              <div class="title22">{{ item.license_number }}</div>
+              <img
+                v-if="item.auth_status > 2"
+                src="../../static/order/svip.png"
+                alt=""
+              />
             </div>
-            <div class="list-item-content-bottom">车型：普通重型半挂车</div>
+            <div class="list-item-content-bottom">
+              车型：{{ item.vehicle_type }}
+            </div>
           </div>
         </view>
       </view>
@@ -73,9 +84,8 @@ export default {
     },
   },
   data() {
-
     return {
-      multipleSlots:true,
+      multipleSlots: true,
       dataList: [],
       dragTargetX: 0,
       offsetWidth: 0,
@@ -93,11 +103,9 @@ export default {
     },
   },
   methods: {
-    imageError(e, index) {
-      console.log("tututu", e);
-      this.dataList[index].img = "../../static/order/vehicle-moren.png";
-    },
+  
     touchstart(item, e) {
+      console.log('touchstart item',item)
       if (this.translateX != 0 && this.activeItem.item_id != item.item_id) {
         this.tap();
       }
@@ -166,6 +174,7 @@ export default {
       });
     },
     optionClick(item, oitem) {
+      console.log(item.license_number,oitem)
       this.translateX = 0;
       this.setBounceTransition();
       this.$emit("optionClick", item, oitem);
@@ -245,10 +254,10 @@ export default {
     }
   }
 }
-.title22{
-font-size: 32rpx;
-font-family: PingFang SC;
-font-weight: bold;
-color: #333333;
+.title22 {
+  font-size: 32rpx;
+  font-family: PingFang SC;
+  font-weight: bold;
+  color: #333333;
 }
 </style>

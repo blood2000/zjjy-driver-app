@@ -16,8 +16,12 @@ const orderUrl = {
   authOCR: '/fmsweb/basic/common/v1/uploadCertAndGetInfoWithoutToken',  //ocr识别
 }
 const car = {
-  addVehicle: '/assets/vehicle-app/jyzAdd',//jyz添加车辆
-  pageVehicle:''
-
+  addVehicle: '/assets/jzy-wx/jyzAdd',//jyz添加车辆
+  jyzList:'/assets/jzy-wx/jyzList' ,//车辆列表
+  listByDictJyz:'/system/dict/data/listByDictJyz',//字典
+  driverLicenseNumberRel:'/assets/jzy-wx/driverLicenseNumberRel',//根据车牌绑定司机关系
+  delVehicleReDriver:'/assets/jzy-wx/delVehicleReDriver',//删除车辆司机关联
+  jyzVehicleExist:'/assets/jzy-wx/jyzVehicleExist',//校验车辆是否已存在
+  getByCode:`/assets/jzy-wx/jyzVehicle`,//获取详情
 }
 export default { ...orderUrl, ...apiUrl, ...car }

@@ -4,6 +4,8 @@ import store from './store'
 import './common/common.scss'
 Vue.prototype.$store = store
 Vue.config.productionTip = false
+// import { getDicts } from "./config/request";
+// Vue.prototype.getDicts = getDicts
 
 App.mpType = 'app'
 
