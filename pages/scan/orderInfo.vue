@@ -394,15 +394,15 @@ export default {
     };
   },
   onLoad(options) {
-    // this.dealPageData(JSON.parse(options.data));
-    // console.log('司机认证页面options', this.pageData)
-    this.dealPageData({
-      endAddress: "富邦总部大楼",
-      goodsName: "煤炭及制品",
-      receiveType: 1,
-      startAddress: "台江",
-      transCompany: "超好运",
-    });
+    this.dealPageData(JSON.parse(options.data));
+    console.log('司机认证页面options', this.pageData)
+    // this.dealPageData({
+    //   endAddress: "富邦总部大楼",
+    //   goodsName: "煤炭及制品",
+    //   receiveType: 1,
+    //   startAddress: "台江",
+    //   transCompany: "超好运",
+    // });
   },
   computed: {
     regionName() {
@@ -456,7 +456,7 @@ export default {
           };
           uniRequest(config).then((res) => {
             console.log("司机认证", res);
-            if (res.code == 200) {
+            if (res.data.code == 200) {
               this.successD();
             }
           });
@@ -465,6 +465,7 @@ export default {
       obj[type]();
     },
     formValitor() {
+      
       if (!this.name) {
         uni.showToast({
           title: "请输入姓名",
@@ -483,7 +484,7 @@ export default {
       }
       if (!this.idFront) {
         uni.showToast({
-          title: "请上传身份证国徽面",
+          title: "请上传身份证人像面",
           icon: "none",
           duration: 1500,
         });
@@ -491,12 +492,13 @@ export default {
       }
       if (!this.idBack) {
         uni.showToast({
-          title: "请上传身份证人像面",
+          title: "请上传身份证国徽面",
           icon: "none",
           duration: 1500,
         });
         return false;
       }
+      
       if (!this.idStart) {
         uni.showToast({
           title: "请选择有效起始日期",
@@ -793,7 +795,7 @@ export default {
           url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/id-card",
           data: {
             url: imgUrl,
-            // side: side[sideType],
+            side: side[sideType],
           },
         },
         driverLicense: {
@@ -835,8 +837,12 @@ export default {
     idCardOCRHandle(resOCR) {
       if (resOCR.statusCode === 200) {
         let result = resOCR.data.result;
-        this.name = result.name;
-        this.id = result.number;
+        if (result.name) {
+          this.name = result.name;
+        }
+        if (result.number) {
+          this.id = result.number;
+        }
         if (result.valid_from) {
           this.idStart = this.handleDate(result.valid_from, 0);
         }

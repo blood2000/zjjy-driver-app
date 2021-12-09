@@ -26,7 +26,9 @@ export const uniRequest = function(config) {
 		defaultHeader['Authorization'] = token;
 	}
 	
-	uni.showLoading();
+	uni.showLoading({
+		mask: true
+	});
 	
 	let util = config.resFun;
 	if (!util) {
