@@ -4,17 +4,17 @@ import urlConfig from './urlConfig.js'
 const PRO_URL = urlConfig.BASE_URL;
 const baseUrl = PRO_URL;
 const defaultHeader = {
-  // "Authorization": "ab3b6e7b-5d89-4b47-946a-03cdae6c9ffb",
-  "App-Type": "1",
-  "App-Code": "6489184f76fa456d86529500ba94be9f",
-  "App-Version": "1.0.0",
-  "Produce-Code": "2c3c8c43b487432b9d67934a6c4dcbbe",
-  "Terminal-Type": "WeChat",
+	// "Authorization": "ab3b6e7b-5d89-4b47-946a-03cdae6c9ffb",
+	"App-Type": "1",
+	"App-Code": "6489184f76fa456d86529500ba94be9f",
+	"App-Version": "1.0.0",
+	"Produce-Code": "2c3c8c43b487432b9d67934a6c4dcbbe",
+	"Terminal-Type": "WeChat",
 };
 // console.log(defaultHeader)
 
-//config:url, method, params, data, util
-export const uniRequest = function(config) {
+//config:url, method, params, data, util querys
+export const uniRequest = function (config) {
 	if (!config.noToken) {
 		const token = uni.getStorageSync('token');
 		if (!token) {
@@ -25,11 +25,13 @@ export const uniRequest = function(config) {
 		}
 		defaultHeader['Authorization'] = token;
 	}
+
 	
 	uni.showLoading({
 		mask: true
 	});
 	
+
 	let util = config.resFun;
 	if (!util) {
 		util = {
@@ -52,7 +54,7 @@ export const uniRequest = function(config) {
 		}
 		url = url.slice(0, -1);
 	} else if (config.params) {
-		url =  apiUrl[config.url];
+		url = apiUrl[config.url];
 		for (const key of Object.keys(config.params)) {
 			url += '/' + config.params[key];
 		}
@@ -63,7 +65,7 @@ export const uniRequest = function(config) {
 	if (config.data) {
 		console.log('请求参数', config.data)
 	}
-	
+
 
 	return new Promise((resolve, reject) => {
 		uni.request({
@@ -110,7 +112,7 @@ export const uniRequest = function(config) {
 
 }
 // 文件上传
-export const uniUpload = function(config) {
+export const uniUpload = function (config) {
 	if (!config.noToken) {
 		const token = uni.getStorageSync('token');
 		if (!token) {
@@ -121,7 +123,7 @@ export const uniUpload = function(config) {
 		}
 		defaultHeader['Authorization'] = token;
 	}
-	
+
 
 	let util = config.resFun;
 	if (!util) {
@@ -131,7 +133,7 @@ export const uniUpload = function(config) {
 	}
 	// let defaultHeader = config.header;
 	console.log(defaultHeader)
-	
+
 	let url = apiUrl[config.url];
 	console.log('请求地址', baseUrl + url)
 	return new Promise((resolve, reject) => {
@@ -238,6 +240,22 @@ const showError = (error) => {
 	}
 }
 
+// // 通用下载字典方法
+// export const getDicts = (dictType, dictObj) => {
+// 	const formData = new FormData()
+// 	if (!dictType && dictObj) {
+// 		formData.append('status', dictObj.status)
+// 		formData.append('dictPid', dictObj.dictPid)
+// 		formData.append('dictType', dictObj.dictType)
+// 	} else {
+// 		formData.append('dictType', dictType)
+// 	}
+// 	return service.post('/chy/system/dict/data/listByDict', formData, {
+// 		headers: Object.assign({}, defaultHeader, {
+// 			'Content-Type': 'application/x-www-form-urlencoded'
+// 		})
+// 	})
+// }
 
 
 // export default {uniRequest, uniUpload};

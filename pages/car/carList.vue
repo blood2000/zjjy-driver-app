@@ -8,22 +8,6 @@
       @optionClick="optionClick"
       :options="options"
     >
-      <!-- <template v-slot:default="{ item }">
-        <view class="list-item">
-          <image
-            :src="item.img"
-            @error="imageError($event, index)"
-            mode="aspectFill"
-          />
-          <div class="list-item-content">
-            <div class="list-item-content-top">
-              <div>闽A54772</div>
-              <img src="../../static/order/svip.png" alt="" />
-            </div>
-            <div class="list-item-content-bottom">车型：普通重型半挂车</div>
-          </div>
-        </view>
-      </template> -->
     </option-list>
   </div>
 </template>
@@ -31,33 +15,13 @@
 
 <script>
 import optionList from "../../components/gzz-option-list/option-list.vue";
+import { uniRequest } from "../../config/request";
 
 export default {
   components: { optionList },
   data() {
     return {
-      list: [
-        {
-          id: 1,
-          img: "https://zos.alipayobjects.com/rmsportal/EMQSSlFQtGYEnWx.png",
-          text: "Senior Product Designer1",
-        },
-        {
-          id: 2,
-          img: "https://zos.alipayobjects.com/rmsportal/EMQSSlFQtGYEnWx.png",
-          text: "Senior Product Designer2",
-        },
-        {
-          id: 3,
-          img: "https://zos.alipayobjects.com/rmsportal/OCuGZXfRioLyhKF.png",
-          text: "Senior Product Designer3",
-        },
-        {
-          id: 4,
-          img: "https://zos.alipayobjects.com/rmsportal/agzYYwzggpOjqge.png",
-          text: "Senior Product Designer4",
-        },
-      ],
+      list: [],
       options: [
         //左滑的操作列表
         {
@@ -76,28 +40,71 @@ export default {
       threshold: 50,
     };
   },
+  onLoad() {
+    this.getList();
+  },
   watch: {},
   methods: {
+    async getList() {
+      const config = {
+        url: "jyzList",
+        method: "GET",
+      };
+      const res = await uniRequest(config);
+      if (res.statusCode !== 200) return;
+      console.log("res1111", res.data.data);
+      this.list = res.data.data;
+    },
     listDelete(item, index) {
-      console.log("删除");
-      // console.log(item);
-      // this.list.splice(index, 1);
+      console.log("删除", item);
+      uni.showModal({
+        title: "提示",
+        content: `确定要删除车辆【${item.license_number}】`,
+        // showCancel: false,
+        success: (res) => {
+          console.log("res", res);
+          if (res.confirm) {
+            const config = {
+              url: "delVehicleReDriver",
+              method: "DELETE",
+              querys: { vehicleCodes: item.code },
+            };
+            uniRequest(config).then((res) => {
+              console.log("删除", res);
+              this.getList();
+            });
+          }
+        },
+      });
     },
     listEdit(item) {
-      console.log("编辑");
-      console.log(item);
+      console.log("编辑", item);
+      const config = {
+        url: "getByCode",
+        method: "GET",
+        params:{code:item.code}
+      };
+      uniRequest(config).then(res=>{
+        console.log('获取详情',res)
+        if(res.data.code == 200){
+          const data = res.data.data
+            uni.navigateTo({
+          url: `./addCar?data=${JSON.stringify(data)}`,
+        });
+        }
+      })
     },
     rowClick(item) {
       console.log("点击某一行");
       console.log(item);
     },
-    optionClick(item, oitem) {
-      console.log("点击某个操作按钮");
-      console.log(item, oitem);
-      if (oitem.text == "删除") {
+    optionClick(item, oItem) {
+      console.log("点击某个操作按钮",item.license_number);
+      console.log(item, oItem);
+      if (oItem.text == "删除") {
         //这里直接根据text判断点击了哪个按钮，也可自自己增加唯一标识key，当然也可以自己在组件按需定义对应事件
         this.listDelete(item);
-      } else if (oitem.text == "编辑") {
+      } else if (oItem.text == "编辑") {
         this.listEdit(item);
       }
     },

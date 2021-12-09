@@ -5,9 +5,12 @@
       <view
         :class="[
           'cell',
-          { last: index === length - 1 },
-          { 'no-border': index === length - 1 || index === length - 2 },
-          { active: index === current },
+          { last: !isDisabled && index === length - 1 },
+          {
+            'no-border':
+              (!isDisabled && index === length - 1) || index === length - 2,
+          },
+          { active: !isDisabled && index === current },
         ]"
         v-for="(val, index) in fill"
         :key="index"
@@ -47,12 +50,16 @@ export default {
       type: Number,
       default: 8,
     },
+    isDisabled: {
+      type: Boolean,
+      default: false,
+    },
     focus: {
       type: Boolean,
       default: false,
     },
     current: {
-        type: Number,
+      type: Number,
       default: -1,
     },
   },
@@ -63,17 +70,33 @@ export default {
   },
   computed: {
     kType() {
-      return this.current === 0 || this.current === null ? "provinces" : "areas";
+      return this.current === 0 || this.current === null
+        ? "provinces"
+        : "areas";
     },
   },
   watch: {
     fill(val) {
+      console.log("fill val", val);
       this.$emit("input", val.join(""));
       this.$emit("change", val);
+    },
+    value(v) {
+      console.log("v", v);
+      if (!v) {
+        this.fill = ["", "", "", "", "", "", "", ""];
+      } else if (v.length >= 7) {
+        for (let i = 0; i < v.length; i++) {
+          this.$set(this.fill, i, v[i]);
+        }
+      }
     },
   },
   methods: {
     focusHandler(index = 0) {
+      if (this.isDisabled) return;
+      console.log("focusHandler");
+
       // this.focus = true;
       this.$emit("changeFocus", true);
       this.$emit("changeCurrent", index);
@@ -81,16 +104,19 @@ export default {
       console.log(this.current);
     },
     keyDeleteHandler() {
+      console.log("keyDeleteHandler");
+
       this.$set(this.fill, this.current, "");
 
       if (this.current <= 0) {
         return;
       }
-      
+
       this.$emit("changeCurrentDel");
       // this.current -= 1;
     },
     keyInputHandler(key) {
+      if (this.isDisabled) return;
       this.$set(this.fill, this.current, key);
 
       if (this.current >= this.length - 1) {
@@ -105,6 +131,7 @@ export default {
     },
   },
   beforeMount() {
+    console.log("beforeMount");
     if (this.value) {
       this.value.split("").forEach((key, index) => {
         if (index >= this.length) {
