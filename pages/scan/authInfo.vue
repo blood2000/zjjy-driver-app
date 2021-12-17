@@ -1,18 +1,12 @@
 <template>
   <div>
-    <div class="prompt-box box-paddy">
-      <span
-        >该线路为超好运结算线路，您的信息完整度不足，请补充如下信息后并联系客服进行审核，待审核完成后才可接单。</span
-      >
-    </div>
     <div class="info">
-      <FreightCard :pageData="pageData" :typesFreight="typesFreight" />
       <div class="zjjy-box">
         <div class="photo-box">
-          <div class="title2">
+          <div class="title2" v-if="!disabled">
             <span class="required">*</span> 请上传身份证件
           </div>
-          <div class="title-item">上传身份证照片，图片大小不能超过3M</div>
+          <div class="title-item" v-if="!disabled">上传身份证照片，图片大小不能超过3M</div>
           <div class="id-image">
             <template>
               <img
@@ -26,6 +20,7 @@
                 :src="idFront"
                 alt="图片"
                 @click="upload('idFront')"
+                @error="imgError(0)"
               />
             </template>
             <template>
@@ -35,40 +30,49 @@
                 alt="图片"
                 @click="upload('idBack')"
               />
-              <img v-else :src="idBack" alt="图片" @click="upload('idBack')" />
+              <img
+                v-else
+                :src="idBack"
+                alt="图片"
+                @click="upload('idBack')"
+                @error="imgError(1)"
+              />
             </template>
           </div>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required">*</span>姓名</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>姓名</div>
           <input
             class="my-input"
             maxlength="32"
             placeholder="请输入姓名"
             type="text"
             v-model="name"
+            :disabled="disabled"
             cursor-spacing="150"
           />
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required">*</span>身份证号</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>身份证号</div>
           <input
             class="my-input"
             maxlength="32"
             placeholder="请输入身份证号"
             type="text"
+            :disabled="disabled"
             v-model="id"
             cursor-spacing="150"
           />
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required">*</span>生效日期</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>生效日期</div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
                 <picker
                   mode="date"
                   :value="idStart"
+                  :disabled="disabled"
                   @change="bindDateChange($event, 'idStart')"
                 >
                   <view class="uni-input-default">
@@ -82,13 +86,14 @@
           </view>
         </div>
         <div class="input-item" v-if="perpetualIndex !== 1">
-          <div class="title1"><span class="required">*</span>失效日期</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>失效日期</div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
                 <picker
                   mode="date"
                   :value="idEnd"
+                  :disabled="disabled"
                   @change="bindDateChange($event, 'idEnd')"
                 >
                   <view class="uni-input-default">
@@ -134,7 +139,12 @@
           <div class="title-item">上传驾驶证照片，图片大小不能超过3M</div>
           <div class="id-image" @click="upload('driverFront')">
             <img v-if="driverFront" :src="driverFront" alt="图片" />
-            <img v-else src="../../static/order/driver.png" alt="图片" />
+            <img
+              v-else
+              src="../../static/order/driver.png"
+              alt="图片"
+              @error="imgError(2)"
+            />
           </div>
         </div>
         <div class="input-item">
@@ -181,7 +191,7 @@
                 driverPostList[driverPostIndex]
               }}</span>
               <!-- <span v-else class="uni-input-placeholder">支持自动识别</span> -->
-              <span v-else class="uni-input-placeholder">请输入发证机关</span>
+              <span v-else class="uni-input-placeholder">请选择驾驶证类型</span>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
           </picker>
@@ -333,14 +343,14 @@
           </pick-regions>
         </div>
       </div>
-      <div class="group-submit">
+      <!-- <div class="group-submit">
         <div class="as-btn-flexItem-other as-btn-FFF" @click="jumpTo(0)">
           取消
         </div>
         <div class="as-btn-flexItem-other as-btn-blue" @click="jumpTo(1)">
-          提交认证
+          修改
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -350,13 +360,14 @@ import FreightCard from "./components/freightCard";
 import { perpetualList, driverPostList, loadList } from "./config";
 import pickRegions from "@/components/pick-regions/pick-regions.vue";
 import { uniRequest, uniUpload } from "../../config/request";
-
+import { mapState } from "vuex";
 export default {
   components: { FreightCard, pickRegions },
-  name: "orderInfo",
+  name: "authInfo",
   data() {
     return {
       pageData: {},
+      disabled: false,
       typesFreight: 0, //信息类型
       imageSize: 3145728, //上传图片限制
       perpetualList, //是否长期列表
@@ -393,17 +404,14 @@ export default {
       obtainProvince: null, //从业证办理省份名称
     };
   },
-  onLoad(options) {
-    this.dealPageData(JSON.parse(options.data));
-    console.log("司机认证页面options", this.pageData);
+  onLoad() {
+    console.log("是否认证", this.vehicleMsg.auth);
+    if (this.vehicleMsg.auth === 3) {
+      this.disabled = false;
+    } else {
+      this.disabled = true;
+    }
     this.getAuthInfo();
-    // this.dealPageData({
-    //   endAddress: "富邦总部大楼",
-    //   goodsName: "煤炭及制品",
-    //   receiveType: 1,
-    //   startAddress: "台江",
-    //   transCompany: "超好运",
-    // });
   },
   computed: {
     regionName() {
@@ -418,8 +426,18 @@ export default {
         ? this.region1[0].name
         : this.region1.map((item) => item.name).join(" ");
     },
+    ...mapState({
+      // licenseNumbers: (state) => state.user.licenseNumbers,
+      // beforeWaybillCode: (state) => state.user.beforeWaybillCode,
+      vehicleMsg: (state) => state.user.vehicleMsg,
+    }),
   },
   methods: {
+    // 页面跳转赋值
+    dealPageData(data) {
+      this.pageData = data;
+      this.typesFreight = data.receiveType;
+    },
     //获取司机认证信息
     getAuthInfo() {
       const config = {
@@ -448,31 +466,44 @@ export default {
       //驾驶证
       if (info.drivingLicense) {
         this.driverFront = info.drivingLicense.driverLicenseImage;
-        this.driverNumber = info.drivingLicense.driverLicenseCarNumber;
+        this.driverNumber = info.drivingLicense.driverLicense;
         this.driverOrg = info.drivingLicense.issuingOrganizations;
         this.driverStart = info.drivingLicense.validPeriodFrom;
         this.driverEnd = info.drivingLicense.validPeriodTo;
         this.driverPerpetualIndex = info.drivingLicense.validPeriodAlways;
+        driverPostList.map((item, index) => {
+          if (item === info.drivingLicense.driverLicenseType) {
+            this.driverPostIndex = index;
+          }
+        });
       }
 
       // this.driverPostIndex = info.drivingLicense.driverLicenseType;
     },
-    // 页面跳转赋值
-    dealPageData(data) {
-      this.pageData = data;
-      this.typesFreight = data.receiveType;
+    imgError(type) {
+      //../../static/order/id_guohui.png
+      switch (type) {
+        case 0:
+          this.idFront = "";
+          break;
+        case 1:
+          this.idBack = "";
+          break;
+        case 2:
+          this.driverFront = "";
+          break;
+      }
     },
     // 认证成功执行
     successD() {
       uni.showModal({
         title: "提示",
-        content: "已提交认证，请等待审核结果",
+        content: "修改成功",
         showCancel: false,
         success: (res) => {
           console.log("res", res);
           uni.navigateBack({
-            // url: `./scanOrder?data=${JSON.stringify(this.pageData)}`,
-            delta: 2,
+            delta: 1,
           });
         },
       });
@@ -481,8 +512,9 @@ export default {
       const me = this;
       const obj = {
         0: () => {
-          uni.navigateTo({
-            url: "../index/index",
+          uni.navigateBack({
+            // url: "../index/index",
+            delta: 1,
           });
         },
         1: () => {
@@ -497,12 +529,6 @@ export default {
             console.log("司机认证", res);
             if (res.data.code == 200) {
               this.successD();
-            } else if (res.data.code !== 401) {
-              uni.showModal({
-                title: "提示",
-                content: res.data.msg,
-                showCancel: false,
-              });
             }
           });
         },
@@ -561,7 +587,7 @@ export default {
       }
       if (!this.idFront) {
         uni.showToast({
-          title: "请上传身份证人像面",
+          title: "请上传身份证国徽面",
           icon: "none",
           duration: 1500,
         });
@@ -620,7 +646,7 @@ export default {
       // driverEnd: null, // 失效时间
       // driverPerpetual: false, // 是否长期
       const drivingLicense = {
-        driverLicense: this.driverNumber,
+        driverLicense: "",
         driverLicenseCarNumber: this.driverNumber,
         driverLicenseImage: this.driverFront,
         driverLicenseType: this.driverType,

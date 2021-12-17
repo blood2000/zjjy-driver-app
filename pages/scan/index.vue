@@ -55,7 +55,7 @@ export default {
           50002: () => {
             console.log("code ===", 50002);
             uni.redirectTo({
-              url: `./changeDriverInfo?data=${JSON.stringify(res.data.data.currentScannerWaybill)}`,
+              url: `./changeDriverInfo?data=${JSON.stringify(res.data.data)}`,
             });
           },
           50003: () => {

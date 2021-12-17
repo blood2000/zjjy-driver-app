@@ -15,7 +15,7 @@
               <div class="user-name">{{ vehicleMsg.name }}</div>
               <div
                 class="user-name-icon"
-                :class="vehicleMsg.auth ? '' : 'no-auth'"
+                :class="vehicleMsg.auth === 3 ? '' : 'no-auth'"
               >
                 <!-- <div class="user-name-icon-left">V</div>
                 <div class="user-name-icon-right">
@@ -27,7 +27,7 @@
           </div>
         </div>
         <div class="user-card-right">
-          {{ vehicleMsg.vehicleCode }}
+          {{ vehicleMsg.vehicleCode || '暂无车辆'}}
         </div>
       </div>
       <div class="zjjy-box" >
@@ -109,11 +109,11 @@ export default {
         transCompany: "超好运",
       },
       funcModules: [
-        {
-          name: "预约排号",
-          img: "../../static/index_queue.png",
-          module: "reserve",
-        },
+        // {
+        //   name: "预约排号",
+        //   img: "../../static/index_queue.png",
+        //   module: "reserve",
+        // },
         {
           name: "我的车辆",
           img: "../../static/index_vehicle.png",
@@ -187,13 +187,20 @@ export default {
         console.log("首页获取司机信息", res);
         if (res.data.code === 200 && res.data.data) {
           let vehicleInfo = {
-            name: res.data.data.name,
-            vehicleCode: res.data.data.vehicleInfoVo.licenseNumber,
-            phone: res.data.data.telphone,
-            auth: res.data.data.authStatus,
-            userCode: res.data.data.userCode,
+            name: res.data.data.driverInfoVo.name,
+            phone: res.data.data.driverInfoVo.telphone,
+            auth: res.data.data.driverInfoVo.authStatus,
+            userCode: res.data.data.driverInfoVo.userCode,
           };
+          console.log('车辆信息', res.data.data.driverInfoVo.vehicleInfoVo)
+          if (res.data.data.driverInfoVo.vehicleInfoVo) {
+            vehicleInfo.vehicleCode = res.data.data.driverInfoVo.vehicleInfoVo.licenseNumber
+          }
           this.$store.commit("setVehicleMsg", vehicleInfo);
+          if (res.data.data.jyzWaybillInfoVo) {
+            //卸货处理
+            this.handleUnload(res.data.data.jyzWaybillInfoVo);
+          }
         }
       });
     },
@@ -235,7 +242,7 @@ export default {
           break;
         case "auth":
           uni.navigateTo({
-            url: "../scan/orderInfo",
+            url: "../scan/authInfo",
           });
           break;
       }
@@ -255,10 +262,28 @@ export default {
     cancelUnloadModal() {
       this.showUnloadModal = false;
     },
+    handleUnload(unloadMsg) {
+      if (this.scanInfo.code) {
+        this.showUnloadModal = false;
+        return;
+      }
+      this.showUnloadModal = true;
+      this.typesFreight = unloadMsg.receiveType;
+      this.isAllowUnload = unloadMsg.weighingStatus;
+      this.unloadData = {
+        receiveType: unloadMsg.receiveType,
+        startAddress: unloadMsg.aliasName,
+        endAddress: unloadMsg.unAliasName,
+        goodsName: unloadMsg.goodsBigType,
+        transCompany: unloadMsg.receiveType,
+        // vehicleInfoCode: unloadMsg.vehicleInfoCode,
+        driverInfoCode: unloadMsg.driverInfoCode,
+      }
+    },
     //卸货
     toUnload() {
       let data = {
-        vehicleInfoCode: this.unloadData.vehicleInfoCode,
+        vehicleInfoCode: this.vehicleMsg.vehicleCode,
         driverInfoCode: this.unloadData.driverInfoCode,
         userCode: this.vehicleMsg.userCode,
       };

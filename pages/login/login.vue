@@ -148,10 +148,10 @@ export default {
               });
             }
           } else {
-            console.log("===============================>>");
+            console.log("===============================>>", res);
             uni.showModal({
               title: "提示",
-              content: res.data.msg,
+              content: res.data.msg || '系统异常',
               showCancel: false,
               success: (res) => {
                 that.wxLogin();

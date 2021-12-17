@@ -54,7 +54,7 @@
               />
             </div>
             <div class="list-item-content-bottom">
-              车型：{{ item.vehicle_type }}
+              车型：{{ item.vehicle_type || '' }}
             </div>
           </div>
         </view>

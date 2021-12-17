@@ -180,6 +180,16 @@
           "bounce": "none"
         }
       }
+    },
+    {
+      "path": "pages/scan/authInfo",
+      "style": {
+        "navigationBarTitleText": "认证信息",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
     }
   ],
   "globalStyle": {

@@ -29,7 +29,7 @@ export default {
       type: Object,
       default: {},
     },
-    beforeWaybillCode: {
+    currentScannerWaybill: {
       type: String,
       default: '',
     },
@@ -51,7 +51,7 @@ export default {
     update() {
       console.log("update");
       let data = {...this.pageData};
-      data.beforeWaybillCode = beforeWaybillCode;
+      data.beforeWaybillCode = this.beforeWaybillCode;
       uni.navigateTo({
         url: `./scanOrder?data=${JSON.stringify(data)}`,
       });

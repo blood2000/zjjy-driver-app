@@ -4,6 +4,7 @@ const apiUrl = {
   uploadImg: '/aiotweb/config/common/v1/uploadFile',
   driverInfo: '/zjz1-jyz-service/wxmp/login/getDriver',
   uploadFile: '/assets/upload/uploadToHW',
+  getDriverAuth: '/system/user/certificates',  //获取司机认证信息
 }
 
 
