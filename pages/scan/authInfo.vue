@@ -107,10 +107,11 @@
           </view>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required">*</span>长期有效</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>长期有效</div>
           <picker
             mode="selector"
             :range="perpetualList"
+            :disabled="disabled"
             @change="changePerpetual($event, 'id')"
           >
             <view class="building-picker-btn">
@@ -133,10 +134,10 @@
       </div>
       <div class="zjjy-box">
         <div class="photo-box">
-          <div class="title2">
+          <div class="title2" v-if="!disabled">
             <span class="required">*</span> 请上传驾驶证件
           </div>
-          <div class="title-item">上传驾驶证照片，图片大小不能超过3M</div>
+          <div class="title-item" v-if="!disabled">上传驾驶证照片，图片大小不能超过3M</div>
           <div class="id-image" @click="upload('driverFront')">
             <img v-if="driverFront" :src="driverFront" alt="图片" />
             <img
@@ -154,13 +155,14 @@
             maxlength="32"
             placeholder="支持自动识别"
             type="text"
+            :disabled="disabled"
             v-model="driverNumber"
             cursor-spacing="150"
           />
         </div>
         <div class="input-item">
           <div class="title1">
-            <span class="required">*</span>驾驶证发证机关
+            <span class="required" v-if="!disabled">*</span>驾驶证发证机关
           </div>
           <input
             class="my-input"
@@ -168,6 +170,7 @@
             placeholder="支持自动识别"
             type="text"
             v-model="driverOrg"
+            :disabled="disabled"
             cursor-spacing="150"
           />
         </div>
@@ -184,6 +187,7 @@
           <picker
             mode="selector"
             :range="driverPostList"
+            :disabled="disabled"
             @change="changeDriverPost"
           >
             <view class="uni-input-default">
@@ -197,13 +201,14 @@
           </picker>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required">*</span>生效日期</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>生效日期</div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
                 <picker
                   mode="date"
                   :value="driverStart"
+                  :disabled="disabled"
                   @change="bindDateChange($event, 'driverStart')"
                 >
                   <!-- <view class="uni-input">{{
@@ -222,13 +227,14 @@
           </view>
         </div>
         <div class="input-item" v-if="driverPerpetualIndex !== 1">
-          <div class="title1"><span class="required">*</span>失效日期</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>失效日期</div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
                 <picker
                   mode="date"
                   :value="driverEnd"
+                  :disabled="disabled"
                   @change="bindDateChange($event, 'driverEnd')"
                 >
                   <!-- <view class="uni-input">{{
@@ -247,10 +253,11 @@
           </view>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required">*</span>长期有效</div>
+          <div class="title1"><span class="required" v-if="!disabled">*</span>长期有效</div>
           <picker
             mode="selector"
             :range="perpetualList"
+            :disabled="disabled"
             @change="changePerpetual($event, 'driver')"
           >
             <view class="building-picker-btn">
@@ -262,8 +269,8 @@
       </div>
       <div class="zjjy-box marginB">
         <div class="photo-box">
-          <div class="title2">请上传从业资格证</div>
-          <div class="title-item">上传从业资格证，图片大小不能超过3M</div>
+          <div class="title2" v-if="!disabled">请上传从业资格证</div>
+          <div class="title-item" v-if="!disabled">上传从业资格证，图片大小不能超过3M</div>
           <div class="id-image" @click="upload('obtainFront')">
             <img v-if="obtainFront" :src="obtainFront" alt="图片" />
             <img v-else src="../../static/order/obtain.png" alt="图片" />
@@ -277,12 +284,13 @@
             placeholder="请输入从业资格证号"
             type="text"
             v-model="obtainNumber"
+            :disabled="disabled"
             cursor-spacing="150"
           />
         </div>
         <div class="input-item">
           <div class="title1">从业资格证类型</div>
-          <picker mode="selector" :range="loadList" @change="changeObtainType">
+          <picker mode="selector" :range="loadList" @change="changeObtainType" :disabled="disabled">
             <view class="uni-input-default">
               <span v-if="obtainTypeIndex !== -1">{{
                 loadList[obtainTypeIndex]
@@ -300,6 +308,7 @@
                 <picker
                   mode="date"
                   :value="obtainStart"
+                  :disabled="disabled"
                   @change="bindDateChange($event, 'obtainStart')"
                 >
                   <view class="uni-input-default">
@@ -320,6 +329,7 @@
                 <picker
                   mode="date"
                   :value="obtainEnd"
+                  :disabled="disabled"
                   @change="bindDateChange($event, 'obtainEnd')"
                 >
                   <view class="uni-input-default">
@@ -334,7 +344,7 @@
         </div>
         <div class="input-item">
           <div class="title1">从业证办理省份名称</div>
-          <pick-regions limit="1" @getRegion="handleGetRegion1">
+          <pick-regions limit="1" @getRegion="handleGetRegion1" :pickerDisabled="disabled">
             <view class="uni-input-default">
               <span v-if="regionName1">{{ regionName1 }}</span>
               <span v-else class="uni-input-placeholder">支持自动识别</span>
@@ -407,9 +417,9 @@ export default {
   onLoad() {
     console.log("是否认证", this.vehicleMsg.auth);
     if (this.vehicleMsg.auth === 3) {
-      this.disabled = false;
-    } else {
       this.disabled = true;
+    } else {
+      this.disabled = false;
     }
     this.getAuthInfo();
   },
@@ -709,6 +719,7 @@ export default {
     },
     // 上传图片 1获取本地图片
     upload(type) {
+      if (this.disabled) return;
       const me = this;
       uni.chooseImage({
         count: 1, //默认9

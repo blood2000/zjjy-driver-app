@@ -3,6 +3,7 @@
     mode="multiSelector"
     :value="multiIndex"
     :range="multiArray"
+    :disabled="pickerDisabled"
     @change="handleValueChange"
     @columnchange="handleColumnChange"
   >
@@ -28,6 +29,10 @@ export default {
       type: String,
     },
     defaultRegion: [String, Array],
+    pickerDisabled: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
