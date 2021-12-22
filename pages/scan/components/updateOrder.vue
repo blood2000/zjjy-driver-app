@@ -45,7 +45,7 @@ export default {
     closed() {
       console.log("co");
       uni.navigateTo({
-        url: "../index/index",
+        url: "../../index/index",
       });
     },
     update() {

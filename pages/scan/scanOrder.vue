@@ -8,6 +8,7 @@
       @jumpTo="jumpTo"
       v-model="queryParams"
       :licenseNumbers="licenseNumbers"
+      :dispatchers="dispatchers"
     />
     <Shipments
       v-else
@@ -40,6 +41,7 @@ export default {
       types: 1,
       pageData: {},
       licenseNumbers: [],
+      dispatchers: [],
     };
   },
   computed: {
@@ -54,6 +56,7 @@ export default {
     this.types = this.pageData.receiveType;
     this.queryParams.orderPlanCode = this.pageData.orderPlanCode;
     this.licenseNumbers = this.pageData.vehicles;
+    this.dispatchers = this.pageData.teams;
   },
   methods: {
     setQueryParams(key, value) {

@@ -30,7 +30,7 @@
           {{ vehicleMsg.vehicleCode || '暂无车辆'}}
         </div>
       </div>
-      <div class="zjjy-box" >
+      <div class="zjjy-box">
         <div class="item-line">
           <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
           <div class="msg-icon"></div>

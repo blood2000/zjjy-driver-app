@@ -84,8 +84,10 @@ export default {
               });
             },
           });
+        } else {
+          obj[res.data.code]();
         }
-        obj[res.data.code]();
+        
       });
     },
   },

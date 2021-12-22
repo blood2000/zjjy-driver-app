@@ -2,6 +2,23 @@
   <div>
     <div class="zjjy-box">
       <div class="input-item">
+        <div class="title1">调度者 <span class="required">*</span></div>
+        <picker
+          mode="selector"
+          :range="dispatchers"
+          @change="changeDispatch"
+          range-key="teamName"
+        >
+          <view class="uni-input-default">
+            <span v-if="dispatchIndex !== -1">
+              {{ dispatchers[dispatchIndex].teamName }}
+            </span>
+            <span v-else class="uni-input-placeholder">请选择</span>
+            <uni-icons type="forward" size="14"></uni-icons>
+          </view>
+        </picker>
+      </div>
+      <div class="input-item">
         <div class="title1">车牌号 <span class="required">*</span></div>
         <div class="vehicle-item">
           <picker
@@ -47,7 +64,7 @@
         <!-- 用户上传图片，触发实现 -->
         <block v-for="(item, index) in imgSuccessList" :key="index">
           <div class="img-box" :class="activeIndex === index ? 'active' : ''">
-            <div class="img" @click="imgPreview(index)">
+            <div class="img">
               <img :src="item" alt="图片" />
             </div>
             <div class="close-icon" @click="deleteImg(index)"></div>
@@ -82,14 +99,20 @@ export default {
         return {};
       },
     },
-    licenseNumbers: {
+    // licenseNumbers: {
+    //   type: Array,
+    //   default: [],
+    // },
+    dispatchers: {
       type: Array,
       default: [],
     },
   },
   data() {
     return {
-      vehicleIndex: -1, // 车牌
+      licenseNumbers: [],  
+      vehicleIndex: 0, // 车牌
+      dispatchIndex: 0, //调度者索引
       imgSrcList: [], //图片列表
       imgSuccessList: [],
       activeIndex: -1, //图标选中下标
@@ -97,8 +120,9 @@ export default {
       vehicleMsg: {
         vehicleCode: "",
         licenseNumber: "",
+        teamCode: "",
       },
-      attachments: [],  //图片资料
+      attachments: [], //图片资料
     };
   },
   computed: {
@@ -115,6 +139,15 @@ export default {
       },
     },
   },
+
+  watch: {
+    dispatchers(val) {
+      this.vehicleIndex = 0;
+      this.licenseNumbers = val[this.dispatchIndex].vehicles;
+      // console.log('调度者下车辆', val[this.dispatchIndex])
+    },
+  },
+
   methods: {
     changeVehicle(e) {
       this.vehicleIndex = Number(e.detail.value);
@@ -123,11 +156,18 @@ export default {
         this.licenseNumbers[this.vehicleIndex].vehicleCode;
       this.queryParams.licenseNumber =
         this.licenseNumbers[this.vehicleIndex].licenseNumber;
-      this.vehicleMsg.vehicleCode =
-        this.licenseNumbers[this.vehicleIndex].vehicleCode;
-      this.vehicleMsg.licenseNumber =
-        this.licenseNumbers[this.vehicleIndex].licenseNumber;
-      console.log("this.queryParams", this.queryParams);
+      // this.vehicleMsg.vehicleCode =
+      //   this.licenseNumbers[this.vehicleIndex].vehicleCode;
+      // this.vehicleMsg.licenseNumber =
+      //   this.licenseNumbers[this.vehicleIndex].licenseNumber;
+      // console.log("this.queryParams", this.queryParams);
+    },
+    changeDispatch(e) {
+      this.dispatchIndex = e.detail.value * 1;
+      // this.vehicleMsg.teamName = this.dispatchers[this.dispatchIndex].teamName;
+      // this.vehicleMsg.teamCode = this.dispatchers[this.dispatchIndex].teamCode;
+      this.vehicleIndex = 0;
+      this.licenseNumbers = this.dispatchers[this.dispatchIndex].vehicles;
     },
     addVehicle() {
       console.log("111");
@@ -142,7 +182,7 @@ export default {
         sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
         sourceType: ["album"], //从相册选择
         success: (res) => {
-          // console.log("本地图片文件", res.tempFiles);
+          console.log("本地图片文件", res.tempFilePaths);
           this.imgSrcList = res.tempFilePaths;
           this.uploadImg();
         },
@@ -175,10 +215,16 @@ export default {
     // 删除图片
     deleteImg(index) {
       this.imgSuccessList.splice(index, 1);
+      this.attachments.splice(index, 1);
     },
 
     submit() {
-      console.log(this.vehicleMsg, this.netWeight,this.attachments)
+      this.vehicleMsg.vehicleCode =
+        this.licenseNumbers[this.vehicleIndex].vehicleCode;
+      this.vehicleMsg.licenseNumber =
+        this.licenseNumbers[this.vehicleIndex].licenseNumber;
+      this.vehicleMsg.teamCode = this.dispatchers[this.dispatchIndex].teamCode;
+      console.log(this.vehicleMsg, this.netWeight, this.attachments);
       if (!this.vehicleMsg.licenseNumber) {
         uni.showToast({
           title: "请选择车牌号",
@@ -207,8 +253,9 @@ export default {
         netWeight: this.netWeight, // 发货净重
         licenseNumber: this.vehicleMsg.licenseNumber,
         vehicleCode: this.vehicleMsg.vehicleCode,
+        teamCode: this.vehicleMsg.teamCode,
         attachments: this.attachments,
-      }
+      };
       this.$emit("jumpTo", params);
     },
   },
@@ -226,5 +273,15 @@ export default {
   width: 52rpx;
   height: 52rpx;
   margin-left: 28rpx;
+}
+
+.close-icon {
+  position: absolute;
+  top: -10rpx;
+  right: -10rpx;
+  width: 32rpx;
+  height: 32rpx;
+  background: url("../../../static/delete.png");
+  background-size: 32rpx 32rpx;
 }
 </style>
