@@ -15,6 +15,7 @@
       @jumpTo="jumpTo"
       v-model="queryParams"
       :licenseNumbers="licenseNumbers"
+      :dispatchers="dispatchers"
     />
   </div>
 </template>

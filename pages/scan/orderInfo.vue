@@ -687,7 +687,7 @@ export default {
       uni.chooseImage({
         count: 1, //默认9
         sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album"], //从相册选择
+        // sourceType: ["album"], //从相册选择
         success: function (res) {
           if (parseInt(res.tempFiles[0].size) > me.imageSize) {
             uni.showToast({

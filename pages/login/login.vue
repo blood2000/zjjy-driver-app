@@ -28,6 +28,7 @@
           《隐私政策》
         </span>
       </div>
+      
     </view>
   </view>
 </template>
@@ -83,7 +84,7 @@ export default {
       }
     },
     getPhoneNumber(e) {
-      console.log(e);
+      console.log('授权获取手机号', e);
       let that = this;
 
       // encryptedData: res.encryptedData,
@@ -128,25 +129,32 @@ export default {
           if (res.data.code === 200) {
             let token = res.data.data.access_token;
             let appType = res.data.data.appType;
+            console.log('token', token)
             uni.setStorageSync("token", token);
             uni.setStorageSync("appType", appType);
-            const avatar = uni.getStorageSync("avatar");
-            if (avatar) {
-              this.judgeToJump(appType);
-            } else {
-              uni.showModal({
-                title: "提示",
-                content: "是否允许使用微信头像?",
-                // showCancel: false,
-                success: (res) => {
-                  if (res.confirm) {
-                    this.getUserProfile(appType);
-                  } else {
-                    this.judgeToJump(appType);
-                  }
-                },
-              });
-            }
+            uni.setStorageSync('phone',res.data.data.phone);
+            // if (appType === 5) {
+            //   uni.setStorageSync('nickName',res.data.data.nickName);
+            // }
+            this.judgeToJump(appType);
+            // const avatar = uni.getStorageSync("avatar");
+            // if (avatar) {
+            //   this.judgeToJump(appType);
+            // } else {
+              
+            //   uni.showModal({
+            //     title: "提示",
+            //     content: "是否使用微信头像?",
+            //     // showCancel: false,
+            //     success: (res) => {
+            //       if (res.confirm) {
+            //         this.getUserProfile(appType);
+            //       } else {
+            //         this.judgeToJump(appType);
+            //       }
+            //     },
+            //   });
+            // }
           } else {
             console.log("===============================>>", res);
             uni.showModal({
@@ -166,9 +174,9 @@ export default {
         });
     },
     judgeToJump(appType) {
-      if (appType === 4) {
+      if (appType === 4 || appType === 5) {
         uni.redirectTo({
-          url: "../index/vehicle",
+          url: "../index/choose",
         });
       } else {
         uni.redirectTo({
@@ -186,7 +194,7 @@ export default {
       wx.getUserProfile({
         desc: "用于完善用户资料", // 声明获取用户个人信息后的用途，后续会展示在弹窗中，请谨慎填写
         success: (res) => {
-          console.log(res);
+          console.log('获取用户资料', res);
           this.isGetTel = true;
           this.userInfo = res.userInfo;
           // this.$store.commit("setUserInfo", res.userInfo);
@@ -194,6 +202,10 @@ export default {
           this.hasUserInfo = true;
           this.judgeToJump(appType);
         },
+        fail: () => {
+          console.log('拒绝');
+          this.judgeToJump(appType);
+        }
       });
     },
 

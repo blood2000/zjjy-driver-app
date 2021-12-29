@@ -353,14 +353,14 @@
           </pick-regions>
         </div>
       </div>
-      <!-- <div class="group-submit">
+      <div class="group-submit" v-if="!disabled">
         <div class="as-btn-flexItem-other as-btn-FFF" @click="jumpTo(0)">
           取消
         </div>
         <div class="as-btn-flexItem-other as-btn-blue" @click="jumpTo(1)">
           修改
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -724,7 +724,7 @@ export default {
       uni.chooseImage({
         count: 1, //默认9
         sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album"], //从相册选择
+        // sourceType: ["album"], //从相册选择
         success: function (res) {
           if (parseInt(res.tempFiles[0].size) > me.imageSize) {
             uni.showToast({

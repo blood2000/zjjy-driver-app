@@ -1,35 +1,38 @@
-<!-- 提交车辆信息 -->
+<!-- 关联司机账号 -->
 <template>
   <div class="content">
-    
+    <!-- <div class="prompt-box">
+      <uni-icons type="info" size="16" color="#db3555"></uni-icons>
+      <span>系统未找到您的注册信息，请完善以下信息后进行操作</span>
+    </div> -->
     <div class="main">
       <div class="zjjy-box">
         <div class="input-item">
-          <div class="title2">姓名 <span class="required">*</span></div>
+          <div class="title2">手机号 <span class="required">*</span></div>
           <input
             class="my-input"
             maxlength="32"
-            placeholder="请输入姓名"
+            placeholder="请输入平台司机手机号"
             type="text"
-            v-model="vehicleMsg.name"
+            v-model="vehicleMsg.phone"
             cursor-spacing="150"
           />
         </div>
         <div class="input-item">
-          <div class="title2">车牌号 <span class="required">*</span></div>
+          <div class="title2">密码 <span class="required">*</span></div>
           <input
             class="my-input"
             maxlength="10"
-            placeholder="请输入车牌号"
-            type="text"
-            v-model="vehicleMsg.vehicleCode"
+            placeholder="请输入密码"
+            type="password"
+            v-model="vehicleMsg.password"
             cursor-spacing="150"
           />
         </div>
       </div>
     </div>
     <div class="btn-box fixed-bottom">
-      <div class="as-btn" @click="submit">提交资料</div>
+      <div class="as-btn" @click="submit">确认关联</div>
     </div>
   </div>
 </template>
@@ -37,12 +40,13 @@
 <script>
 import urlConfig from "../../config/urlConfig.js";
 import { uniRequest } from "../../config/request.js";
+import formFilter from '../../utils/filter';
 export default {
   data() {
     return {
       vehicleMsg: {
-        name: "",
-        vehicleCode: "",
+        phone: "",
+        password: "",
       },
     };
   },
@@ -51,23 +55,34 @@ export default {
 
   computed: {},
 
-  
+  onLoad() {
+    
+  },
 
   methods: {
     
     submit() {
-
-      if (!this.vehicleMsg.name) {
+      if (!this.vehicleMsg.phone) {
         uni.showToast({
-          title: "请输入姓名",
+          title: "请输入手机号",
           icon: "none",
           duration: 1500,
         });
         return;
       }
-      if (!this.vehicleMsg.vehicleCode) {
+      const phoneReg = /^[1][3,4,5,6,7,8,9][0-9]{9}$/;
+      // console.log(phoneReg.test(this.vehicleMsg.phone))
+      if (!phoneReg.test(this.vehicleMsg.phone)) {
         uni.showToast({
-          title: "请输入车牌号码",
+          title: "请输入正确手机号",
+          icon: "none",
+          duration: 1500,
+        });
+        return;
+      }
+      if (!this.vehicleMsg.password) {
+        uni.showToast({
+          title: "请输入密码",
           icon: "none",
           duration: 1500,
         });
@@ -76,23 +91,27 @@ export default {
       const appType = uni.getStorageSync("appType");
       const phone = uni.getStorageSync("phone");
       let config = {
-        url: "registerDriver",
+        url: "relateDriver",
         method: "POST",
         data: {
           appType: appType,
-          phone: phone,
-          name: this.vehicleMsg.name,
-          licenseNumber: this.vehicleMsg.vehicleCode
+          loginPhoneNumber: phone,
+          associationPhoneNumber: this.vehicleMsg.phone,
+          password: this.vehicleMsg.password
         },
       };
       if (appType === 5) {
         config.noToken = true;
       }
+      
       uniRequest(config).then((res) => {
-        console.log("司机注册", res);
+        console.log("司机关联", res);
         if (res.data.code === 200) {
           uni.setStorageSync("appType", '');
-          this.$store.commit("setVehicleMsg", this.vehicleMsg);
+          let obj = {
+            phone: this.vehicleMsg.phone
+          }
+          this.$store.commit("setVehicleMsg", obj);
           // uni.setStorageSync("driverInfo", JSON.stringify(this.vehicleMsg));
           if (res.data.token) {
             uni.setStorageSync("token", res.data.token);

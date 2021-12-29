@@ -6,9 +6,13 @@
     </div>
     <div class="user-box">
       <div class="user-card">
-        <div class="user-card-left" >
+        <div class="user-card-left">
           <div class="avatar">
-            <img :src="avatar" alt="" />
+            <!-- <img :src="avatar" alt="" /> -->
+            <open-data
+              type="userAvatarUrl"
+              :default-avatar="avatar"
+            ></open-data>
           </div>
           <div class="user-card-msg">
             <div class="user-name-box">
@@ -27,10 +31,10 @@
           </div>
         </div>
         <div class="user-card-right">
-          {{ vehicleMsg.vehicleCode || '暂无车辆'}}
+          {{ vehicleMsg.vehicleCode || "暂无车辆" }}
         </div>
       </div>
-      <div class="zjjy-box">
+      <div class="zjjy-box" @click="toChoose">
         <div class="item-line">
           <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
           <div class="msg-icon"></div>
@@ -52,6 +56,16 @@
           </div>
         </div>
       </div>
+
+      <div class="order-box" v-if="showOrder">
+        <freight-card
+          :title="orderTitle"
+          :typesFreight="typesFreight"
+          :indexShow="true"
+          :isAllowUnload="isAllowUnload"
+          :pageData="unloadData"
+        />
+      </div>
     </div>
     <!-- 弹窗 -->
     <my-modal
@@ -66,7 +80,7 @@
     </my-modal>
 
     <!-- 卸货单提示 -->
-    <div class="modal" v-if="showUnloadModal" @click="cancelUnloadModal">
+    <!-- <div class="modal" v-if="showUnloadModal" @click="cancelUnloadModal">
       <div class="modal-box">
         <freight-card
           :title="unloadTitle"
@@ -84,7 +98,7 @@
           <div>称重未完成，请先完成称重再进行卸货</div>
         </div>
       </div>
-    </div>
+    </div> -->
   </view>
 </template>
 
@@ -100,12 +114,13 @@ export default {
     return {
       avatar: "",
       orderMsg: "",
-      unloadTitle: "需要卸货的运单",
+      orderTitle: "正在进行的运单",
       unloadData: {
-        endAddress: "富邦总部大楼",
+        planName: "测试计划名称",
+        recCompanyName: "富邦总部大楼",
         goodsName: "煤炭及制品",
         receiveType: 1,
-        startAddress: "台江",
+        sedCompanyName: "台江",
         transCompany: "超好运",
       },
       funcModules: [
@@ -129,7 +144,7 @@ export default {
       modalContent:
         "您已进入排队等候区，系统已为您自动分配排队号，请按照排队号码顺序依次有序进场。感谢您的配合！如不按顺序进场将根据场区管理制度进行相应处罚！",
       queueCode: 30,
-      showUnloadModal: false,
+      showOrder: false,
       isAllowUnload: true, //是否可以卸货
       typesFreight: 1,
     };
@@ -192,9 +207,10 @@ export default {
             auth: res.data.data.driverInfoVo.authStatus,
             userCode: res.data.data.driverInfoVo.userCode,
           };
-          console.log('车辆信息', res.data.data.driverInfoVo.vehicleInfoVo)
+          console.log("车辆信息", res.data.data.driverInfoVo.vehicleInfoVo);
           if (res.data.data.driverInfoVo.vehicleInfoVo) {
-            vehicleInfo.vehicleCode = res.data.data.driverInfoVo.vehicleInfoVo.licenseNumber
+            vehicleInfo.vehicleCode =
+              res.data.data.driverInfoVo.vehicleInfoVo.licenseNumber;
           }
           this.$store.commit("setVehicleMsg", vehicleInfo);
           if (res.data.data.jyzWaybillInfoVo) {
@@ -207,6 +223,11 @@ export default {
     toVehicle() {
       uni.navigateTo({
         url: "./vehicle",
+      });
+    },
+    toChoose() {
+      uni.navigateTo({
+        url: "./choose",
       });
     },
     toScanOrder() {
@@ -263,22 +284,25 @@ export default {
       this.showUnloadModal = false;
     },
     handleUnload(unloadMsg) {
-      if (this.scanInfo.code) {
-        this.showUnloadModal = false;
-        return;
-      }
-      this.showUnloadModal = true;
+      // if (this.scanInfo.code) {
+      //   this.showOrder = false;
+      //   return;
+      // }
+      this.showOrder = true;
       this.typesFreight = unloadMsg.receiveType;
       this.isAllowUnload = unloadMsg.weighingStatus;
       this.unloadData = {
         receiveType: unloadMsg.receiveType,
-        startAddress: unloadMsg.aliasName,
-        endAddress: unloadMsg.unAliasName,
+        sedCompanyName: unloadMsg.sedCompanyName,
+        recCompanyName: unloadMsg.recCompanyName,
         goodsName: unloadMsg.goodsBigType,
-        transCompany: unloadMsg.receiveType,
+        transCompany: unloadMsg.companyName,
         // vehicleInfoCode: unloadMsg.vehicleInfoCode,
         driverInfoCode: unloadMsg.driverInfoCode,
-      }
+        planName: unloadMsg.planName,
+     
+      };
+      
     },
     //卸货
     toUnload() {
@@ -299,7 +323,9 @@ export default {
         //清楚beforeWaybillCode
         if (res.data.code === 200) {
           uni.navigateTo({
-            url: `../scan/orderSucceed?data=${JSON.stringify(res.data.data)}&&orderType=1`,
+            url: `../scan/orderSucceed?data=${JSON.stringify(
+              res.data.data
+            )}&&orderType=1`,
           });
         } else {
           uni.showModal({

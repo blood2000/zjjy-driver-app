@@ -44,8 +44,9 @@ export default {
   methods: {
     closed() {
       console.log("co");
+      this.$store.commit("setScanInfo", {});
       uni.navigateTo({
-        url: "../../index/index",
+        url: "../index/index",
       });
     },
     update() {

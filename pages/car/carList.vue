@@ -40,7 +40,8 @@ export default {
       threshold: 50,
     };
   },
-  onLoad() {
+  onLoad() {},
+  onShow() {
     this.getList();
   },
   watch: {},
@@ -82,24 +83,24 @@ export default {
       const config = {
         url: "getByCode",
         method: "GET",
-        params:{code:item.code}
+        params: { code: item.code },
       };
-      uniRequest(config).then(res=>{
-        console.log('获取详情',res)
-        if(res.data.code == 200){
-          const data = res.data.data
-            uni.navigateTo({
-          url: `./addCar?data=${JSON.stringify(data)}`,
-        });
+      uniRequest(config).then((res) => {
+        console.log("获取详情", res);
+        if (res.data.code == 200) {
+          const data = res.data.data;
+          uni.navigateTo({
+            url: `./addCar?data=${JSON.stringify(data)}`,
+          });
         }
-      })
+      });
     },
     rowClick(item) {
       console.log("点击某一行");
       console.log(item);
     },
     optionClick(item, oItem) {
-      console.log("点击某个操作按钮",item.license_number);
+      console.log("点击某个操作按钮", item.license_number);
       console.log(item, oItem);
       if (oItem.text == "删除") {
         //这里直接根据text判断点击了哪个按钮，也可自自己增加唯一标识key，当然也可以自己在组件按需定义对应事件

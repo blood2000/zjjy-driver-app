@@ -53,6 +53,7 @@
           placeholder="请输入发货净重"
           type="text"
           v-model="netWeight"
+          @input="numberInput"
           cursor-spacing="150"
         />
         <span class="unit" style="padding-left: 9rpx">吨</span>
@@ -90,7 +91,7 @@
 <script>
 import { uniUpload } from "../../../config/request.js";
 import { mapState } from "vuex";
-
+import formFilter from '../../../utils/filter';
 export default {
   props: {
     value: {
@@ -116,6 +117,7 @@ export default {
       imgSrcList: [], //图片列表
       imgSuccessList: [],
       activeIndex: -1, //图标选中下标
+      tempWeight: '',   //净重过滤缓存
       netWeight: "", //净重
       vehicleMsg: {
         vehicleCode: "",
@@ -176,11 +178,23 @@ export default {
       });
       // this.$store.commit("setLicenseNumbers", "闽A888999");
     },
+    numberInput(e) {
+      setTimeout(() => {
+        let value = e.detail.value;
+        if (value != "" && formFilter.priceFilter(value)) {
+          this.tempWeight = value;
+        } else {
+          if (value != "") {
+            this.netWeight = this.tempWeight;
+          }
+        }
+      }, 0);
+    },
     importTem() {
       uni.chooseImage({
         count: 9, //默认9
         sizeType: ["original", "compressed"], //可以指定是原图还是压缩图，默认二者都有
-        sourceType: ["album"], //从相册选择
+        //sourceType: ["album"], //从相册选择
         success: (res) => {
           console.log("本地图片文件", res.tempFilePaths);
           this.imgSrcList = res.tempFilePaths;

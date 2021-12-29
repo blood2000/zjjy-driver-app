@@ -13,6 +13,7 @@ const formFilter = {
 		result = (decimalReg.test(value));
 		return result;
 	},
+	
 }
 
 export default formFilter;

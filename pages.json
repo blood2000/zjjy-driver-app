@@ -72,9 +72,29 @@
       }
     },
     {
+      "path": "pages/index/choose",
+      "style": {
+        "navigationBarTitleText": "选择创建方式",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
       "path": "pages/index/vehicle",
       "style": {
-        "navigationBarTitleText": "至简集运司机端",
+        "navigationBarTitleText": "新建司机",
+        "enablePullDownRefresh": false,
+        "app-plus": {
+          "bounce": "none"
+        }
+      }
+    },
+    {
+      "path": "pages/index/relate",
+      "style": {
+        "navigationBarTitleText": "关联司机",
         "enablePullDownRefresh": false,
         "app-plus": {
           "bounce": "none"

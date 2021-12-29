@@ -149,7 +149,10 @@
 .logo {
 	width: 180rpx;
 	height: 180rpx;
-	background: #FFFFFF;
+	/* background: #FFFFFF; */
+	/* border-radius: 20rpx;
+	overflow: hidden; */
+	/* box-shadow: 2rpx 2rpx 16rpx 0 rgba(0,0,100, .4); */
 
 }
 
