@@ -94,8 +94,8 @@ export default {
           uni.setStorageSync("appType", '');
           this.$store.commit("setVehicleMsg", this.vehicleMsg);
           // uni.setStorageSync("driverInfo", JSON.stringify(this.vehicleMsg));
-          if (res.data.token) {
-            uni.setStorageSync("token", res.data.token);
+          if (appType === 5) {
+            uni.setStorageSync("token", res.data.data.access_token);
           }
           uni.redirectTo({
             url: "./index",

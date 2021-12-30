@@ -14,6 +14,7 @@
 
 
 <script>
+import { mapState } from "vuex";
 import optionList from "../../components/gzz-option-list/option-list.vue";
 import { uniRequest } from "../../config/request";
 
@@ -41,6 +42,13 @@ export default {
     };
   },
   onLoad() {},
+  computed: {
+    ...mapState({
+      vehicleMsg: (state) => state.user.vehicleMsg,
+      userInfo: (state) => state.user.userInfo,
+      scanInfo: (state) => state.user.scanInfo,
+    }),
+  },
   onShow() {
     this.getList();
   },
@@ -97,7 +105,15 @@ export default {
     },
     rowClick(item) {
       console.log("点击某一行");
-      console.log(item);
+      // console.log(item);
+      console.log(this.scanInfo.code)
+      if (this.scanInfo.code) {
+        uni.navigateTo({
+          url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
+          // url: `../scan/index?code=40d1ee6830e1457ca4530d5f83dc8b02&type&type=1`,
+        });
+        // return;
+      }
     },
     optionClick(item, oItem) {
       console.log("点击某个操作按钮", item.license_number);

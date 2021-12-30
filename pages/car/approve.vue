@@ -228,17 +228,17 @@ export default {
       if (this.isEdit) this.editValue();
     },
     editValue() {
-      const data = this.QParams;   
+      const data = this.QParams;
       this.carFront = data.vehicleImg;
       if (data.travelLicenseBo) {
-           if (data.travelLicenseBo.vehicleEnergyType) {
-        this.energyTypeList.forEach((item, index) => {
-          if (item.dictLabel === data.travelLicenseBo.vehicleEnergyType) {
-            this.energyTypeIndex = index;
-          }
-        });
-        this.energyType = data.travelLicenseBo.vehicleEnergyType;
-      }
+        if (data.travelLicenseBo.vehicleEnergyType) {
+          this.energyTypeList.forEach((item, index) => {
+            if (item.dictLabel === data.travelLicenseBo.vehicleEnergyType) {
+              this.energyTypeIndex = index;
+            }
+          });
+          this.energyType = data.travelLicenseBo.vehicleEnergyType;
+        }
         if (data.travelLicenseBo.driverLicenseCarColor) {
           this.vehicleColorList.forEach((item, index) => {
             if (item.dictLabel === data.travelLicenseBo.driverLicenseCarColor) {
@@ -301,31 +301,74 @@ export default {
             uni.hideLoading();
             return;
           }
+          this.getOCR(this[type], type);
           //TODO...上传OCR识别
           //判断OCR权限是否过期
-          let autoToken = uni.getStorageSync("authToken");
-          if (autoToken) {
-            autoToken = JSON.parse(autoToken);
-            let now = new Date().getTime();
-            let last = autoToken.time;
-            let leap = now - last < 24 * 3600 * 1000;
-            if (leap) {
-              this.uploadOCR(this[type], type);
-            } else {
-              //过期重启获取OCR token
-              this.autoOCR().then(() => {
-                this.uploadOCR(this[type], type);
-              });
-            }
-          } else {
-            //无OCR token
-            this.autoOCR().then(() => {
-              this.uploadOCR(this[type], type);
-            });
-          }
+          // let autoToken = uni.getStorageSync("authToken");
+          // if (autoToken) {
+          //   autoToken = JSON.parse(autoToken);
+          //   let now = new Date().getTime();
+          //   let last = autoToken.time;
+          //   let leap = now - last < 24 * 3600 * 1000;
+          //   if (leap) {
+          //     this.uploadOCR(this[type], type);
+          //   } else {
+          //     //过期重启获取OCR token
+          //     this.autoOCR().then(() => {
+          //       this.uploadOCR(this[type], type);
+          //     });
+          //   }
+          // } else {
+          //   //无OCR token
+          //   this.autoOCR().then(() => {
+          //     this.uploadOCR(this[type], type);
+          //   });
+          // }
         }
       });
-    }, // OCR识别：华为云
+    },
+    //OCR
+    getOCR(imageUrl, type) {
+      const me = this;
+      let side = {
+        drivingFront: "front",
+        drivingBack: "back",
+      };
+      let config = {
+        url: "uploadOCR",
+        method: "POST",
+        contentType: "application/x-www-form-urlencoded",
+        data: {
+          imageUrl: imageUrl,
+          side: side[type],
+          type: 1,
+        },
+      };
+      uniRequest(config).then((res) => {
+        uni.hideLoading();
+        console.log("服务端OCR识别", res);
+        let resOCR = res.data;
+        if (resOCR.code === 200) {
+          let result = resOCR.data.result;
+          if (result.number !== me.QParams.driverLicenseCarNumber) {
+            uni.showToast({
+              title: "前后车牌不一致，请重新上传行驶证",
+              duration: 2000,
+            });
+            this[type] = "";
+            return;
+          }
+          const resultsFn = {
+            drivingFront: me.drivingFrontFn,
+            drivingBack: me.drivingBackFn,
+          };
+          resultsFn[type](result);
+        } else {
+          uni.showToast("该图片不合规");
+        }
+      });
+    },
+    // OCR识别：华为云
     uploadOCR(url, type) {
       const me = this;
       let side = {
@@ -639,8 +682,11 @@ export default {
             content: "添加成功",
             showCancel: false,
             success: (res) => {
-              uni.navigateTo({
-                url: "./carList",
+              // uni.navigateTo({
+              //   url: "./carList",
+              // });
+               uni.navigateBack({
+                delta: 2,
               });
             },
           });

@@ -15,7 +15,6 @@
             placeholder="请输入平台司机手机号"
             type="text"
             v-model="vehicleMsg.phone"
-            cursor-spacing="150"
           />
         </div>
         <div class="input-item">
@@ -26,13 +25,12 @@
             placeholder="请输入密码"
             type="password"
             v-model="vehicleMsg.password"
-            cursor-spacing="150"
           />
         </div>
       </div>
-    </div>
-    <div class="btn-box fixed-bottom">
-      <div class="as-btn" @click="submit">确认关联</div>
+      <div class="btn-box">
+        <div class="as-btn" @click="submit">确认关联</div>
+      </div>
     </div>
   </div>
 </template>
@@ -40,10 +38,11 @@
 <script>
 import urlConfig from "../../config/urlConfig.js";
 import { uniRequest } from "../../config/request.js";
-import formFilter from '../../utils/filter';
+import formFilter from "../../utils/filter";
 export default {
   data() {
     return {
+      password: "",
       vehicleMsg: {
         phone: "",
         password: "",
@@ -55,12 +54,9 @@ export default {
 
   computed: {},
 
-  onLoad() {
-    
-  },
+  onLoad() {},
 
   methods: {
-    
     submit() {
       if (!this.vehicleMsg.phone) {
         uni.showToast({
@@ -94,28 +90,25 @@ export default {
         url: "relateDriver",
         method: "POST",
         data: {
-          appType: appType,
           loginPhoneNumber: phone,
           associationPhoneNumber: this.vehicleMsg.phone,
-          password: this.vehicleMsg.password
+          password: this.vehicleMsg.password,
         },
       };
       if (appType === 5) {
         config.noToken = true;
       }
-      
+
       uniRequest(config).then((res) => {
         console.log("司机关联", res);
         if (res.data.code === 200) {
-          uni.setStorageSync("appType", '');
+          uni.setStorageSync("appType", "");
           let obj = {
-            phone: this.vehicleMsg.phone
-          }
+            phone: this.vehicleMsg.phone,
+          };
           this.$store.commit("setVehicleMsg", obj);
           // uni.setStorageSync("driverInfo", JSON.stringify(this.vehicleMsg));
-          if (res.data.token) {
-            uni.setStorageSync("token", res.data.token);
-          }
+          uni.setStorageSync("token", res.data.data.access_token);
           uni.redirectTo({
             url: "./index",
           });
@@ -134,5 +127,13 @@ export default {
 <style lang='scss' scoped>
 .main {
   padding-top: 40rpx;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+
+.btn-box {
+  padding: 20rpx 0;
 }
 </style>

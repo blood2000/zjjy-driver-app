@@ -739,43 +739,44 @@ export default {
               },
             },
           };
-          if (autoToken) {
-            autoToken = JSON.parse(autoToken);
-            let now = new Date().getTime();
-            let last = autoToken.time;
-            let leap = now - last < 24 * 3600 * 1000;
-            if (leap) {
-              this.uploadOCR(cardType[type].name, this[type], type).then(
-                (resOCR) => {
-                  // this.idCardOCRHandle(resOCR);
-                  cardType[type].fun(resOCR);
-                }
-              );
-            } else {
-              //过期重启获取OCR token
-              this.autoOCR().then(() => {
-                this.uploadOCR(cardType[type].name, this[type], type).then(
-                  (resOCR) => {
-                    console.log("cardType", cardType[type]);
-                    if (cardType[type] === "idCard") {
-                      this.idCardOCRHandle(resOCR);
-                    } else {
-                      console.log("驾驶证");
-                    }
-                  }
-                );
-              });
-            }
-          } else {
-            //无OCR token
-            this.autoOCR().then(() => {
-              this.uploadOCR(cardType[type].name, this[type], type).then(
-                (resOCR) => {
-                  this.idCardOCRHandle(resOCR);
-                }
-              );
-            });
-          }
+          this.getOCR(cardType[type].name, this[type], cardType[type].fun);
+          // if (autoToken) {
+          //   autoToken = JSON.parse(autoToken);
+          //   let now = new Date().getTime();
+          //   let last = autoToken.time;
+          //   let leap = now - last < 24 * 3600 * 1000;
+          //   if (leap) {
+          //     this.uploadOCR(cardType[type].name, this[type], type).then(
+          //       (resOCR) => {
+          //         // this.idCardOCRHandle(resOCR);
+          //         cardType[type].fun(resOCR);
+          //       }
+          //     );
+          //   } else {
+          //     //过期重启获取OCR token
+          //     this.autoOCR().then(() => {
+          //       this.uploadOCR(cardType[type].name, this[type], type).then(
+          //         (resOCR) => {
+          //           console.log("cardType", cardType[type]);
+          //           if (cardType[type] === "idCard") {
+          //             this.idCardOCRHandle(resOCR);
+          //           } else {
+          //             console.log("驾驶证");
+          //           }
+          //         }
+          //       );
+          //     });
+          //   }
+          // } else {
+          //   //无OCR token
+          //   this.autoOCR().then(() => {
+          //     this.uploadOCR(cardType[type].name, this[type], type).then(
+          //       (resOCR) => {
+          //         this.idCardOCRHandle(resOCR);
+          //       }
+          //     );
+          //   });
+          // }
         }
       });
     },
@@ -877,9 +878,39 @@ export default {
         });
       });
     },
+
+    //OCR
+    getOCR(type, imageUrl, handle) {
+      const OCRobj = {
+        idCard: {
+          imageUrl: imageUrl,
+          type: 0,
+        },
+        driverLicense: {
+          imageUrl: imageUrl,
+          type: 2,
+          returnIssuingAuthority: true,
+        },
+        obtainFront: {
+          imageUrl: imageUrl,
+          type: 1,
+        },
+      };
+      let config = {
+        url: "uploadOCR",
+        method: "POST",
+        contentType: "application/x-www-form-urlencoded",
+        data: OCRobj[type],
+      };
+      uniRequest(config).then((res) => {
+        uni.hideLoading();
+        console.log("服务端OCR识别", res);
+        handle(res.data);
+      });
+    },
     //身份证ocr处理
     idCardOCRHandle(resOCR) {
-      if (resOCR.statusCode === 200) {
+      if (resOCR.code === 200) {
         let result = resOCR.data.result;
         if (result.name) {
           this.name = result.name;
@@ -897,7 +928,7 @@ export default {
       }
     },
     driverOCRHandle(resOCR) {
-      if (resOCR.statusCode === 200) {
+      if (resOCR.code === 200) {
         let result = resOCR.data.result;
         this.driverNumber = result.number;
         this.driverPostList.map((item, index) => {
@@ -911,6 +942,9 @@ export default {
         if (result.valid_to) {
           this.driverEnd = this.handleDate(result.valid_to, 1);
           this.driverEnd && (this.driverPerpetualIndex = 0);
+        }
+        if (result.issuing_authority) {
+          this.driverOrg = result.issuing_authority;
         }
       }
     },

@@ -6,6 +6,8 @@ const apiUrl = {
   driverInfo: '/zjz1-jyz-service/wxmp/login/getDriver',
   uploadFile: '/assets/upload/uploadToHW',
   getDriverAuth: '/system/user/certificates',  //获取司机认证信息
+  uploadOCR: '/jyz/ocr/getCertInfo',  //OCR识别
+
 }
 
 

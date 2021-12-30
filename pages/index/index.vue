@@ -34,7 +34,7 @@
           {{ vehicleMsg.vehicleCode || "暂无车辆" }}
         </div>
       </div>
-      <div class="zjjy-box" @click="toChoose">
+      <div class="zjjy-box" >
         <div class="item-line">
           <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
           <div class="msg-icon"></div>
@@ -43,7 +43,7 @@
       </div>
     </div>
     <div class="main">
-      <div class="main-content">
+      <div class="main-content" >
         <div
           class="main-content-item"
           v-for="(item, index) in funcModules"
@@ -342,6 +342,7 @@ export default {
 <style lang="scss" scoped>
 .main {
   padding-top: 0;
+  overflow-y: auto;
 }
 
 .zjjy-box {

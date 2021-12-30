@@ -6,7 +6,9 @@
           <div class="title2" v-if="!disabled">
             <span class="required">*</span> 请上传身份证件
           </div>
-          <div class="title-item" v-if="!disabled">上传身份证照片，图片大小不能超过3M</div>
+          <div class="title-item" v-if="!disabled">
+            上传身份证照片，图片大小不能超过3M
+          </div>
           <div class="id-image">
             <template>
               <img
@@ -41,7 +43,9 @@
           </div>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>姓名</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>姓名
+          </div>
           <input
             class="my-input"
             maxlength="32"
@@ -53,7 +57,9 @@
           />
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>身份证号</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>身份证号
+          </div>
           <input
             class="my-input"
             maxlength="32"
@@ -65,7 +71,9 @@
           />
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>生效日期</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>生效日期
+          </div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
@@ -86,7 +94,9 @@
           </view>
         </div>
         <div class="input-item" v-if="perpetualIndex !== 1">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>失效日期</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>失效日期
+          </div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
@@ -107,7 +117,9 @@
           </view>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>长期有效</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>长期有效
+          </div>
           <picker
             mode="selector"
             :range="perpetualList"
@@ -137,7 +149,9 @@
           <div class="title2" v-if="!disabled">
             <span class="required">*</span> 请上传驾驶证件
           </div>
-          <div class="title-item" v-if="!disabled">上传驾驶证照片，图片大小不能超过3M</div>
+          <div class="title-item" v-if="!disabled">
+            上传驾驶证照片，图片大小不能超过3M
+          </div>
           <div class="id-image" @click="upload('driverFront')">
             <img v-if="driverFront" :src="driverFront" alt="图片" />
             <img
@@ -201,7 +215,9 @@
           </picker>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>生效日期</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>生效日期
+          </div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
@@ -227,7 +243,9 @@
           </view>
         </div>
         <div class="input-item" v-if="driverPerpetualIndex !== 1">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>失效日期</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>失效日期
+          </div>
           <view class="uni-list">
             <view class="uni-list-cell">
               <view class="uni-list-cell-db">
@@ -253,7 +271,9 @@
           </view>
         </div>
         <div class="input-item">
-          <div class="title1"><span class="required" v-if="!disabled">*</span>长期有效</div>
+          <div class="title1">
+            <span class="required" v-if="!disabled">*</span>长期有效
+          </div>
           <picker
             mode="selector"
             :range="perpetualList"
@@ -270,7 +290,9 @@
       <div class="zjjy-box marginB">
         <div class="photo-box">
           <div class="title2" v-if="!disabled">请上传从业资格证</div>
-          <div class="title-item" v-if="!disabled">上传从业资格证，图片大小不能超过3M</div>
+          <div class="title-item" v-if="!disabled">
+            上传从业资格证，图片大小不能超过3M
+          </div>
           <div class="id-image" @click="upload('obtainFront')">
             <img v-if="obtainFront" :src="obtainFront" alt="图片" />
             <img v-else src="../../static/order/obtain.png" alt="图片" />
@@ -290,7 +312,12 @@
         </div>
         <div class="input-item">
           <div class="title1">从业资格证类型</div>
-          <picker mode="selector" :range="loadList" @change="changeObtainType" :disabled="disabled">
+          <picker
+            mode="selector"
+            :range="loadList"
+            @change="changeObtainType"
+            :disabled="disabled"
+          >
             <view class="uni-input-default">
               <span v-if="obtainTypeIndex !== -1">{{
                 loadList[obtainTypeIndex]
@@ -344,7 +371,11 @@
         </div>
         <div class="input-item">
           <div class="title1">从业证办理省份名称</div>
-          <pick-regions limit="1" @getRegion="handleGetRegion1" :pickerDisabled="disabled">
+          <pick-regions
+            limit="1"
+            @getRegion="handleGetRegion1"
+            :pickerDisabled="disabled"
+          >
             <view class="uni-input-default">
               <span v-if="regionName1">{{ regionName1 }}</span>
               <span v-else class="uni-input-placeholder">支持自动识别</span>
@@ -738,6 +769,7 @@ export default {
         },
       });
     },
+
     // 获取远程图片
     httpImage(url, type) {
       // this[type] = localUrl;
@@ -776,147 +808,45 @@ export default {
               },
             },
           };
-          if (autoToken) {
-            autoToken = JSON.parse(autoToken);
-            let now = new Date().getTime();
-            let last = autoToken.time;
-            let leap = now - last < 24 * 3600 * 1000;
-            if (leap) {
-              this.uploadOCR(cardType[type].name, this[type], type).then(
-                (resOCR) => {
-                  // this.idCardOCRHandle(resOCR);
-                  cardType[type].fun(resOCR);
-                }
-              );
-            } else {
-              //过期重启获取OCR token
-              this.autoOCR().then(() => {
-                this.uploadOCR(cardType[type].name, this[type], type).then(
-                  (resOCR) => {
-                    console.log("cardType", cardType[type]);
-                    if (cardType[type] === "idCard") {
-                      this.idCardOCRHandle(resOCR);
-                    } else {
-                      console.log("驾驶证");
-                    }
-                  }
-                );
-              });
-            }
-          } else {
-            //无OCR token
-            this.autoOCR().then(() => {
-              this.uploadOCR(cardType[type].name, this[type], type).then(
-                (resOCR) => {
-                  this.idCardOCRHandle(resOCR);
-                }
-              );
-            });
-          }
+          this.getOCR(cardType[type].name, this[type], cardType[type].fun);
+          
         }
       });
     },
 
-    //OCR鉴权
-    autoOCR() {
-      let params = {
-        auth: {
-          identity: {
-            methods: ["password"],
-            password: {
-              user: {
-                name: "ddcwl668", //替换为实际用户名
-                password: "ddc753159", //替换为实际的用户密码
-                domain: {
-                  name: "ddcwl668", //替换为实际账号名
-                },
-              },
-            },
-          },
-          scope: {
-            project: {
-              name: "cn-north-4", //替换为实际的project name，如cn-north-4
-            },
-          },
-        },
-      };
-      return new Promise((resolve, reject) => {
-        uni.request({
-          url: "https://iam.cn-north-4.myhuaweicloud.com/v3/auth/tokens",
-          method: "POST",
-          data: params,
-          header: {
-            "Content-Type": "application/json",
-          },
-          success: (res) => {
-            console.log("OCR获取token", res);
-            if (res.header["X-Subject-Token"]) {
-              let authToken = {
-                token: res.header["X-Subject-Token"],
-                time: new Date().getTime(),
-              };
-              uni.setStorageSync("authToken", JSON.stringify(authToken));
-            }
-
-            resolve(res);
-          },
-        });
-      });
-    },
-
-    // OCR识别：华为云
-    uploadOCR(OCRType, imgUrl, sideType) {
-      //OCRType: 识别卡片类型，imgUrl： 图片地址，sideType：卡片正反面
-      let side = {
-        idFront: "front",
-        idBack: "back",
-      };
+    //OCR
+    getOCR(type, imageUrl, handle) {
       const OCRobj = {
         idCard: {
-          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/id-card",
-          data: {
-            url: imgUrl,
-            side: side[sideType],
-          },
+          imageUrl: imageUrl,
+          type: 0,
         },
         driverLicense: {
-          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/driver-license",
-          data: {
-            url: imgUrl,
-          },
+          imageUrl: imageUrl,
+          type: 2,
+          returnIssuingAuthority: true,
         },
         obtainFront: {
-          url: "https://ocr.cn-north-4.myhuaweicloud.com/v2/0c8cc49ff7800fe12fadc007e5c69530/ocr/business-license",
-          data: {
-            url: imgUrl,
-          },
+          imageUrl: imageUrl,
+          type: 1,
         },
       };
-
-      let token = JSON.parse(uni.getStorageSync("authToken")).token;
-      return new Promise((resolve, reject) => {
-        uni.request({
-          url: OCRobj[OCRType].url,
-          method: "POST",
-          data: OCRobj[OCRType].data,
-          header: {
-            "X-Auth-Token": token,
-            "Content-Type": "application/json",
-          },
-          success: (resOCR) => {
-            console.log("OCR识别", resOCR);
-            uni.hideLoading();
-            resolve(resOCR);
-          },
-          fail: () => {
-            uni.hideLoading();
-          },
-        });
+      let config = {
+        url: "uploadOCR",
+        method: "POST",
+        contentType: "application/x-www-form-urlencoded",
+        data: OCRobj[type],
+      };
+      uniRequest(config).then((res) => {
+        uni.hideLoading();
+        console.log("服务端OCR识别", res);
+        handle(res.data);
       });
     },
+
     //身份证ocr处理
     idCardOCRHandle(resOCR) {
-      if (resOCR.statusCode === 200) {
+      if (resOCR.code === 200) {
         let result = resOCR.data.result;
         if (result.name) {
           this.name = result.name;
@@ -934,7 +864,7 @@ export default {
       }
     },
     driverOCRHandle(resOCR) {
-      if (resOCR.statusCode === 200) {
+      if (resOCR.code === 200) {
         let result = resOCR.data.result;
         this.driverNumber = result.number;
         this.driverPostList.map((item, index) => {
@@ -948,6 +878,9 @@ export default {
         if (result.valid_to) {
           this.driverEnd = this.handleDate(result.valid_to, 1);
           this.driverEnd && (this.driverPerpetualIndex = 0);
+        }
+        if (result.issuing_authority) {
+          this.driverOrg = result.issuing_authority;
         }
       }
     },

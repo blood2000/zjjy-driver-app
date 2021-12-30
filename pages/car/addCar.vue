@@ -396,8 +396,11 @@ export default {
             content: text + "成功",
             showCancel: false,
             success: (res) => {
-              uni.navigateTo({
-                url: "./carList",
+              // uni.navigateTo({
+              //   url: "./carList",
+              // });
+              uni.navigateBack({
+                delta: 1,
               });
             },
           });
