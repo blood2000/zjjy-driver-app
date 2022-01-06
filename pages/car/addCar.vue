@@ -109,6 +109,7 @@
 </template>
 
 <script>
+import { mapState } from "vuex";
 import CarNumber from "@/components/codecook-carnumber/codecook-carnumber.vue";
 import { uniRequest } from "../../config/request";
 export default {
@@ -132,6 +133,13 @@ export default {
       carCubic: null,
       radioValue: false,
     };
+  },
+  computed: {
+    ...mapState({
+      vehicleMsg: (state) => state.user.vehicleMsg,
+      userInfo: (state) => state.user.userInfo,
+      scanInfo: (state) => state.user.scanInfo,
+    }),
   },
   watch: {
     carNumber(val) {
@@ -320,9 +328,16 @@ export default {
                 };
                 uniRequest(config).then((res) => {
                   console.log("检查车辆关系", res);
-                  uni.navigateTo({
-                    url: "./carList",
-                  });
+                  if (this.scanInfo.code) {
+                    uni.navigateTo({
+                      url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
+                    });
+                    // return;
+                  } else {
+                    uni.navigateTo({
+                      url: "./carList",
+                    });
+                  }
                 });
               } else {
                 me.carNumber = "";
@@ -344,11 +359,10 @@ export default {
         isCertification: this.radioValue ? 1 : 0,
         vehicleLoadWeight: this.carCubic,
       };
-      if(this.isEdit){
-        obj ={...this.vehicleData,...obj} 
-        
+      if (this.isEdit) {
+        obj = { ...this.vehicleData, ...obj };
       }
-      return obj
+      return obj;
     },
     // 添加车辆
     add() {
@@ -399,9 +413,16 @@ export default {
               // uni.navigateTo({
               //   url: "./carList",
               // });
-              uni.navigateBack({
-                delta: 1,
-              });
+              if (this.scanInfo.code) {
+                uni.navigateTo({
+                  url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
+                });
+                // return;
+              } else {
+                uni.navigateBack({
+                  delta: 1,
+                });
+              }
             },
           });
         }

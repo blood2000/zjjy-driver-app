@@ -11,7 +11,7 @@
       :dispatchers="dispatchers"
     />
     <Shipments
-      v-else
+      v-if="types === 2"
       @jumpTo="jumpTo"
       v-model="queryParams"
       :licenseNumbers="licenseNumbers"
@@ -39,7 +39,7 @@ export default {
         attachments: null,
         beforeWaybillCode: null,
       },
-      types: 1,
+      types: 0,
       pageData: {},
       licenseNumbers: [],
       dispatchers: [],
@@ -58,6 +58,13 @@ export default {
     this.queryParams.orderPlanCode = this.pageData.orderPlanCode;
     this.licenseNumbers = this.pageData.vehicles;
     this.dispatchers = this.pageData.teams;
+
+    // this.types = 2;
+    // this.licenseNumbers = [];
+    // this.dispatchers = [
+    //   {teamCode: '000', teamName:'调度者00', vehicles: [{vehicleCode: '0000',licenseNumber: '闽A111111'}]},
+    //   {teamCode: '111',teamName:'调度者11', vehicles: [{vehicleCode: '0000',licenseNumber: '闽A111111'},{vehicleCode: '1111',licenseNumber: '闽A787878'},]}
+    // ];
   },
   methods: {
     setQueryParams(key, value) {

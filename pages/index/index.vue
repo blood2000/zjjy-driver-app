@@ -9,10 +9,16 @@
         <div class="user-card-left">
           <div class="avatar">
             <!-- <img :src="avatar" alt="" /> -->
+
             <open-data
               type="userAvatarUrl"
               :default-avatar="avatar"
             ></open-data>
+            <!-- <button
+              class="avatar-btn"
+              open-type="chooseAvatar"
+              bind:chooseavatar="onChooseAvatar"
+            ></button> -->
           </div>
           <div class="user-card-msg">
             <div class="user-name-box">
@@ -34,7 +40,7 @@
           {{ vehicleMsg.vehicleCode || "暂无车辆" }}
         </div>
       </div>
-      <div class="zjjy-box" >
+      <div class="zjjy-box" @click="toScanOrder">
         <div class="item-line">
           <!-- <uni-icons type="email" size="24" color="#2198bd"></uni-icons> -->
           <div class="msg-icon"></div>
@@ -43,7 +49,7 @@
       </div>
     </div>
     <div class="main">
-      <div class="main-content" >
+      <div class="main-content">
         <div
           class="main-content-item"
           v-for="(item, index) in funcModules"
@@ -116,12 +122,12 @@ export default {
       orderMsg: "",
       orderTitle: "正在进行的运单",
       unloadData: {
-        planName: "测试计划名称",
-        recCompanyName: "富邦总部大楼",
-        goodsName: "煤炭及制品",
+        planName: "",
+        recCompanyName: "",
+        goodsName: "",
         receiveType: 1,
-        sedCompanyName: "台江",
-        transCompany: "超好运",
+        sedCompanyName: "",
+        transCompany: "",
       },
       funcModules: [
         // {
@@ -183,6 +189,12 @@ export default {
     }, 1000);
   },
 
+  onChooseAvatar(e) {
+      this.avatar = e.detail;
+      console.log(e);
+      uni.setStorageSync("avatar", this.avatar);
+    },
+
   onShow() {
     // console.log(this.vehicleMsg);
     // if (!this.vehicleMsg.name || !this.vehicleMsg.vehicleCode) {
@@ -193,6 +205,7 @@ export default {
   },
 
   methods: {
+    
     getDriverInfo() {
       const config = {
         url: "driverInfo",
@@ -216,6 +229,9 @@ export default {
           if (res.data.data.jyzWaybillInfoVo) {
             //卸货处理
             this.handleUnload(res.data.data.jyzWaybillInfoVo);
+          } else {
+            this.showOrder = false;
+            this.unloadData = null;
           }
         }
       });
@@ -300,9 +316,7 @@ export default {
         // vehicleInfoCode: unloadMsg.vehicleInfoCode,
         driverInfoCode: unloadMsg.driverInfoCode,
         planName: unloadMsg.planName,
-     
       };
-      
     },
     //卸货
     toUnload() {

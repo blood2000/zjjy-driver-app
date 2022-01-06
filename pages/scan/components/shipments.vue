@@ -21,7 +21,7 @@
       <div class="input-item">
         <div class="title1">车牌号 <span class="required">*</span></div>
         <div class="vehicle-item">
-          <picker
+          <!-- <picker
             mode="selector"
             :range="licenseNumbers"
             @change="changeVehicle"
@@ -34,7 +34,16 @@
               <span v-else class="uni-input-placeholder">请选择</span>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
-          </picker>
+          </picker> -->
+          <view class="uni-input-default" @click="openPickerModal">
+            <span v-if="licenseNumber">
+              {{ licenseNumber }}
+            </span>
+            <span v-if="!licenseNumber" class="uni-input-placeholder"
+              >请选择</span
+            >
+            <uni-icons type="forward" size="14"></uni-icons>
+          </view>
           <!-- <div class="add-vehicle" v-else @click="addVehicle">添加车牌</div> -->
           <img
             class="add_car"
@@ -45,6 +54,12 @@
         </div>
       </div>
     </div>
+      <picker-modal
+      :pickerData="licenseNumbers"
+      :showModal="showPickerModal"
+      @cancelModal="cancelPickerModal"
+      @chooseVehicle="chooseVehicle"
+    ></picker-modal>
     <div class="btn-box fixed-bottom">
       <div class="as-btn" @click="submit">确认接单</div>
     </div>
@@ -53,7 +68,9 @@
 
 <script>
 import { mapState } from "vuex";
+import PickerModal from "./PickerModal";
 export default {
+  components: { PickerModal },
   props: {
     value: {
       type: Object,
@@ -72,8 +89,10 @@ export default {
   },
   data() {
     return {
-      // licenseNumbers: [],
-      vehicleIndex: 0, // 车牌
+      licenseNumbers: [],
+      licenseNumber: "", // 车牌
+      showPickerModal: false,
+      vehicleIndex: 0, 
       dispatchIndex: 0, //调度者索引
       vehicleMsg: {
         vehicleCode: "",
@@ -95,24 +114,40 @@ export default {
         this.$emit("input", value);
       },
     },
-    licenseNumbers: {
-      get() {
-        return this.dispatchers[this.dispatchIndex].vehicles;
-      },
-      set(value) {
-        console.log('车牌计算属性修改', value)
+    // licenseNumbers: {
+    //   get() {
+    //     return this.dispatchers[this.dispatchIndex].vehicles;
+    //   },
+    //   set(value) {
+    //     console.log('车牌计算属性修改', value)
 
-      }
-    }
+    //   }
+    // }
   },
-  // watch: {
-  //   dispatchers(val) {
-  //     this.vehicleIndex = 0;
-  //     this.licenseNumbers = val[this.dispatchIndex].vehicles;
-  //     console.log('调度者下车辆', val[this.dispatchIndex])
-  //   },
-  // },
+  mounted() {
+    this.licenseNumbers = this.dispatchers[this.dispatchIndex].vehicles;
+  },
+  watch: {
+    dispatchers(val) {
+      this.vehicleIndex = 0;
+      this.licenseNumbers = val[this.dispatchIndex].vehicles;
+      console.log('调度者下车辆', val[this.dispatchIndex])
+    },
+  },
   methods: {
+    openPickerModal() {
+      this.showPickerModal = true;
+    },
+    cancelPickerModal() {
+      this.showPickerModal = false;
+    },
+    chooseVehicle(params) {
+      console.log(params)
+      this.licenseNumber = params.licenseNumber;
+      this.vehicleMsg.vehicleCode = params.vehicleCode;
+      this.vehicleMsg.licenseNumber = this.licenseNumber;
+
+    },
     changeVehicle(e) {
       this.vehicleIndex = Number(e.detail.value);
       // this.vehicleMsg.vehicleCode =
@@ -133,14 +168,16 @@ export default {
       // this.vehicleMsg.teamName = this.dispatchers[this.dispatchIndex].teamName;
       // this.vehicleMsg.teamCode = this.dispatchers[this.dispatchIndex].teamCode;
       this.vehicleIndex = 0;
-      // this.licenseNumbers = this.dispatchers[this.dispatchIndex].vehicles;
+      this.licenseNumbers = this.dispatchers[this.dispatchIndex].vehicles;
+
     },
     submit() {
-      this.vehicleMsg.vehicleCode =
-        this.licenseNumbers[this.vehicleIndex].vehicleCode;
-      this.vehicleMsg.licenseNumber =
-        this.licenseNumbers[this.vehicleIndex].licenseNumber;
+      // this.vehicleMsg.vehicleCode =
+      //   this.licenseNumbers[this.vehicleIndex].vehicleCode;
+      // this.vehicleMsg.licenseNumber =
+      //   this.licenseNumbers[this.vehicleIndex].licenseNumber;
       this.vehicleMsg.teamCode = this.dispatchers[this.dispatchIndex].teamCode;
+      console.log(this.vehicleMsg);
       if (!this.vehicleMsg.licenseNumber) {
         uni.showToast({
           title: "请选择车牌号",

@@ -155,6 +155,7 @@
 
 
 <script>
+import { mapState } from "vuex";
 import { uniRequest, uniUpload } from "../../config/request";
 import ImageDefault from "./components/imageDefault.vue";
 export default {
@@ -189,6 +190,13 @@ export default {
     this.init();
   },
   watch: {},
+  computed: {
+    ...mapState({
+      vehicleMsg: (state) => state.user.vehicleMsg,
+      userInfo: (state) => state.user.userInfo,
+      scanInfo: (state) => state.user.scanInfo,
+    }),
+  },
   methods: {
     // 初始化
     async init() {
@@ -685,9 +693,16 @@ export default {
               // uni.navigateTo({
               //   url: "./carList",
               // });
-               uni.navigateBack({
-                delta: 2,
-              });
+              if (this.scanInfo.code) {
+                uni.navigateTo({
+                  url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
+                });
+                // return;
+              } else {
+                uni.navigateBack({
+                  delta: 2,
+                });
+              }
             },
           });
         }

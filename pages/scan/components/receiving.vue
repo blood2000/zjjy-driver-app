@@ -21,7 +21,7 @@
       <div class="input-item">
         <div class="title1">车牌号 <span class="required">*</span></div>
         <div class="vehicle-item">
-          <picker
+          <!-- <picker
             mode="selector"
             :range="licenseNumbers"
             @change="changeVehicle"
@@ -34,7 +34,17 @@
               <span v-else class="uni-input-placeholder">请选择</span>
               <uni-icons type="forward" size="14"></uni-icons>
             </view>
-          </picker>
+          </picker> -->
+
+          <view class="uni-input-default" @click="openPickerModal">
+            <span v-if="licenseNumber">
+              {{ licenseNumber }}
+            </span>
+            <span v-if="!licenseNumber" class="uni-input-placeholder"
+              >请选择</span
+            >
+            <uni-icons type="forward" size="14"></uni-icons>
+          </view>
           <!-- <span class="add-vehicle"  @click="addVehicle">添加车牌</span> -->
           <img
             class="add_car"
@@ -81,6 +91,12 @@
         <div class="no-img" v-if="!imgSuccessList && !edit">无</div>
       </div>
     </div>
+    <picker-modal
+      :pickerData="licenseNumbers"
+      :showModal="showPickerModal"
+      @cancelModal="cancelPickerModal"
+      @chooseVehicle="chooseVehicle"
+    ></picker-modal>
     <div class="btn-box fixed-bottom">
       <!-- <div class="as-btn" @click="$emit('jumpTo')">确认接单</div> -->
       <div class="as-btn" @click="submit">确认接单</div>
@@ -91,8 +107,10 @@
 <script>
 import { uniUpload } from "../../../config/request.js";
 import { mapState } from "vuex";
-import formFilter from '../../../utils/filter';
+import formFilter from "../../../utils/filter";
+import PickerModal from "./PickerModal";
 export default {
+  components: { PickerModal },
   props: {
     value: {
       type: Object,
@@ -111,13 +129,15 @@ export default {
   },
   data() {
     return {
-      licenseNumbers: [],  
-      vehicleIndex: 0, // 车牌
+      licenseNumbers: [],
+      licenseNumber: "", // 车牌
+      vehicleIndex: 0,
       dispatchIndex: 0, //调度者索引
+      showPickerModal: false,
       imgSrcList: [], //图片列表
       imgSuccessList: [],
       activeIndex: -1, //图标选中下标
-      tempWeight: '',   //净重过滤缓存
+      tempWeight: "", //净重过滤缓存
       netWeight: "", //净重
       vehicleMsg: {
         vehicleCode: "",
@@ -142,6 +162,11 @@ export default {
     },
   },
 
+  mounted() {
+    this.licenseNumbers = this.dispatchers[this.dispatchIndex].vehicles;
+  },
+  
+
   watch: {
     dispatchers(val) {
       this.vehicleIndex = 0;
@@ -151,6 +176,19 @@ export default {
   },
 
   methods: {
+    openPickerModal() {
+      this.showPickerModal = true;
+    },
+    cancelPickerModal() {
+      this.showPickerModal = false;
+    },
+    chooseVehicle(params) {
+      console.log(params)
+      this.licenseNumber = params.licenseNumber;
+      this.vehicleMsg.vehicleCode = params.vehicleCode;
+      this.vehicleMsg.licenseNumber = this.licenseNumber;
+
+    },
     changeVehicle(e) {
       this.vehicleIndex = Number(e.detail.value);
       console.log("this.queryParams", this.queryParams);
@@ -233,10 +271,10 @@ export default {
     },
 
     submit() {
-      this.vehicleMsg.vehicleCode =
-        this.licenseNumbers[this.vehicleIndex].vehicleCode;
-      this.vehicleMsg.licenseNumber =
-        this.licenseNumbers[this.vehicleIndex].licenseNumber;
+      // this.vehicleMsg.vehicleCode =
+      //   this.licenseNumbers[this.vehicleIndex].vehicleCode;
+      // this.vehicleMsg.licenseNumber =
+      //   this.licenseNumbers[this.vehicleIndex].licenseNumber;
       this.vehicleMsg.teamCode = this.dispatchers[this.dispatchIndex].teamCode;
       console.log(this.vehicleMsg, this.netWeight, this.attachments);
       if (!this.vehicleMsg.licenseNumber) {

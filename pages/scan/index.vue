@@ -24,7 +24,9 @@ export default {
     this.getOrderStatus(code, type);
   },
 
-  onShow() {},
+  onShow() {
+    
+  },
 
   methods: {
     getOrderStatus(code, type) {
