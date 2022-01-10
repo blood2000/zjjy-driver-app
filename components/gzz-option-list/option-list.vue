@@ -49,7 +49,7 @@
               <div class="title22">{{ item.license_number }}</div>
               <img
                 v-if="item.auth_status > 2"
-                src="../../static/order/svip.png"
+                src="../../static/auth.png"
                 alt=""
               />
             </div>
@@ -248,8 +248,8 @@ export default {
       align-items: center;
       & > img {
         padding-left: 18rpx;
-        width: 102rpx;
-        height: 32rpx;
+        width: 97rpx;
+        height: 28rpx;
       }
     }
   }

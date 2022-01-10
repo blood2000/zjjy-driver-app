@@ -1,5 +1,5 @@
   <template>
-  <div>
+  <div class="main">
     <div class="zjjy-box" style="margin-top: 23rpx">
       <div class="input-item">
         <div class="title1"><span class="required">*</span> 车辆识别码</div>
@@ -31,9 +31,7 @@
         </picker>
       </div>
       <div class="input-item">
-        <div class="title1">
-          <span class="required">*</span> 道路运输许可证号
-        </div>
+        <div class="title1">道路运输许可证号</div>
         <input
           class="my-input"
           maxlength="32"
@@ -45,7 +43,7 @@
       </div>
 
       <div class="input-item">
-        <div class="title1"><span class="required">*</span>车身颜色</div>
+        <div class="title1">车身颜色</div>
         <picker
           mode="selector"
           :range="vehicleColorList"
@@ -56,7 +54,7 @@
             <span v-if="vehicleColorIndex !== -1">{{
               vehicleColorList[vehicleColorIndex].dictLabel
             }}</span>
-            <span v-else class="uni-input-placeholder">请选择车牌颜色</span>
+            <span v-else class="uni-input-placeholder">请选择车身颜色</span>
             <uni-icons type="forward" size="14"></uni-icons>
           </view>
           <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
@@ -64,7 +62,7 @@
       </div>
 
       <div class="input-item">
-        <div class="title1"><span class="required">*</span> 轴数</div>
+        <div class="title1">轴数</div>
         <picker
           mode="selector"
           range-key="dictLabel"
@@ -118,9 +116,7 @@
     </div>
     <div class="zjjy-box">
       <div class="photo-box">
-        <div class="title2">
-          <span class="required">*</span> 请上传道路运输许可证
-        </div>
+        <div class="title2">请上传道路运输许可证</div>
         <div class="title-item">上传道路运输许可证照片，图片大小不能超过3M</div>
         <div class="id-image" @click="upload('load')">
           <template>
@@ -137,7 +133,7 @@
     </div>
     <div class="zjjy-box">
       <div class="photo-box">
-        <div class="title2"><span class="required">*</span> 车头正面照</div>
+        <div class="title2">车头正面照</div>
         <div class="title-item">上传驾驶证照片，图片大小不能超过3M</div>
         <div class="id-image" @click="upload('carFront')">
           <img class="image-size" v-if="carFront" :src="carFront" alt="图片" />
@@ -358,12 +354,22 @@ export default {
         let resOCR = res.data;
         if (resOCR.code === 200) {
           let result = resOCR.data.result;
-          if (result.number !== me.QParams.driverLicenseCarNumber) {
-            uni.showToast({
-              title: "前后车牌不一致，请重新上传行驶证",
-              duration: 2000,
+          if (
+            me.QParams.driverLicenseCarNumber &&
+            result.number !== me.QParams.driverLicenseCarNumber
+          ) {
+            uni.showModal({
+              title: "提示",
+              content: "前后车牌不一致，请重新上传行驶证",
+              showCancel: false,
+              success: (res) => {
+                if (res.confirm) {
+                  //点击确认
+                  this[type] = "";
+                }
+              },
             });
-            this[type] = "";
+           
             return;
           }
           const resultsFn = {
@@ -372,7 +378,10 @@ export default {
           };
           resultsFn[type](result);
         } else {
-          uni.showToast("该图片不合规");
+          uni.showToast({
+            title: "图片不合规",
+            duration: 2000,
+          });
         }
       });
     },
@@ -412,11 +421,21 @@ export default {
             if (resOCR.statusCode === 200) {
               let result = resOCR.data.result;
               if (result.number !== me.QParams.driverLicenseCarNumber) {
-                uni.showToast({
-                  title: "前后车牌不一致，请重新上传行驶证",
-                  duration: 2000,
+                uni.showModal({
+                  title: "提示",
+                  content: "前后车牌不一致，请重新上传行驶证",
+                  showCancel: false,
+                  success: (res) => {
+                    if (res.confirm) {
+                      //点击确认
+                      this[type] = "";
+                    }
+                  },
                 });
-                this[type] = "";
+                // uni.showToast({
+                //   title: "前后车牌不一致，请重新上传行驶证",
+                //   duration: 2000,
+                // });
                 return;
               }
               const resultsFn = {
@@ -607,30 +626,30 @@ export default {
         });
         return false;
       }
-      if (!this.loadNumber) {
-        uni.showToast({
-          title: "请输入道路运输许可证号",
-          icon: "none",
-          duration: 1500,
-        });
-        return false;
-      }
-      if (!this.vehicleColor) {
-        uni.showToast({
-          title: "请选择车身颜色",
-          icon: "none",
-          duration: 1500,
-        });
-        return false;
-      }
-      if (!this.axles) {
-        uni.showToast({
-          title: "请选择轴数",
-          icon: "none",
-          duration: 1500,
-        });
-        return false;
-      }
+      // if (!this.loadNumber) {
+      //   uni.showToast({
+      //     title: "请输入道路运输许可证号",
+      //     icon: "none",
+      //     duration: 1500,
+      //   });
+      //   return false;
+      // }
+      // if (!this.vehicleColor) {
+      //   uni.showToast({
+      //     title: "请选择车身颜色",
+      //     icon: "none",
+      //     duration: 1500,
+      //   });
+      //   return false;
+      // }
+      // if (!this.axles) {
+      //   uni.showToast({
+      //     title: "请选择轴数",
+      //     icon: "none",
+      //     duration: 1500,
+      //   });
+      //   return false;
+      // }
 
       if (!this.drivingFront) {
         uni.showToast({
@@ -648,22 +667,22 @@ export default {
         });
         return false;
       }
-      if (!this.load) {
-        uni.showToast({
-          title: "请选择上传道路运输许可证",
-          icon: "none",
-          duration: 1500,
-        });
-        return false;
-      }
-      if (!this.carFront) {
-        uni.showToast({
-          title: "请选择上传车头正面照片",
-          icon: "none",
-          duration: 1500,
-        });
-        return false;
-      }
+      // if (!this.load) {
+      //   uni.showToast({
+      //     title: "请选择上传道路运输许可证",
+      //     icon: "none",
+      //     duration: 1500,
+      //   });
+      //   return false;
+      // }
+      // if (!this.carFront) {
+      //   uni.showToast({
+      //     title: "请选择上传车头正面照片",
+      //     icon: "none",
+      //     duration: 1500,
+      //   });
+      //   return false;
+      // }
       return true;
     },
     submit() {
@@ -680,21 +699,22 @@ export default {
         console.log("add res", res);
         if (res.data.code != 200) {
           return uni.showToast({
-            title: "提交失败",
+            title: res.data.msg,
             icon: "none",
             duration: 1500,
           });
         } else {
+          let content = this.isEdit ? "编辑成功" : "添加成功";
           uni.showModal({
             title: "提示",
-            content: "添加成功",
+            content: content,
             showCancel: false,
             success: (res) => {
               // uni.navigateTo({
               //   url: "./carList",
               // });
               if (this.scanInfo.code) {
-                uni.navigateTo({
+                uni.redirectTo({
                   url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
                 });
                 // return;
@@ -713,7 +733,11 @@ export default {
   beforeMount() {},
 };
 </script>
-  <style scoped lang="scss">
+<style scoped lang="scss">
+.main {
+  overflow-y: auto;
+  padding-bottom: 40rpx;
+}
 .photo-box {
   padding-top: 34rpx;
 }
@@ -739,7 +763,7 @@ export default {
   padding: 16rpx 36rpx;
 }
 .bans {
-  width: 702rpx;
+  width: 92%;
   height: 90rpx;
   border-radius: 10rpx;
   font-size: 32rpx;
@@ -749,8 +773,9 @@ export default {
   color: #ffffff;
   line-height: 90rpx;
   text-align: center;
-  margin: 81rpx 24rpx;
-  margin-bottom: 160rpx;
+  margin: 40rpx auto 0;
+  // margin: 81rpx 24rpx;
+  // margin-bottom: 160rpx;
 }
 .image-size {
   width: 300rpx;

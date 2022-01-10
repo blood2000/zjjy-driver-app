@@ -38,6 +38,7 @@
           maxlength="32"
           placeholder="请输入车长"
           type="text"
+          @input="filterInput($event, 'vehicleLen')"
           @focus="inputFocus"
           v-model="vehicleLen"
           cursor-spacing="150"
@@ -50,6 +51,7 @@
           maxlength="32"
           placeholder="请输入车宽"
           type="text"
+          @input="filterInput($event, 'vehicleWidth')"
           @focus="inputFocus"
           v-model="vehicleWidth"
           cursor-spacing="150"
@@ -67,18 +69,33 @@
           maxlength="32"
           placeholder="请输入车辆重量"
           type="text"
+          @input="filterInput($event, 'vehicleWeight')"
           @focus="inputFocus"
           v-model="vehicleWeight"
           cursor-spacing="150"
         />
       </div>
       <div class="input-item">
-        <div class="title1"><span class="required">*</span>车辆可载立方</div>
+        <div class="title1"><span class="required">*</span>车辆可载重量</div>
+        <input
+          class="my-input"
+          maxlength="32"
+          placeholder="请输入车辆可载重量"
+          type="text"
+          @input="filterInput($event, 'vehicleLoadWeight')"
+          @focus="inputFocus"
+          v-model="vehicleLoadWeight"
+          cursor-spacing="150"
+        />
+      </div>
+      <div class="input-item">
+        <div class="title1">车辆可载立方</div>
         <input
           class="my-input"
           maxlength="32"
           placeholder="请输入车辆可载立方"
           type="text"
+          @input="filterInput($event, 'carCubic')"
           @focus="inputFocus"
           v-model="carCubic"
           cursor-spacing="150"
@@ -92,7 +109,7 @@
           v-model="radioValue"
         /> -->
         <checkbox
-          :disabled="isEdit && radioValue"
+          :disabled="isEdit && isCredit"
           @click="handleRadioValue"
           :checked="radioValue"
           value="radioValue"
@@ -103,7 +120,7 @@
       class="bans"
       :class="carNumber.length >= 7 ? 'bans-ok' : 'bans-no'"
       @click="add"
-      >确认添加</view
+      >确认{{isEdit ? "修改" : "添加"}}</view
     >
   </div>
 </template>
@@ -112,6 +129,7 @@
 import { mapState } from "vuex";
 import CarNumber from "@/components/codecook-carnumber/codecook-carnumber.vue";
 import { uniRequest } from "../../config/request";
+import formFilter from "../../utils/filter";
 export default {
   components: {
     CarNumber,
@@ -130,8 +148,17 @@ export default {
       vehicleLen: null,
       vehicleWidth: null,
       vehicleWeight: null,
-      carCubic: null,
+      vehicleLoadWeight: null,  //可载重量
+      carCubic: null,    //可载立方
       radioValue: false,
+      isCredit: false,
+      temInput: {
+        vehicleLen: '',
+        vehicleWidth: '',
+        vehicleWeight: '',
+        vehicleLoadWeight: '',
+        carCubic: '',
+      }
     };
   },
   computed: {
@@ -164,6 +191,7 @@ export default {
       uni.setNavigationBarTitle({
         title: "修改车辆",
       });
+      
     }
     this.init();
   },
@@ -209,9 +237,9 @@ export default {
         });
         return false;
       }
-      if (!this.carCubic) {
+      if (!this.vehicleLoadWeight) {
         uni.showToast({
-          title: "请输入车辆可载立方",
+          title: "请输入车辆可载重量",
           icon: "none",
           duration: 1500,
         });
@@ -234,6 +262,19 @@ export default {
         if (this.isEdit) this.editVehicle();
       });
     },
+    //数值输入
+    filterInput(e, type) {
+      setTimeout(() => {
+        let value = e.detail.value;
+        if (value != "" && formFilter.priceFilter(value)) {
+          this.temInput[type] = value;
+        } else {
+          if (value != "") {
+            this[type] = this.temInput[type];
+          }
+        }
+      }, 0);
+    },
     // 编辑
     editVehicle() {
       const vehicleData = this.vehicleData;
@@ -249,14 +290,14 @@ export default {
         this.vehicleType = vehicleData.vehicleType;
       }
       this.vehicleWeight = vehicleData.vehicleTotalWeight;
-      this.carCubic = vehicleData.vehicleLoadWeight;
+      this.carCubic = vehicleData.vehicleRemainingLoadVolume;
+      this.vehicleLoadWeight = vehicleData.vehicleLoadWeight;
       this.vehicleWidth = vehicleData.vehicleWidth;
       this.vehicleLen = vehicleData.vehicleLength;
       this.radioValue = vehicleData.isCertification === 1 ? true : false;
+      this.isCredit = vehicleData.isCertification === 1 ? true : false;
       console.log("this.radioValue", this.radioValue);
-      if (this.radioValue) {
-        this.radioValue;
-      }
+      
     },
     // 单选值改变
     handleRadioValue() {
@@ -329,13 +370,13 @@ export default {
                 uniRequest(config).then((res) => {
                   console.log("检查车辆关系", res);
                   if (this.scanInfo.code) {
-                    uni.navigateTo({
+                    uni.redirectTo({
                       url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
                     });
                     // return;
                   } else {
-                    uni.navigateTo({
-                      url: "./carList",
+                    uni.navigateBack({
+                      delta: 1,
                     });
                   }
                 });
@@ -357,7 +398,8 @@ export default {
         vehicleWidth: this.vehicleWidth,
         vehicleTotalWeight: this.vehicleWeight,
         isCertification: this.radioValue ? 1 : 0,
-        vehicleLoadWeight: this.carCubic,
+        vehicleLoadWeight: this.vehicleLoadWeight,
+        vehicleRemainingLoadVolume: this.carCubic,
       };
       if (this.isEdit) {
         obj = { ...this.vehicleData, ...obj };
