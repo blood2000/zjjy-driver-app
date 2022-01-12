@@ -352,7 +352,7 @@ export default {
         uni.hideLoading();
         console.log("服务端OCR识别", res);
         let resOCR = res.data;
-        if (resOCR.code === 200) {
+        if (resOCR.code === 200 && resOCR.data.result) {
           let result = resOCR.data.result;
           if (
             me.QParams.driverLicenseCarNumber &&
@@ -360,7 +360,7 @@ export default {
           ) {
             uni.showModal({
               title: "提示",
-              content: "前后车牌不一致，请重新上传行驶证",
+              content: "前后车牌不一致，请重新上传",
               showCancel: false,
               success: (res) => {
                 if (res.confirm) {
@@ -369,7 +369,7 @@ export default {
                 }
               },
             });
-           
+
             return;
           }
           const resultsFn = {
@@ -378,9 +378,16 @@ export default {
           };
           resultsFn[type](result);
         } else {
-          uni.showToast({
-            title: "图片不合规",
-            duration: 2000,
+          uni.showModal({
+            title: "提示",
+            content: "图片不合规，请重新上传",
+            showCancel: false,
+            success: (res) => {
+              if (res.confirm) {
+                //点击确认
+                this[type] = "";
+              }
+            },
           });
         }
       });
@@ -418,7 +425,7 @@ export default {
             console.log("OCR识别", resOCR);
             uni.hideLoading();
 
-            if (resOCR.statusCode === 200) {
+            if (resOCR.statusCode === 200 && resOCR.data.result) {
               let result = resOCR.data.result;
               if (result.number !== me.QParams.driverLicenseCarNumber) {
                 uni.showModal({
@@ -444,7 +451,17 @@ export default {
               };
               resultsFn[type](result);
             } else {
-              uni.showToast("该图片不合规");
+              uni.showModal({
+                title: "提示",
+                content: "图片不合规，请重新上传",
+                showCancel: false,
+                success: (res) => {
+                  if (res.confirm) {
+                    //点击确认
+                    this[type] = "";
+                  }
+                },
+              });
             }
           },
           fail: () => {

@@ -2,7 +2,6 @@ const urlConfig = {
 	// BASE_URL: 'http://192.168.1.18:8080',  //强强
 	// BASE_URL: 'http://192.168.30.68:8080',  //孙东
 	// BASE_URL: 'http://192.168.30.62:8080',  //萌旗
-	// BASE_URL: 'http://192.168.30.72:8080',  //萌旗
 	// BASE_URL: 'http://192.168.30.71.18080',  //宇宏
 	BASE_URL: 'http://10.0.0.75:8080',   //测试服/务器
 	// BASE_URL: 'https://api.chaohaoyun.cn',   //正式地址

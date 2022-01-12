@@ -1,70 +1,84 @@
 <template>
   <view class="list-box">
-    <view
-      v-for="(item) in dataList"
-      :key="item.code"
-      class="item"
-      style="height: 168rpx"
-      @tap="tap(item)"
-      @touchstart="touchstart(item, $event)"
-      @touchmove="touchmove"
-      @touchend="touchend()"
-    >
-      <view class="option-box">
-        <view
-          v-for="(oItem, index) in options"
-          :key="oItem.text"
-          class="option-item"
-          :class="options && options.length - 1 === index ? 'last-r' : ''"
-          @tap.stop="optionClick(item, oItem)"
-          :style="{
-            color: oItem.color || '#ffffff',
-            width: oItem.width ? oItem.width + 'rpx' : '100rpx',
-            backgroundColor: oItem.bgColor || '#409EFF',
-          }"
-          >{{ oItem.text }}</view
-        >
-      </view>
-      <view
-        class="item-container"
-        :style="{
-          transform: item.transformVal,
-          transition: item.transitionVal,
-        }"
+    <z-paging
+        ref="paging"
+        v-model="temList"
+        @query="getList"
+        :fixed="false"
+        :loading-more-enabled="false"
+        :hide-empty-view="true"
+        :auto="false"
+        :show-loading-more-no-more-line="false"
+        :hide-loading-more-when-no-more-and-inside-of-paging="true"
       >
-        <!-- <slot :item="item"></slot> -->
-        <view class="list-item">
-          <image
-            :src="item.vehicle_image"
-            v-if="item.vehicle_image"
-            mode="aspectFill"
-          />
-          <image
-            v-else
-            src="../../static/order/vehicle-moren.png"
-            mode="aspectFill"
-          />
-          <div class="list-item-content">
-            <div class="list-item-content-top">
-              <div class="title22">{{ item.license_number }}</div>
-              <img
-                v-if="item.auth_status > 2"
-                src="../../static/auth.png"
-                alt=""
-              />
+      <view
+        v-for="item in dataList"
+        :key="item.code"
+        class="item"
+        style="height: 168rpx"
+        @tap="tap(item)"
+        @touchstart="touchstart(item, $event)"
+        @touchmove="touchmove"
+        @touchend="touchend()"
+      >
+        <view class="option-box">
+          <view
+            v-for="(oItem, index) in options"
+            :key="oItem.text"
+            class="option-item"
+            :class="options && options.length - 1 === index ? 'last-r' : ''"
+            @tap.stop="optionClick(item, oItem)"
+            :style="{
+              color: oItem.color || '#ffffff',
+              width: oItem.width ? oItem.width + 'rpx' : '100rpx',
+              backgroundColor: oItem.bgColor || '#409EFF',
+            }"
+            >{{ oItem.text }}</view
+          >
+        </view>
+        <view
+          class="item-container"
+          :style="{
+            transform: item.transformVal,
+            transition: item.transitionVal,
+          }"
+        >
+          <!-- <slot :item="item"></slot> -->
+          <view class="list-item">
+            <image
+              :src="item.vehicle_image"
+              v-if="item.vehicle_image"
+              mode="aspectFill"
+            />
+            <image
+              v-else
+              src="../../static/order/vehicle-moren.png"
+              mode="aspectFill"
+            />
+            <div class="list-item-content">
+              <div class="list-item-content-top">
+                <div class="title22">{{ item.license_number }}</div>
+                <img
+                  v-if="item.auth_status > 2"
+                  src="../../static/auth.png"
+                  alt=""
+                />
+              </div>
+              <div class="list-item-content-bottom">
+                车型：{{ item.vehicle_type || "暂未选择车型" }}
+              </div>
             </div>
-            <div class="list-item-content-bottom">
-              车型：{{ item.vehicle_type || '暂未选择车型' }}
-            </div>
-          </div>
+          </view>
         </view>
       </view>
-    </view>
+    </z-paging>
   </view>
 </template>
 
 <script>
+import ZPagingMixin from "@/uni_modules/z-paging/components/z-paging/js/z-paging-mixin";
 export default {
+    mixins: [ZPagingMixin], // 使用mixin
   props: {
     list: {
       type: Array,
@@ -86,6 +100,7 @@ export default {
   data() {
     return {
       multipleSlots: true,
+      temList: [],
       dataList: [],
       dragTargetX: 0,
       offsetWidth: 0,
@@ -98,14 +113,18 @@ export default {
       immediate: true,
       deep: true,
       handler(list) {
+        
         this.setList(list);
       },
     },
   },
   methods: {
-  
+    getList() {
+      this.$emit('getList');
+      this.$refs.paging.complete(this.list);
+    },
     touchstart(item, e) {
-      console.log('touchstart item',item)
+      console.log("touchstart item", item);
       if (this.translateX != 0 && this.activeItem.item_id != item.item_id) {
         this.tap();
       }
@@ -163,6 +182,7 @@ export default {
       this.activeItem.transformVal = "translateX(" + this.translateX + "px)";
     },
     setList(list) {
+     
       this.dataList = [];
       this.dataList = list.map((item, index) => {
         return {
@@ -174,7 +194,7 @@ export default {
       });
     },
     optionClick(item, oitem) {
-      console.log(item.license_number,oitem)
+      console.log(item.license_number, oitem);
       this.translateX = 0;
       this.setBounceTransition();
       this.$emit("optionClick", item, oitem);
@@ -186,7 +206,9 @@ export default {
 <style lang="scss" scoped>
 .list-box {
   width: 702rpx;
-  margin: 0 24rpx;
+  height: 100%;
+  margin: 0 auto;
+  overflow: hidden;
   .item {
     width: 100%;
     border-bottom: 1rpx solid #f5f5f5;
