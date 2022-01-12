@@ -68,7 +68,7 @@
 	// } from '@/components/transportPlan/transportationPlan.js'
 	export default {
 		components: {
-			TransportCard,
+			// TransportCard,
 			TkiQrcode,
 			html2canvas,
 		},
