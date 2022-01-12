@@ -130,11 +130,11 @@ export default {
         transCompany: "",
       },
       funcModules: [
-        // {
-        //   name: "预约排号",
-        //   img: "../../static/index_queue.png",
-        //   module: "reserve",
-        // },
+        {
+          name: "预约排号",
+          img: "../../static/index_queue.png",
+          module: "reserve",
+        },
         {
           name: "我的车辆",
           img: "../../static/index_vehicle.png",
@@ -268,7 +268,7 @@ export default {
         case "reserve":
           uni.navigateTo({
             // url: "../reserve/reserveMsg",
-            url: "../reserve/reserve",
+            url: "../appointment/index",
           });
           break;
         case "vehicle":
