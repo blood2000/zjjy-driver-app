@@ -1,14 +1,18 @@
   <template>
-  <div>
+  <div class="content">
     <div @click="add" class="add">新增车辆</div>
-    <option-list
-      :list="list"
-      :threshold="threshold"
-      @click="rowClick"
-      @optionClick="optionClick"
-      :options="options"
-    >
-    </option-list>
+    <div class="main">
+      
+        <option-list
+          :list="list"
+          :threshold="threshold"
+          @click="rowClick"
+          @optionClick="optionClick"
+          @getList="getList"
+          :options="options"
+        >
+        </option-list>
+    </div>
   </div>
 </template>
 
@@ -17,7 +21,6 @@
 import { mapState } from "vuex";
 import optionList from "../../components/gzz-option-list/option-list.vue";
 import { uniRequest } from "../../config/request";
-
 export default {
   components: { optionList },
   data() {
@@ -42,6 +45,10 @@ export default {
     };
   },
   onLoad() {},
+  // onPullDownRefresh() {
+  //   console.log("refresh");
+  //   this.getList();
+  // },
   computed: {
     ...mapState({
       vehicleMsg: (state) => state.user.vehicleMsg,
@@ -63,6 +70,7 @@ export default {
       if (res.statusCode !== 200) return;
       console.log("res1111", res.data.data);
       this.list = res.data.data;
+      // uni.stopPullDownRefresh();
     },
     listDelete(item, index) {
       console.log("删除", item);
@@ -106,7 +114,7 @@ export default {
     rowClick(item) {
       console.log("点击某一行");
       // console.log(item);
-      console.log(this.scanInfo.code)
+      console.log(this.scanInfo.code);
       if (this.scanInfo.code) {
         uni.navigateTo({
           url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
@@ -134,8 +142,11 @@ export default {
   beforeMount() {},
 };
 </script>
-  <style scoped lang="scss">
+<style scoped lang="scss">
 //scoped 在当前页生效 不影响子组件
+.main {
+  overflow: hidden;
+}
 .add {
   width: 100%;
   height: 80rpx;

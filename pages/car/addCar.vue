@@ -456,7 +456,7 @@ export default {
               //   url: "./carList",
               // });
               if (this.scanInfo.code) {
-                uni.navigateTo({
+                uni.redirectTo({
                   url: `../scan/index?code=${this.scanInfo.code}&type=${this.scanInfo.type}`,
                 });
                 // return;
