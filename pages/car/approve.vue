@@ -43,7 +43,7 @@
       </div>
 
       <div class="input-item">
-        <div class="title1">车身颜色</div>
+        <div class="title1"><span class="required">*</span>车牌颜色 </div>
         <picker
           mode="selector"
           :range="vehicleColorList"
@@ -54,7 +54,7 @@
             <span v-if="vehicleColorIndex !== -1">{{
               vehicleColorList[vehicleColorIndex].dictLabel
             }}</span>
-            <span v-else class="uni-input-placeholder">请选择车身颜色</span>
+            <span v-else class="uni-input-placeholder">请选择车牌颜色</span>
             <uni-icons type="forward" size="14"></uni-icons>
           </view>
           <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
@@ -651,14 +651,14 @@ export default {
       //   });
       //   return false;
       // }
-      // if (!this.vehicleColor) {
-      //   uni.showToast({
-      //     title: "请选择车身颜色",
-      //     icon: "none",
-      //     duration: 1500,
-      //   });
-      //   return false;
-      // }
+      if (!this.vehicleColor) {
+        uni.showToast({
+          title: "请选择车牌颜色",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
       // if (!this.axles) {
       //   uni.showToast({
       //     title: "请选择轴数",

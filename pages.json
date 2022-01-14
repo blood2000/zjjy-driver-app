@@ -67,7 +67,6 @@
         "app-plus": {
           "bounce": "none",
           "titleNView": "false"
-          
         }
       }
     },
@@ -210,43 +209,8 @@
           "bounce": "none"
         }
       }
-    },
-	{
-		"path": "pages/appointment/index",
-		"style": {
-			"navigationBarTitleText": "预约",
-			"navigationStyle": "custom",
-			"enablePullDownRefresh": true,
-			"navigationBarBackgroundColor": "#3a65ff"
-		}
-	},
-	{
-		"path": "pages/appointment/qrcode",
-		"style": {
-			"navigationBarTitleText": "QRCode",
-			"navigationStyle": "custom",
-			"enablePullDownRefresh": true,
-			"navigationBarBackgroundColor": "#3a65ff"
-		}
-	},
-	{
-		"path": "pages/appointment/makeAppointment",
-		"style": {
-			"navigationBarTitleText": "预约凭证信息",
-			"navigationStyle": "custom",
-			"enablePullDownRefresh": true,
-			"navigationBarBackgroundColor": "#3a65ff"
-		}
-	},
-	{
-		"path": "pages/appointment/appointmentDeatail",
-		"style": {
-			"navigationBarTitleText": "凭证信息",
-			"navigationStyle": "custom",
-			"enablePullDownRefresh": true,
-			"navigationBarBackgroundColor": "#3a65ff"
-		}
-	}
+    }
+    
   ],
   "globalStyle": {
     "navigationBarTextStyle": "black",

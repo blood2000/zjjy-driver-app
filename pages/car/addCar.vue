@@ -31,6 +31,23 @@
           <!-- <view class="no-choose" v-if="noChoose">请选择</view> -->
         </picker>
       </div>
+      <div class="input-item" v-if="!radioValue">
+        <div class="title1"><span class="required">*</span>车牌颜色</div>
+        <picker
+          mode="selector"
+          :range="vehicleColorList"
+          range-key="dictLabel"
+          @change="change($event, 'vehicleColor')"
+        >
+          <view class="uni-input-default">
+            <span v-if="vehicleColorIndex !== -1">
+              {{ vehicleColorList[vehicleColorIndex].dictLabel }}
+            </span>
+            <span v-else class="uni-input-placeholder">请选择车牌颜色</span>
+            <uni-icons type="forward" size="14"></uni-icons>
+          </view>
+        </picker>
+      </div>
       <div class="input-item">
         <div class="title1"><span class="required">*</span>车长</div>
         <input
@@ -120,7 +137,7 @@
       class="bans"
       :class="carNumber.length >= 7 ? 'bans-ok' : 'bans-no'"
       @click="add"
-      >确认{{isEdit ? "修改" : "添加"}}</view
+      >确认{{ isEdit ? "修改" : "添加" }}</view
     >
   </div>
 </template>
@@ -148,17 +165,20 @@ export default {
       vehicleLen: null,
       vehicleWidth: null,
       vehicleWeight: null,
-      vehicleLoadWeight: null,  //可载重量
-      carCubic: null,    //可载立方
+      vehicleLoadWeight: null, //可载重量
+      carCubic: null, //可载立方
+      vehicleColorList: [],
+      vehicleColorIndex: -1,
+      vehicleColor: "",
       radioValue: false,
       isCredit: false,
       temInput: {
-        vehicleLen: '',
-        vehicleWidth: '',
-        vehicleWeight: '',
-        vehicleLoadWeight: '',
-        carCubic: '',
-      }
+        vehicleLen: "",
+        vehicleWidth: "",
+        vehicleWeight: "",
+        vehicleLoadWeight: "",
+        carCubic: "",
+      },
     };
   },
   computed: {
@@ -191,7 +211,6 @@ export default {
       uni.setNavigationBarTitle({
         title: "修改车辆",
       });
-      
     }
     this.init();
   },
@@ -208,6 +227,14 @@ export default {
       if (!this.vehicleType) {
         uni.showToast({
           title: "请输入车型",
+          icon: "none",
+          duration: 1500,
+        });
+        return false;
+      }
+      if (!this.radioValue && !this.vehicleColor) {
+        uni.showToast({
+          title: "请选择车牌颜色",
           icon: "none",
           duration: 1500,
         });
@@ -248,17 +275,29 @@ export default {
       return true;
     },
     // 开始执行请求
-    init() {
-      const config = {
+    async init() {
+      const config1 = {
         url: "listByDictJyz",
         method: "POST",
         data: {
           dictType: "vehicleClassification",
         },
       };
-      uniRequest(config).then((res) => {
+      // 车牌颜色
+      const config2 = {
+        url: "listByDictJyz",
+        method: "POST",
+        data: {
+          dictType: "licenseColor",
+        },
+      };
+      uniRequest(config1).then((res) => {
         console.log("res", res);
         this.vehicleTypeList = res.data.data;
+        if (this.isEdit) this.editVehicle();
+      });
+      uniRequest(config2).then((res) => {
+        this.vehicleColorList = res.data.data;
         if (this.isEdit) this.editVehicle();
       });
     },
@@ -289,6 +328,14 @@ export default {
         });
         this.vehicleType = vehicleData.vehicleType;
       }
+      if (vehicleData.travelLicenseBo) {
+        this.vehicleColorList.forEach((item, index) => {
+          if (item.dictLabel === vehicleData.travelLicenseBo.driverLicenseCarColor) {
+            this.vehicleColorIndex = index;
+          }
+        });
+        this.vehicleColor = vehicleData.travelLicenseBo.driverLicenseCarColor;
+      }
       this.vehicleWeight = vehicleData.vehicleTotalWeight;
       this.carCubic = vehicleData.vehicleRemainingLoadVolume;
       this.vehicleLoadWeight = vehicleData.vehicleLoadWeight;
@@ -297,7 +344,6 @@ export default {
       this.radioValue = vehicleData.isCertification === 1 ? true : false;
       this.isCredit = vehicleData.isCertification === 1 ? true : false;
       console.log("this.radioValue", this.radioValue);
-      
     },
     // 单选值改变
     handleRadioValue() {
@@ -314,6 +360,10 @@ export default {
           console.log("vehicleType", e);
           me.vehicleTypeIndex = Number(e.detail.value);
           me.vehicleType = me.vehicleTypeList[me.vehicleTypeIndex].dictLabel;
+        },
+        vehicleColor: () => {
+          me.vehicleColorIndex = Number(e.detail.value);
+          me.vehicleColor = me.vehicleColorList[me.vehicleColorIndex].dictLabel;
         },
       };
       fns[type]();
@@ -355,6 +405,7 @@ export default {
       uniRequest(config).then((ress) => {
         console.log("ress", ress);
         if (ress.data.code === 200) {
+          console.log('新车辆');
         } else {
           uni.showModal({
             title: "提示",
@@ -403,6 +454,9 @@ export default {
       };
       if (this.isEdit) {
         obj = { ...this.vehicleData, ...obj };
+      }
+      if (!this.radioValue) {
+        obj.driverLicenseCarColor = this.vehicleColor
       }
       return obj;
     },

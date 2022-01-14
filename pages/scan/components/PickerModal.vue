@@ -73,6 +73,7 @@ export default {
 
   watch: {
     pickerData(val) {
+      console.log('组件车牌号数组变化', val)
       this.searchList = JSON.parse(JSON.stringify(val));
       if (this.searchList.length === 1) {
         this.licenseNumber = this.searchList[0].licenseNumber;

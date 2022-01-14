@@ -2,14 +2,14 @@
   <div>
     <div class="zjjy-box">
       <div class="input-item">
-        <div class="title1">调度者 <span class="required">*</span></div>
+        <div class="title1">调度者</div>
         <picker
           mode="selector"
           :range="dispatchers"
           @change="changeDispatch"
           range-key="teamName"
         >
-          <view class="uni-input-default">
+          <view class="uni-input-default picker-text">
             <span v-if="dispatchIndex !== -1">
               {{ dispatchers[dispatchIndex].teamName }}
             </span>
@@ -171,7 +171,7 @@ export default {
     dispatchers(val) {
       this.vehicleIndex = 0;
       this.licenseNumbers = val[this.dispatchIndex].vehicles;
-      // console.log('调度者下车辆', val[this.dispatchIndex])
+      console.log('调度者下车辆', val[this.dispatchIndex])
     },
   },
 
@@ -208,6 +208,7 @@ export default {
       // this.vehicleMsg.teamCode = this.dispatchers[this.dispatchIndex].teamCode;
       this.vehicleIndex = 0;
       this.licenseNumbers = this.dispatchers[this.dispatchIndex].vehicles;
+      console.log('调度者选择后的车牌数组', this.licenseNumbers)
     },
     addVehicle() {
       console.log("111");
@@ -250,6 +251,7 @@ export default {
         const config = {
           url: "uploadFile",
           file: this.imgSrcList[i],
+          // contentType: 'multipart/form-data; boundary=----WebKitFormBoundary1GpWAj6RAuDu51A3',
         };
         const res = await uniUpload(config);
         if (res.code == 200) {

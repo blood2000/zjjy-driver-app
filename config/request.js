@@ -132,6 +132,12 @@ export const uniUpload = function (config) {
 		}
 	}
 	// let defaultHeader = config.header;
+	if (config.contentType) {
+		defaultHeader['Content-Type'] = config.contentType;
+	} else {
+		// defaultHeader['Content-Type'] = 'application/json;charset=utf-8';
+		delete defaultHeader['Content-Type']
+	}
 	console.log(defaultHeader)
 
 	let url = apiUrl[config.url];

@@ -2,14 +2,14 @@
   <div>
     <div class="zjjy-box">
       <div class="input-item">
-        <div class="title1">调度者 <span class="required">*</span></div>
+        <div class="title1">调度者</div>
         <picker
           mode="selector"
           :range="dispatchers"
           @change="changeDispatch"
           range-key="teamName"
         >
-          <view class="uni-input-default">
+          <view class="uni-input-default picker-text">
             <span v-if="dispatchIndex !== -1">
               {{ dispatchers[dispatchIndex].teamName }}
             </span>

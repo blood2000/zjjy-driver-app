@@ -41,7 +41,7 @@ export default {
       },
       types: 0,
       pageData: {},
-      licenseNumbers: [],
+      licenseNumbers: [],   //自有车牌号数组
       dispatchers: [],
     };
   },
@@ -56,9 +56,13 @@ export default {
     console.log("this.pageData", this.pageData);
     this.types = this.pageData.receiveType;
     this.queryParams.orderPlanCode = this.pageData.orderPlanCode;
-    this.licenseNumbers = this.pageData.vehicles;
+    this.licenseNumbers = this.pageData.vehicles;  
+    let that = this;
     this.dispatchers = this.pageData.teams;
-
+    this.dispatchers.unshift({
+      teamCode: '', teamName: '无', vehicles: that.licenseNumbers
+    })
+    console.log('调度者数组', this.dispatchers)
     // this.types = 2;
     // this.licenseNumbers = [];
     // this.dispatchers = [
