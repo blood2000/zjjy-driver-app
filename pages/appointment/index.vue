@@ -1,27 +1,31 @@
 <template>
 	<view class="home-page">
-		<view class="header-container">
-			<view class="headerView">
-				<image class="top-avatar shadow-warp bg-white" :src="userInfo.avatar?userInfo.avatar:avatar"
-					mode="aspectFill"></image>
-				<view class="margin-mleft">
-					<view class="flex align-center">
-						<view class="size36 text-bold text-white">{{userInfo.userName}}</view>
-					</view>
-					<view class="licenseNumberBgView">
-						<text class="licenseNumberLabel">{{userInfo.licenseNumber?userInfo.licenseNumber:'暂无'}}</text>
-					</view>
-				</view>
-			</view>
-			<view class="scanView" @click="onClickScanAction()">
-				<view class="flex align-center">
-					<view class="scanView_label">扫码预约</view>
-					<view class="scanView_arrow_right"></view>
-				</view>
-				<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit"
-					@click="onClickQR()"></image>
-			</view>
-		</view>
+		<div class="tab-header">
+		  <image src="../../static/appointment/appointment_banner.png" mode=""></image>
+		  <view class="header-title">入场预约系统</view>
+		  <view class="header-container">
+		  	<view class="headerView">
+		  		<image class="top-avatar shadow-warp bg-white" :src="userInfo.avatar?userInfo.avatar:avatar"
+		  			mode="aspectFill"></image>
+		  		<view class="margin-mleft">
+		  			<view class="flex align-center">
+		  				<view class="userNameLabel">{{userInfo.userName}}</view>
+		  			</view>
+		  			<view class="licenseNumberBgView">
+		  				<text class="licenseNumberLabel">{{userInfo.licenseNumber?userInfo.licenseNumber:'暂无'}}</text>
+		  			</view>
+		  		</view>
+		  	</view>
+		  	<view class="scanView" @click="onClickScanAction()">
+		  		<view class="flex align-center">
+		  			<view class="scanView_label">扫码预约</view>
+		  			<view class="scanView_arrow_right"></view>
+		  		</view>
+		  		<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit"
+		  			@click="onClickQR()"></image>
+		  	</view>
+		  </view>
+		</div>
 		<view class="info-container">
 			<view v-if="appointmentInfo.station">
 				<view class="info_station">
@@ -250,6 +254,21 @@
 		overflow: scroll;
 	}
 
+	.header-title {
+		box-sizing: border-box;
+		position: absolute;
+		bottom: 294rpx;
+		width: 100%;
+		padding-left: 30rpx;
+		height: 40rpx;
+		line-height: 40rpx;
+		text-align: left;
+		font-size: 36rpx;
+		font-weight: bold;
+		color: #333333;
+		z-index: 1;
+	}
+	
 	.header-container {
 		margin-left: 20upx;
 		margin-right: 20upx;
@@ -268,6 +287,8 @@
 		width: calc(100% - 256upx);
 		display: flex;
 		align-items: center;
+		position: absolute;
+		bottom: 8upx;
 	}
 
 	.top-avatar {
@@ -275,6 +296,14 @@
 		width: 120upx;
 		border-radius: 50%;
 		margin-left: 22upx;
+	}
+
+	.userNameLabel {
+		font-size: 36upx;
+		font-weight: bold;
+		color: #FFFFFF;
+		padding-top: 7upx;
+		padding-left: 29upx;
 	}
 
 	.licenseNumberBgView {
@@ -286,6 +315,7 @@
 		flex-direction: column;
 		align-items: center;
 		margin-top: 15upx;
+		margin-left: 29upx;
 	}
 
 	.licenseNumberLabel {
@@ -302,6 +332,9 @@
 		border-radius: 20upx;
 		display: flex;
 		flex-direction: column;
+		position: absolute;
+		right: 22rpx;
+		bottom: 0rpx;
 	}
 
 	.scanView_label {
@@ -327,8 +360,8 @@
 	.scanView_icon {
 		height: 141upx;
 		width: 100%;
-		margin-top: 0upx;
-		padding-left: 80upx;
+		margin-top: -10upx;
+		padding-left: 40upx;
 	}
 
 	.info-container {
