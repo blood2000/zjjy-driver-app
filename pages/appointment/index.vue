@@ -1,30 +1,31 @@
 <template>
 	<view class="home-page">
 		<div class="tab-header">
-		  <image src="../../static/appointment/appointment_banner.png" mode=""></image>
-		  <view class="header-title">入场预约系统</view>
-		  <view class="header-container">
-		  	<view class="headerView">
-		  		<image class="top-avatar shadow-warp bg-white" :src="userInfo.avatar?userInfo.avatar:avatar"
-		  			mode="aspectFill"></image>
-		  		<view class="margin-mleft">
-		  			<view class="flex align-center">
-		  				<view class="userNameLabel">{{userInfo.userName}}</view>
-		  			</view>
-		  			<view class="licenseNumberBgView">
-		  				<text class="licenseNumberLabel">{{userInfo.licenseNumber?userInfo.licenseNumber:'暂无'}}</text>
-		  			</view>
-		  		</view>
-		  	</view>
-		  	<view class="scanView" @click="onClickScanAction()">
-		  		<view class="flex align-center">
-		  			<view class="scanView_label">扫码预约</view>
-		  			<view class="scanView_arrow_right"></view>
-		  		</view>
-		  		<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit"
-		  			@click="onClickQR()"></image>
-		  	</view>
-		  </view>
+			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
+			<view class="header-title">入场预约系统</view>
+			<view class="header-container">
+				<view class="headerView">
+					<image class="top-avatar shadow-warp bg-white" :src="userInfo.avatar?userInfo.avatar:avatar"
+						mode="aspectFill"></image>
+					<view class="margin-mleft">
+						<view class="flex align-center">
+							<view class="userNameLabel">{{userInfo.userName}}</view>
+						</view>
+						<view class="licenseNumberBgView">
+							<text
+								class="licenseNumberLabel">{{userInfo.licenseNumber?userInfo.licenseNumber:'暂无'}}</text>
+						</view>
+					</view>
+				</view>
+				<view class="scanView" @click="onClickScanAction()">
+					<view class="scanView_title">
+						<view class="scanView_label">扫码预约</view>
+						<view class="scanView_arrow_right"></view>
+					</view>
+					<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit"
+						@click="onClickQR()"></image>
+				</view>
+			</view>
 		</div>
 		<view class="info-container">
 			<view v-if="appointmentInfo.station">
@@ -74,7 +75,7 @@
 			<view class="switchHead">
 				<view v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
 					:key="index">
-					<text @click="clickTab(index)">{{item.name}}</text>
+					<view @click="clickTab(index)">{{item.name}}</view>
 					<view v-if="activeIndex==index" class="switchLine"></view>
 				</view>
 			</view>
@@ -110,7 +111,7 @@
 		components: {},
 		computed: {
 			...mapState({
-				headerInfo: state => state.header.headerInfo
+
 			})
 		},
 		data() {
@@ -225,11 +226,11 @@
 		methods: {
 			getInfo() {
 				// 获取用户信息
-				getInfo(this.headerInfo).then(res => {
-					this.userInfo = res.data;
-					uni.hideLoading();
-					uni.stopPullDownRefresh();
-				});
+				// getInfo(this.headerInfo).then(res => {
+				// 	this.userInfo = res.data;
+				// 	uni.hideLoading();
+				// 	uni.stopPullDownRefresh();
+				// });
 				//this.getList();
 			},
 			onClickScanAction() {
@@ -268,16 +269,18 @@
 		color: #333333;
 		z-index: 1;
 	}
-	
+
 	.header-container {
 		margin-left: 20upx;
 		margin-right: 20upx;
-		margin-top: 20upx;
+		margin-top: 0upx;
 		height: 206upx;
 		display: flex;
 		align-items: center;
 		flex-direction: row;
 		justify-content: space-between;
+		/* 		position: absolute;
+		bottom: 8upx; */
 	}
 
 	.headerView {
@@ -288,7 +291,7 @@
 		display: flex;
 		align-items: center;
 		position: absolute;
-		bottom: 8upx;
+		bottom: 48upx;
 	}
 
 	.top-avatar {
@@ -333,8 +336,15 @@
 		display: flex;
 		flex-direction: column;
 		position: absolute;
-		right: 22rpx;
-		bottom: 0rpx;
+		right: 22upx;
+		bottom: 40upx;
+	}
+
+	.scanView_title {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: flex-start;
 	}
 
 	.scanView_label {
@@ -360,7 +370,7 @@
 	.scanView_icon {
 		height: 141upx;
 		width: 100%;
-		margin-top: -10upx;
+		margin-top: 0upx;
 		padding-left: 40upx;
 	}
 
@@ -368,7 +378,7 @@
 		background: #FFFFFF;
 		margin-left: 24upx;
 		margin-right: 24upx;
-		margin-top: 40upx;
+		margin-top: 0upx;
 		margin-bottom: 40upx;
 		display: flex;
 		align-items: flex-start;
@@ -575,12 +585,12 @@
 		color: #333333;
 		padding-left: 15upx;
 		padding-top: 11upx;
-/* 		white-space: nowrap;
+		/* 		white-space: nowrap;
 		text-overflow: ellipsis;
 		overflow: hidden;
 		word-break: break-all; */
 	}
-	
+
 	.canAppointViewLeft_haveSendCount {
 		font-size: 28upx;
 		color: #333333;
