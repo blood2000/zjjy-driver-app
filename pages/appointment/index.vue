@@ -5,15 +5,15 @@
 			<view class="header-title">入场预约系统</view>
 			<view class="header-container">
 				<view class="headerView">
-					<image class="top-avatar shadow-warp bg-white" :src="userInfo.avatar?userInfo.avatar:avatar"
-						mode="aspectFill"></image>
+					<view class="top-avatar">
+						<open-data type="userAvatarUrl" :default-avatar="avatar"></open-data>
+					</view>
 					<view class="margin-mleft">
 						<view class="flex align-center">
-							<view class="userNameLabel">{{userInfo.userName}}</view>
+							<view class="userNameLabel">{{ vehicleMsg.name }}</view>
 						</view>
 						<view class="licenseNumberBgView">
-							<text
-								class="licenseNumberLabel">{{userInfo.licenseNumber?userInfo.licenseNumber:'暂无'}}</text>
+							<text class="licenseNumberLabel">{{ vehicleMsg.vehicleCode || "暂无车辆" }}</text>
 						</view>
 					</view>
 				</view>
@@ -102,20 +102,25 @@
 <script>
 	import {
 		mapState
-	} from 'vuex';
-	// import {
-	// 	getInfo
-	// } from "@/config/service/workbench.js"
+	} from "vuex";
+	import urlConfig from "../../config/urlConfig.js";
+	import {
+		uniRequest
+	} from "../../config/request.js";
 	export default {
 		name: 'appointment',
 		components: {},
 		computed: {
 			...mapState({
-
+				vehicleMsg: (state) => state.user.vehicleMsg,
 			})
+		},
+		onLoad() {
+			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
 		},
 		data() {
 			return {
+				avatar: "",
 				userInfo: {
 					avatar: '',
 					userName: '张三',
@@ -127,7 +132,6 @@
 					date: '2021/01/05',
 					time: '08:00',
 				},
-				avatar: '/static/appointment/appointment_avatar.png', // 默认头像
 				activeIndex: '0',
 				tabTitleData: [{
 						name: '可预约'
@@ -246,7 +250,7 @@
 	}
 </script>
 
-<style>
+<style lang="scss" scoped>
 	.home-page {
 		width: 100vw;
 		height: 100vh;
@@ -295,10 +299,29 @@
 	}
 
 	.top-avatar {
-		height: 120upx;
-		width: 120upx;
-		border-radius: 50%;
 		margin-left: 22upx;
+		width: 120upx;
+		height: 120upx;
+		margin-right: 0upx;
+		border-radius: 50%;
+		background: #fff;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		overflow: hidden;
+		open-data,
+		img {
+		  width: 100%;
+		  height: 100%;
+		  border-radius: 50%;
+		}
+		.avatar-btn {
+		  position: absolute;
+		  width: 100%;
+		  height: 100%;
+		  padding: 0;
+		  background: transparent;
+		}
 	}
 
 	.userNameLabel {
