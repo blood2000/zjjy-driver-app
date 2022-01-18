@@ -2,7 +2,7 @@
 	<view class="home-page">
 		<div class="tab-header">
 			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
-			<div class="tab-back" @click="back">
+			<div class="tab-back" @click="back"> 
 				<uni-icons type="back" size="24" color="#333"></uni-icons>
 			</div>
 			<view class="header-title">入场预约系统</view>
@@ -94,7 +94,7 @@
 					<text class="canAppointViewLeftLabel">预约时段：{{sub.effectiveDate}} - {{sub.expirationDate}}</text>
 				</view>
 				<view :class="activeIndex==0?'canAppointViewRight':'canAppointViewRight2'">
-					<text v-if="activeIndex==0" class="canAppointViewRightLabel">预约</text>
+					<text v-if="activeIndex==0" class="canAppointViewRightLabel" @click="onClickGotoAppointment()">预约</text>
 					<text v-else class="canAppointViewRightLabel">详情</text>
 				</view>
 			</view>
@@ -134,6 +134,7 @@
 					companyName: '山西华汇通商贸无限公司',
 					date: '2021/01/05',
 					time: '08:00',
+					
 				},
 				activeIndex: '0',
 				tabTitleData: [{
@@ -246,6 +247,11 @@
 			onClickQR() {
 
 			},
+			onClickGotoAppointment() {
+				uni.navigateTo({
+				  url: "./makeAppointment",
+				});
+			}
 		}
 	}
 </script>
