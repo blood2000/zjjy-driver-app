@@ -2,7 +2,7 @@
 	<view class="home-page">
 		<div class="tab-header">
 			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
-			<div class="tab-back" @click="back"> 
+			<div class="tab-back" @click="back">
 				<uni-icons type="back" size="24" color="#333"></uni-icons>
 			</div>
 			<view class="header-title">入场预约系统</view>
@@ -32,34 +32,20 @@
 		</div>
 		<view class="info-container">
 			<view v-if="appointmentInfo.station">
-				<view class="info_station">
-					<image class="info_icon_station" src="/static/appointment/appointment_station.png">
-					</image>
-					<view class="info_station_content">
-						<view class="info_station_content_valueView">
+				<view class="info-container-top">
+					<view class="info-container-top-left">
+						<view class="info_station">
+							<view class="info_station_content_name">预约场站</view>
 							<view class="info_station_content_value">{{appointmentInfo.station}}</view>
-							<view class="info_station_content_navigation">导航</view>
 						</view>
-						<view class="info_station_content_name">预约场站</view>
-					</view>
-				</view>
-				<view class="info_company">
-					<image class="info_icon_company" src="/static/appointment/appointment_company.png" mode="aspectFit">
-					</image>
-					<view class="info_station_content">
-						<view class="info_station_content_value">{{appointmentInfo.companyName}}</view>
-						<view class="info_station_content_name">货主名称</view>
-					</view>
-				</view>
-				<view class="info_date">
-					<image class="info_icon_time" src="/static/appointment/appointment_time.png" mode="aspectFit">
-					</image>
-					<view class="info_station_content">
-						<view class="info_station_content_valueView">
-							<view class="info_station_content_value">{{appointmentInfo.date}}</view>
-							<view class="info_station_content_valueSub">{{appointmentInfo.time}}</view>
+						<view class="info_company">
+							<view class="info_station_content_name">货主名称</view>
+							<view class="info_station_content_value">{{appointmentInfo.companyName}}</view>
 						</view>
-						<view class="info_station_content_name">预约时间</view>
+						<view class="info_date">
+							<view class="info_station_content_name">预约时间</view>
+							<view class="info_station_content_value">{{appointmentInfo.date}} {{appointmentInfo.time}}</view>
+						</view>
 					</view>
 				</view>
 				<view class="info_bottom">
@@ -94,7 +80,8 @@
 					<text class="canAppointViewLeftLabel">预约时段：{{sub.effectiveDate}} - {{sub.expirationDate}}</text>
 				</view>
 				<view :class="activeIndex==0?'canAppointViewRight':'canAppointViewRight2'">
-					<text v-if="activeIndex==0" class="canAppointViewRightLabel" @click="onClickGotoAppointment()">预约</text>
+					<text v-if="activeIndex==0" class="canAppointViewRightLabel"
+						@click="onClickGotoAppointment()">预约</text>
 					<text v-else class="canAppointViewRightLabel">详情</text>
 				</view>
 			</view>
@@ -134,7 +121,7 @@
 					companyName: '山西华汇通商贸无限公司',
 					date: '2021/01/05',
 					time: '08:00',
-					
+
 				},
 				activeIndex: '0',
 				tabTitleData: [{
@@ -201,9 +188,11 @@
 				const config = {
 					url: "getDriverRelationVoucher",
 					method: "GET",
-					querys: { status: 0,
-					pageNum: this.canAppointListQueryParams.pageNum,
-					pageSize: this.canAppointListQueryParams.pageSize},
+					querys: {
+						status: 0,
+						pageNum: this.canAppointListQueryParams.pageNum,
+						pageSize: this.canAppointListQueryParams.pageSize
+					},
 				};
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表", res);
@@ -219,9 +208,11 @@
 				const config = {
 					url: "getDriverRelationVoucher",
 					method: "GET",
-					querys: { status: 1,
-					pageNum: this.invalidAppointListQueryParams.pageNum,
-					pageSize: this.invalidAppointListQueryParams.pageSize},
+					querys: {
+						status: 1,
+						pageNum: this.invalidAppointListQueryParams.pageNum,
+						pageSize: this.invalidAppointListQueryParams.pageSize
+					},
 				};
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表", res);
@@ -249,7 +240,7 @@
 			},
 			onClickGotoAppointment() {
 				uni.navigateTo({
-				  url: "./makeAppointment",
+					url: "./makeAppointment",
 				});
 			}
 		}
@@ -406,25 +397,44 @@
 	}
 
 	.info-container {
-		background: #FFFFFF;
+		background: #E8EDF8;
 		margin-left: 24upx;
 		margin-right: 24upx;
 		margin-top: 0upx;
 		margin-bottom: 40upx;
+		border-radius: 16upx;
+	}
+
+	.info-container-top {
+		background-image: url('/static/appointment/appointment_infoTop.png');
+	    background-size: 100% 100%;
+		margin-left: 24upx;
+		margin-right: 24upx;
+		margin-top: 0upx;
+		margin-bottom: 0upx;
+		display: flex;
+		align-items: flex-start;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+
+	.info-container-top-left {
+		margin-left: 24upx;
+		margin-right: 24upx;
+		margin-top: 39upx;
+		margin-bottom: 0upx;
 		display: flex;
 		align-items: flex-start;
 		flex-direction: column;
 		justify-content: space-between;
-		border-radius: 16upx;
 	}
-
 	.info_station {
 		display: flex;
 		align-items: center;
 		flex-direction: row;
 		justify-content: flex-start;
-		margin-left: 32upx;
-		margin-top: 32upx;
+		margin-left: 28upx;
+		margin-top: 0upx;
 	}
 
 	.info_company {
@@ -432,8 +442,8 @@
 		align-items: center;
 		flex-direction: row;
 		justify-content: flex-start;
-		margin-left: 32upx;
-		margin-top: 32upx;
+		margin-left: 28upx;
+		margin-top: 29upx;
 	}
 
 	.info_date {
@@ -441,8 +451,9 @@
 		align-items: center;
 		flex-direction: row;
 		justify-content: flex-start;
-		margin-left: 32upx;
+		margin-left: 28upx;
 		margin-top: 32upx;
+		margin-bottom: 25upx;
 	}
 
 	.info_icon_station {
@@ -452,23 +463,14 @@
 	}
 
 	.info_station_content_value {
-		font-size: 32upx;
+		font-size: 26upx;
 		font-weight: bold;
 		color: #333333;
-	}
-
-	.info_station_content_valueSub {
-		font-size: 32upx;
-		color: #FFFFFF;
-		background-color: #7927CC;
-		padding-left: 9upx;
-		padding-right: 9upx;
-		border-radius: 6upx;
-		margin-left: 14upx;
+		margin-left: 24upx;
 	}
 
 	.info_station_content_name {
-		font-size: 24upx;
+		font-size: 22upx;
 		color: #999999;
 	}
 
@@ -486,7 +488,7 @@
 	.info_station_content {
 		display: flex;
 		align-items: flex-start;
-		flex-direction: column;
+		flex-direction: row;
 		justify-content: space-between;
 		margin-left: 12upx;
 	}
@@ -520,8 +522,7 @@
 
 	.info_bottom {
 		width: calc(100vw - 48upx);
-		margin-top: 38upx;
-		background-color: #2366F2;
+		margin-top: 0upx;
 		border-radius: 0upx 0upx 16upx 16upx;
 		display: flex;
 		align-items: flex-start;
@@ -530,6 +531,8 @@
 		left: 0;
 		right: 0;
 		position: static;
+		background-image: url('/static/appointment/appointment_infoBottom.png');
+		background-size: 100% 100%;
 	}
 
 	.info_station_bottom_carTime {
