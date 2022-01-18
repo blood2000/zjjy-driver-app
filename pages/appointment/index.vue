@@ -85,13 +85,13 @@
 			<view class="canAppointView" v-for="(sub, index) in activeIndex==0?canAppointList:invalidAppointList"
 				v-bind:key="index">
 				<view class="canAppointViewLeft">
-					<text class="canAppointViewLeftLabel">预约场站：{{sub.companyName}}</text>
+					<text class="canAppointViewLeftLabel">预约场站：{{getStationName(sub.buildingInfoVos)}}</text>
 					<text class="canAppointViewLeftLabel">货主名称：{{sub.companyName}}</text>
 					<view class="canAppointViewLeft_canAppointCountAndHaveSendCount">
 						<text class="canAppointViewLeftLabel">可预约数：{{sub.reserveNumber}}</text>
 						<text class="canAppointViewLeft_haveSendCount">已承运数：{{sub.useNumber}}</text>
 					</view>
-					<text class="canAppointViewLeftLabel">预约时段：{{sub.appointDate}}</text>
+					<text class="canAppointViewLeftLabel">预约时段：{{sub.effectiveDate}} - {{sub.expirationDate}}</text>
 				</view>
 				<view :class="activeIndex==0?'canAppointViewRight':'canAppointViewRight2'">
 					<text v-if="activeIndex==0" class="canAppointViewRightLabel">预约</text>
@@ -185,6 +185,17 @@
 			}
 		},
 		methods: {
+			getStationName(buildingInfoVos) {
+				var totalName = "";
+				for (var i = 0; i < buildingInfoVos.length; i++) {
+					var sub = buildingInfoVos[i]
+					totalName += sub.buildingName;
+					if (i < buildingInfoVos.length - 1) {
+						totalName += ",";
+					}
+				}
+				return totalName;
+			},
 			getDriverRelationVoucher() {
 				const config = {
 					url: "getDriverRelationVoucher",
@@ -197,6 +208,9 @@
 					console.log("获取司机关联预约凭证列表", res);
 					if (res.data.code === 200 && res.data.data) {
 						this.canAppointList = res.data.data.list;
+						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
+							this.isEnd_canAppointList = true;
+						}
 					}
 				});
 			},
@@ -212,6 +226,9 @@
 					console.log("获取司机关联预约凭证列表", res);
 					if (res.data.code === 200 && res.data.data) {
 						this.invalidAppointList = res.data.data.list;
+						if (res.data.data.list.length < this.invalidAppointListQueryParams.pageSize) {
+							this.isEnd_invalidAppoint = true;
+						}
 					}
 				});
 			},
