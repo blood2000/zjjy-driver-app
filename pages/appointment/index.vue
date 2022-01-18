@@ -2,6 +2,9 @@
 	<view class="home-page">
 		<div class="tab-header">
 			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
+			<div class="tab-back" @click="back">
+				<uni-icons type="back" size="24" color="#333"></uni-icons>
+			</div>
 			<view class="header-title">入场预约系统</view>
 			<view class="header-container">
 				<view class="headerView">
@@ -82,11 +85,11 @@
 			<view class="canAppointView" v-for="(sub, index) in activeIndex==0?canAppointList:invalidAppointList"
 				v-bind:key="index">
 				<view class="canAppointViewLeft">
-					<text class="canAppointViewLeftLabel">预约场站：{{sub.nameStr}}</text>
+					<text class="canAppointViewLeftLabel">预约场站：{{sub.companyName}}</text>
 					<text class="canAppointViewLeftLabel">货主名称：{{sub.companyName}}</text>
 					<view class="canAppointViewLeft_canAppointCountAndHaveSendCount">
-						<text class="canAppointViewLeftLabel">可预约数：{{sub.canAppointCount}}</text>
-						<text class="canAppointViewLeft_haveSendCount">已承运数：{{sub.haveSendCount}}</text>
+						<text class="canAppointViewLeftLabel">可预约数：{{sub.reserveNumber}}</text>
+						<text class="canAppointViewLeft_haveSendCount">已承运数：{{sub.useNumber}}</text>
 					</view>
 					<text class="canAppointViewLeftLabel">预约时段：{{sub.appointDate}}</text>
 				</view>
@@ -140,102 +143,82 @@
 						name: '已失效'
 					}
 				],
-				canAppointList: [{
-						nameStr: '山西五福洗煤厂 / 1 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 2 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 3 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 4 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 5 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 6 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 7 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 8 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 9 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-				],
-				invalidAppointList: [{
-						nameStr: '山西五福洗煤厂 / 1 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-					{
-						nameStr: '山西五福洗煤厂 / 2 号堆',
-						companyName: '山西火火兔贸易无限公司',
-						canAppointCount: '110',
-						haveSendCount: '66',
-						appointDate: '2021/12/23~2021/12/23',
-					},
-				],
+				canAppointListQueryParams: { // 请求参数
+					pageNum: 1,
+					pageSize: 10,
+				},
+				invalidAppointListQueryParams: { // 请求参数
+					pageNum: 1,
+					pageSize: 10,
+				},
+				isEnd_canAppointList: false,
+				isEnd_invalidAppoint: false,
+				canAppointList: [],
+				invalidAppointList: [],
 			}
 		},
 		onLoad(option) {
-			this.getInfo();
+			this.getDriverRelationVoucher();
+			this.getDriverRelationVoucherInvalid();
 		},
 		onPullDownRefresh() {
-			this.getInfo();
+			if (this.activeIndex == 0) {
+				this.isEnd_canAppointList = false;
+				this.getDriverRelationVoucher();
+			} else {
+				this.isEnd_invalidAppoint = false;
+				this.getDriverRelationVoucherInvalid();
+			}
+		},
+		// 触底加载
+		onReachBottom() {
+			if (this.activeIndex == 0) {
+				if (!this.isEnd_canAppointList) {
+					this.canAppointListQueryParams.pageNum++;
+					this.getDriverRelationVoucher();
+				}
+			} else {
+				if (!this.isEnd_invalidAppoint) {
+					this.invalidAppointListQueryParams.pageNum++;
+					this.getDriverRelationVoucherInvalid();
+				}
+			}
 		},
 		methods: {
-			getInfo() {
-				// 获取用户信息
-				// getInfo(this.headerInfo).then(res => {
-				// 	this.userInfo = res.data;
-				// 	uni.hideLoading();
-				// 	uni.stopPullDownRefresh();
-				// });
-				//this.getList();
+			getDriverRelationVoucher() {
+				const config = {
+					url: "getDriverRelationVoucher",
+					method: "GET",
+					querys: { status: 0,
+					pageNum: this.canAppointListQueryParams.pageNum,
+					pageSize: this.canAppointListQueryParams.pageSize},
+				};
+				uniRequest(config).then((res) => {
+					console.log("获取司机关联预约凭证列表", res);
+					if (res.data.code === 200 && res.data.data) {
+						this.canAppointList = res.data.data.list;
+					}
+				});
+			},
+			getDriverRelationVoucherInvalid() {
+				const config = {
+					url: "getDriverRelationVoucher",
+					method: "GET",
+					querys: { status: 1,
+					pageNum: this.invalidAppointListQueryParams.pageNum,
+					pageSize: this.invalidAppointListQueryParams.pageSize},
+				};
+				uniRequest(config).then((res) => {
+					console.log("获取司机关联预约凭证列表", res);
+					if (res.data.code === 200 && res.data.data) {
+						this.invalidAppointList = res.data.data.list;
+					}
+				});
+			},
+			back() {
+				uni.navigateBack({
+					delta: 1,
+				});
 			},
 			onClickScanAction() {
 				console.log("点击了扫码");
@@ -264,14 +247,14 @@
 		position: absolute;
 		bottom: 294rpx;
 		width: 100%;
-		padding-left: 30rpx;
 		height: 40rpx;
-		line-height: 40rpx;
+		line-height: 20rpx;
 		text-align: left;
 		font-size: 36rpx;
 		font-weight: bold;
 		color: #333333;
 		z-index: 1;
+		margin-left: 30upx;
 	}
 
 	.header-container {
@@ -309,18 +292,20 @@
 		justify-content: center;
 		align-items: center;
 		overflow: hidden;
+
 		open-data,
 		img {
-		  width: 100%;
-		  height: 100%;
-		  border-radius: 50%;
+			width: 100%;
+			height: 100%;
+			border-radius: 50%;
 		}
+
 		.avatar-btn {
-		  position: absolute;
-		  width: 100%;
-		  height: 100%;
-		  padding: 0;
-		  background: transparent;
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			padding: 0;
+			background: transparent;
 		}
 	}
 
