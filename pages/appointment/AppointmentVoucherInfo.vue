@@ -1,11 +1,7 @@
 <template>
 	<view class="content-page">
-		<!-- <WhiteHeader :showBack="true" :showLine="true">
-			<text slot="title">预约凭证信息</text>
-		</WhiteHeader> -->
 
 		<appointmentView :displayTime="true" :displayViewEnter="true"></appointmentView>
-
 
 		<view style="margin-top: 32rpx;">
 			<text class="recordLabel">承运记录列表</text>
@@ -31,13 +27,23 @@
 </template>
 
 <script>
-	import WhiteHeader from "@/components/Header/WhiteHeader.vue";
 	import appointmentView from "@/components/appointment/appointmentView.vue";
+
+	import urlConfig from "../../config/urlConfig.js";
+	import {
+		uniRequest
+	} from "../../config/request.js";
 
 	export default {
 		components: {
-			WhiteHeader,
 			appointmentView
+		},
+		onLoad(option) {
+			if (option.appointInfo) {
+				const appointInfo = JSON.parse(option.appointInfo);
+				console.log("option --->>> ", appointInfo)
+			}
+			//this.getVoucherDetail()
 		},
 		data() {
 			return {
@@ -62,6 +68,20 @@
 				}]
 			}
 		},
+		methods: {
+			getVoucherDetail() {
+				const config = {
+					url: "voucherInfo",
+					method: "GET",
+					querys: {
+						code: "1",
+					},
+				};
+				uniRequest(config).then((res) => {
+					console.log("获取司机关联预约凭证列表", res);
+				});
+			},
+		}
 	}
 </script>
 
@@ -98,7 +118,7 @@
 	}
 
 	.recordTopEmptyLine {
-		height: 20%;
+		height: 30%;
 		width: 1rpx;
 		border-left: 1rpx dashed #FFFFFF;
 		margin-left: 16rpx;

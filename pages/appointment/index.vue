@@ -48,7 +48,6 @@
 							</view>
 						</view>
 					</view>
-					
 					<view class="info-container-top-right">
 						<hr class="line">
 					</view>
@@ -243,9 +242,9 @@
 			onClickQR() {
 
 			},
-			onClickGotoAppointment() {
+			onClickGotoAppointment(sub) {
 				uni.navigateTo({
-					url: "./makeAppointment",
+					url: "./AppointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
 				});
 			}
 		}

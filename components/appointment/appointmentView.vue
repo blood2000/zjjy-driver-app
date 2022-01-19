@@ -132,6 +132,7 @@
 
 	.deleteImg {
 		height: 22rpx;
+		width: 22rpx;
 		position: absolute;
 		right: 64rpx;
 	}
@@ -162,6 +163,7 @@
 	}
 
 	.infoView {
+		width: 90%;
 		display: flex;
 		padding-left: 32rpx;
 		padding-right: 32rpx;
