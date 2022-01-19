@@ -44,7 +44,8 @@
 						</view>
 						<view class="info_date">
 							<view class="info_station_content_name">预约时间</view>
-							<view class="info_station_content_value">{{appointmentInfo.date}} {{appointmentInfo.time}}</view>
+							<view class="info_station_content_value">{{appointmentInfo.date}} {{appointmentInfo.time}}
+							</view>
 						</view>
 					</view>
 					<view class="info-container-top-right">
@@ -234,6 +235,9 @@
 			},
 			onClickScanAction() {
 				console.log("点击了扫码");
+				uni.navigateTo({
+					url: "./AppointmentVoucherInfo?appointInfo=" + JSON.stringify(this.appointmentInfo),
+				});
 			},
 			clickTab(index) {
 				this.activeIndex = index;
@@ -410,7 +414,7 @@
 
 	.info-container-top {
 		background-image: url('/static/appointment/appointment_infoTop.png');
-	    background-size: 100% 100%;
+		background-size: 100% 100%;
 		margin-left: 24upx;
 		margin-right: 24upx;
 		margin-top: 0upx;
@@ -433,7 +437,7 @@
 		justify-content: space-between;
 		width: 70%;
 	}
-	
+
 	.info-container-top-right {
 		width: 160upx;
 		height: 100%;
@@ -443,7 +447,7 @@
 		bottom: 0;
 		right: 0;
 	}
-	
+
 	.info_station {
 		display: flex;
 		align-items: center;
