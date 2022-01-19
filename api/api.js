@@ -7,7 +7,7 @@ const apiUrl = {
   uploadFile: '/assets/upload/uploadToHW',
   getDriverAuth: '/system/user/certificates',  //获取司机认证信息
   uploadOCR: '/jyz/ocr/getCertInfo',  //OCR识别
-
+  getDriverRelationVoucher: '/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getDriverRelationVoucher',
 }
 
 
