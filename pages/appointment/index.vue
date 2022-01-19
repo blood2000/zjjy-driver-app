@@ -259,7 +259,7 @@
 			},
 			onClickGotoAppointment(sub) {
 				uni.navigateTo({
-					url: "./AppointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
+					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
 				});
 			}
 		}
