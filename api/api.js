@@ -8,6 +8,7 @@ const apiUrl = {
   getDriverAuth: '/system/user/certificates',  //获取司机认证信息
   uploadOCR: '/jyz/ocr/getCertInfo',  //OCR识别
   getDriverRelationVoucher: '/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getDriverRelationVoucher',
+  voucherInfo:"/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getDriverReservationRecord",//获取司机预约凭证列表
 }
 
 
