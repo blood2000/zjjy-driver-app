@@ -50,20 +50,24 @@
 					</view>
 					<view class="info-container-top-right">
 						<hr class="line">
-						<image class="info-container-top-right_close" src="/static/appointment/ic_close.png" @click="onClickClose()"></image>
-						<image class="info-container-top-right_qr" src="/static/appointment/appointment_qr.png" @click="onClickQR()"></image>
+						<image class="info-container-top-right_close" src="/static/appointment/ic_close.png"
+							@click="onClickClose()"></image>
+						<image class="info-container-top-right_qr" src="/static/appointment/appointment_qr.png"
+							@click="onClickQR()"></image>
 					</view>
 				</view>
 				<view class="info_bottom">
 					<view class="info_bottom_left">
-						<image class="info_station_bottom_alert" src="/static/appointment/appointment_alert.png" mode="aspectFit">
+						<image class="info_station_bottom_alert" src="/static/appointment/appointment_alert.png"
+							mode="aspectFit">
 						</image>
 						<view class="info_station_bottom_carTime">还有32辆车未入场，预计60分钟</view>
 					</view>
 					<view class="info_bottom_right">
 						<hr class="info_bottom_right_line">
 						<view class="info_bottom_right_view">
-							<image class="info_station_bottom_navi" src="/static/appointment/appointment_navi.png" mode="aspectFit">
+							<image class="info_station_bottom_navi" src="/static/appointment/appointment_navi.png"
+								mode="aspectFit">
 							</image>
 							<view class="info_station_bottom_naviLabel">导航</view>
 						</view>
@@ -84,7 +88,7 @@
 					<view v-if="activeIndex==index" class="switchLine"></view>
 				</view>
 			</view>
-			<view class="canAppointView" v-for="(sub, index) in activeIndex==0?canAppointList:invalidAppointList"
+			<view class="canAppointView" v-for="(sub, index) in getListData()"
 				v-bind:key="index">
 				<view class="canAppointViewLeft">
 					<text class="canAppointViewLeftLabel">预约场站：{{getStationName(sub.buildingInfoVos)}}</text>
@@ -255,12 +259,15 @@
 
 			},
 			onClickClose() {
-				
+
 			},
 			onClickGotoAppointment(sub) {
 				uni.navigateTo({
 					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
 				});
+			},
+			getListData() {
+				return this.activeIndex == 0 ? this.canAppointList : this.invalidAppointList
 			}
 		}
 	}
@@ -457,8 +464,8 @@
 		margin-bottom: 24upx;
 		width: 1upx;
 		height: 80%;
-		border-left: 1rpx dashed #BBC8E3; 
-		opacity:0.4;
+		border-left: 1rpx dashed #BBC8E3;
+		opacity: 0.4;
 	}
 
 	.info_bottom_right_line {
@@ -468,27 +475,27 @@
 		margin-bottom: 44upx;
 		width: 1upx;
 		height: 50%;
-		border-left: 1rpx solid #709FFF; 
+		border-left: 1rpx solid #709FFF;
 	}
-	
+
 	.info-container-top-right_close {
 		width: 23upx;
 		height: 23upx;
 		flex-shrink: 0;
 		position: absolute;
 		top: 25upx;
-		right:25upx;
+		right: 25upx;
 	}
-	
+
 	.info-container-top-right_qr {
 		width: 61upx;
 		height: 61upx;
 		flex-shrink: 0;
 		position: absolute;
 		bottom: 22upx;
-		right:55upx;
+		right: 55upx;
 	}
-	
+
 	.info-container-top-right {
 		width: 160upx;
 		height: 100%;
@@ -615,13 +622,13 @@
 		justify-content: flex-start;
 		width: 70%;
 	}
-	
+
 	.info_bottom_right {
 		display: flex;
 		align-items: center;
 		flex-direction: row;
 		justify-content: space-between;
-		
+
 		width: 180upx;
 		height: 100%;
 		position: absolute;
@@ -630,12 +637,13 @@
 		right: 0;
 	}
 
-.info_bottom_right_view {
-	display: flex;
-	align-items: center;
-	flex-direction: row;
-	justify-content: center;
-}
+	.info_bottom_right_view {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: center;
+	}
+
 	.info_station_bottom_alert {
 		width: 28upx;
 		height: 28upx;
@@ -643,7 +651,7 @@
 		margin-left: 31upx;
 		flex-shrink: 0;
 	}
-	
+
 	.info_station_bottom_carTime {
 		padding-left: 6upx;
 		margin-top: 34upx;
@@ -660,7 +668,7 @@
 		margin-top: 10upx;
 		flex-shrink: 0;
 	}
-	
+
 	.info_station_bottom_naviLabel {
 		padding-left: 10upx;
 		margin-top: 34upx;
