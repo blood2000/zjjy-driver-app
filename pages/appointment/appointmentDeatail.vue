@@ -55,12 +55,10 @@
 
 <script>
 	import WhiteHeader from "@/components/Header/WhiteHeader.vue";
-	import step from "@/components/step/step.vue";
 
 	export default {
 		components: {
 			WhiteHeader,
-			step
 		},
 
 		data() {
