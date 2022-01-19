@@ -50,11 +50,13 @@
 					</view>
 					<view class="info-container-top-right">
 						<hr class="line">
+						<image class="info-container-top-right_close" src="/static/appointment/ic_close.png" @click="onClickClose()"></image>
+						<image class="info-container-top-right_qr" src="/static/appointment/appointment_qr.png" @click="onClickQR()"></image>
 					</view>
 				</view>
 				<view class="info_bottom">
 					<view class="info_station_bottom_carTime">还有32辆车未入场，预计60分钟</view>
-					<image class="info_station_bottom_qr" src="/static/appointment/appointment_qr.png" mode="aspectFit">
+					<image class="info_station_bottom_navi" src="/static/appointment/appointment_navi.png" mode="aspectFit">
 					</image>
 				</view>
 			</view>
@@ -241,6 +243,9 @@
 			},
 			onClickQR() {
 
+			},
+			onClickClose() {
+				
 			},
 			onClickGotoAppointment(sub) {
 				uni.navigateTo({
@@ -446,6 +451,24 @@
 		opacity:0.4;
 	}
 
+	.info-container-top-right_close {
+		width: 23upx;
+		height: 23upx;
+		flex-shrink: 0;
+		position: absolute;
+		top: 25upx;
+		right:25upx;
+	}
+	
+	.info-container-top-right_qr {
+		width: 61upx;
+		height: 61upx;
+		flex-shrink: 0;
+		position: absolute;
+		bottom: 22upx;
+		right:55upx;
+	}
+	
 	.info-container-top-right {
 		width: 160upx;
 		height: 100%;
@@ -569,12 +592,13 @@
 		padding-top: 17upx;
 		padding-right: 70upx;
 		padding-bottom: 27upx;
-		color: #FFFFFF;
+		color: #DBE7FF;
+		font-size: 26upx;
 	}
 
-	.info_station_bottom_qr {
-		width: 54upx;
-		height: 54upx;
+	.info_station_bottom_navi {
+		width: 30upx;
+		height: 30upx;
 		margin-top: 14upx;
 		margin-right: 23upx;
 		flex-shrink: 0;
