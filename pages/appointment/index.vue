@@ -499,7 +499,6 @@
 	.info-container-top-right {
 		width: 160upx;
 		height: 100%;
-		background-color: #FFFFFF;
 		position: absolute;
 		top: 0;
 		bottom: 0;
