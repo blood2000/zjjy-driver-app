@@ -59,7 +59,7 @@ export default {
     this.licenseNumbers = this.pageData.vehicles;  
     let that = this;
     this.dispatchers = this.pageData.teams;
-    this.dispatchers.unshift({
+    this.dispatchers.push({
       teamCode: '', teamName: '无', vehicles: that.licenseNumbers
     })
     console.log('调度者数组', this.dispatchers)
