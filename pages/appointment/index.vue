@@ -44,11 +44,13 @@
 						</view>
 						<view class="info_date">
 							<view class="info_station_content_name">预约时间</view>
-							<view class="info_station_content_value">{{appointmentInfo.date}} {{appointmentInfo.time}}</view>
+							<view class="info_station_content_value">{{appointmentInfo.date}} {{appointmentInfo.time}}
+							</view>
 						</view>
 					</view>
+					
 					<view class="info-container-top-right">
-						aa
+						<hr class="line">
 					</view>
 				</view>
 				<view class="info_bottom">
@@ -410,7 +412,7 @@
 
 	.info-container-top {
 		background-image: url('/static/appointment/appointment_infoTop.png');
-	    background-size: 100% 100%;
+		background-size: 100% 100%;
 		margin-left: 24upx;
 		margin-right: 24upx;
 		margin-top: 0upx;
@@ -433,17 +435,28 @@
 		justify-content: space-between;
 		width: 70%;
 	}
-	
+
+	.line {
+		border: none;
+		margin-left: 0upx;
+		margin-top: 24upx;
+		margin-bottom: 24upx;
+		width: 1upx;
+		height: 80%;
+		border-left: 1rpx dashed #BBC8E3; 
+		opacity:0.4;
+	}
+
 	.info-container-top-right {
 		width: 160upx;
 		height: 100%;
-		background-color: #007AFF;
+		background-color: #FFFFFF;
 		position: absolute;
 		top: 0;
 		bottom: 0;
 		right: 0;
 	}
-	
+
 	.info_station {
 		display: flex;
 		align-items: center;
