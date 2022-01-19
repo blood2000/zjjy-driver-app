@@ -47,6 +47,9 @@
 							<view class="info_station_content_value">{{appointmentInfo.date}} {{appointmentInfo.time}}</view>
 						</view>
 					</view>
+					<view class="info-container-top-right">
+						aa
+					</view>
 				</view>
 				<view class="info_bottom">
 					<view class="info_station_bottom_carTime">还有32辆车未入场，预计60分钟</view>
@@ -416,6 +419,7 @@
 		align-items: flex-start;
 		flex-direction: row;
 		justify-content: space-between;
+		position: relative;
 	}
 
 	.info-container-top-left {
@@ -427,7 +431,19 @@
 		align-items: flex-start;
 		flex-direction: column;
 		justify-content: space-between;
+		width: 70%;
 	}
+	
+	.info-container-top-right {
+		width: 160upx;
+		height: 100%;
+		background-color: #007AFF;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+	}
+	
 	.info_station {
 		display: flex;
 		align-items: center;
@@ -472,6 +488,7 @@
 	.info_station_content_name {
 		font-size: 22upx;
 		color: #999999;
+		flex-shrink: 0;
 	}
 
 	.info_station_content_navigation {
