@@ -41,8 +41,8 @@
 		},
 		onLoad(option) {
 			// if (option.appointInfo) {
-				console.log("option --->>> ", option.appointInfo)
-				// const appointInfo = JSON.parse(option.appointInfo);
+			// 	console.log("option --->>> ", option.appointInfo)
+			// 	const appointInfo = JSON.parse(option.appointInfo);
 			// }
 			//this.getVoucherDetail()
 		},
