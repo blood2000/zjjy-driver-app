@@ -235,9 +235,6 @@
 			},
 			onClickScanAction() {
 				console.log("点击了扫码");
-				uni.navigateTo({
-					url: "./AppointmentVoucherInfo?appointInfo=" + JSON.stringify(this.appointmentInfo),
-				});
 			},
 			clickTab(index) {
 				this.activeIndex = index;
@@ -245,9 +242,9 @@
 			onClickQR() {
 
 			},
-			onClickGotoAppointment() {
+			onClickGotoAppointment(sub) {
 				uni.navigateTo({
-					url: "./makeAppointment",
+					url: "./AppointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
 				});
 			}
 		}
