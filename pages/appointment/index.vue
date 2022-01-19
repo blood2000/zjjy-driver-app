@@ -55,9 +55,19 @@
 					</view>
 				</view>
 				<view class="info_bottom">
-					<view class="info_station_bottom_carTime">还有32辆车未入场，预计60分钟</view>
-					<image class="info_station_bottom_navi" src="/static/appointment/appointment_navi.png" mode="aspectFit">
-					</image>
+					<view class="info_bottom_left">
+						<image class="info_station_bottom_alert" src="/static/appointment/appointment_alert.png" mode="aspectFit">
+						</image>
+						<view class="info_station_bottom_carTime">还有32辆车未入场，预计60分钟</view>
+					</view>
+					<view class="info_bottom_right">
+						<hr class="info_bottom_right_line">
+						<view class="info_bottom_right_view">
+							<image class="info_station_bottom_navi" src="/static/appointment/appointment_navi.png" mode="aspectFit">
+							</image>
+							<view class="info_station_bottom_naviLabel">导航</view>
+						</view>
+					</view>
 				</view>
 			</view>
 			<view v-else class="info_noContentView">
@@ -87,7 +97,7 @@
 				</view>
 				<view :class="activeIndex==0?'canAppointViewRight':'canAppointViewRight2'">
 					<text v-if="activeIndex==0" class="canAppointViewRightLabel"
-						@click="onClickGotoAppointment()">预约</text>
+						@click="onClickGotoAppointment(sub)">预约</text>
 					<text v-else class="canAppointViewRightLabel">详情</text>
 				</view>
 			</view>
@@ -451,6 +461,16 @@
 		opacity:0.4;
 	}
 
+	.info_bottom_right_line {
+		border: none;
+		margin-left: 0upx;
+		margin-top: 64upx;
+		margin-bottom: 44upx;
+		width: 1upx;
+		height: 50%;
+		border-left: 1rpx solid #709FFF; 
+	}
+	
 	.info-container-top-right_close {
 		width: 23upx;
 		height: 23upx;
@@ -585,23 +605,70 @@
 		position: static;
 		background-image: url('/static/appointment/appointment_infoBottom.png');
 		background-size: 100% 100%;
+		position: relative;
 	}
 
+	.info_bottom_left {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: row;
+		justify-content: flex-start;
+		width: 70%;
+	}
+	
+	.info_bottom_right {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: space-between;
+		
+		width: 180upx;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		bottom: 0;
+		right: 0;
+	}
+
+.info_bottom_right_view {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	justify-content: center;
+}
+	.info_station_bottom_alert {
+		width: 28upx;
+		height: 28upx;
+		margin-top: 40upx;
+		margin-left: 31upx;
+		flex-shrink: 0;
+	}
+	
 	.info_station_bottom_carTime {
-		padding-left: 20upx;
-		padding-top: 17upx;
-		padding-right: 70upx;
+		padding-left: 6upx;
+		margin-top: 34upx;
+		padding-right: 20upx;
 		padding-bottom: 27upx;
 		color: #DBE7FF;
 		font-size: 26upx;
+		text-align: left;
 	}
 
 	.info_station_bottom_navi {
 		width: 30upx;
 		height: 30upx;
-		margin-top: 14upx;
-		margin-right: 23upx;
+		margin-top: 10upx;
 		flex-shrink: 0;
+	}
+	
+	.info_station_bottom_naviLabel {
+		padding-left: 10upx;
+		margin-top: 34upx;
+		padding-right: 36upx;
+		padding-bottom: 27upx;
+		color: #FFFFFF;
+		font-size: 26upx;
+		text-align: left;
 	}
 
 	.noContent_icon {
