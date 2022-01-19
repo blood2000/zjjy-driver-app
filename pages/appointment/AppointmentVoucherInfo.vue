@@ -41,7 +41,7 @@
 		},
 		onLoad(option) {
 			// if (option.appointInfo) {
-				console.log("option --->>> ", option.appointInfo)
+				console.log("获取到数据 --->>> ", option.appointInfo)
 				// const appointInfo = JSON.parse(option.appointInfo);
 			// }
 			//this.getVoucherDetail()
