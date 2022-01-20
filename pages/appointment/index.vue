@@ -200,13 +200,13 @@
 			this.getDriverReservationInformation();
 		},
 		onPullDownRefresh() {
-			// if (this.activeIndex == 0) {
-			// 	this.isEnd_canAppointList = false;
-			// 	this.getDriverRelationVoucher();
-			// } else {
-			// 	this.isEnd_invalidAppoint = false;
-			// 	this.getDriverRelationVoucherInvalid();
-			// }
+			if (this.activeIndex == 0) {
+				this.isEnd_canAppointList = false;
+				this.getDriverRelationVoucher();
+			} else {
+				this.isEnd_invalidAppoint = false;
+				this.getDriverRelationVoucherInvalid();
+			}
 			this.getDriverReservationInformation();
 		},
 		// 触底加载
