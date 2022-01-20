@@ -44,7 +44,7 @@
 						</view>
 						<view class="info_date">
 							<view class="info_station_content_name">预约时间</view>
-							<view class="info_station_content_value">{{appointmentInfo.date}} {{appointmentInfo.time}}
+							<view class="info_station_content_value">{{appointmentInfo.date}}
 							</view>
 						</view>
 					</view>
@@ -171,11 +171,11 @@
 					licenseNumber: '闽A*888SW'
 				},
 				appointmentInfo: {
-					station: '五福洗煤厂/32号堆',
-					companyName: '山西华汇通商贸无限公司',
-					date: '2021/01/05',
-					time: '08:00',
-
+					id: '',
+					station: '',
+					companyName: '',
+					date: '',
+					qrCode: '',
 				},
 				activeIndex: '0',
 				tabTitleData: [{
@@ -238,7 +238,7 @@
 				}
 				return totalName;
 			},
-			getDriverRelationVoucher() {
+			getDriverRelationVoucher() {//获取司机关联预约凭证列表:可预约的
 				const config = {
 					url: "getDriverRelationVoucher",
 					method: "GET",
@@ -258,7 +258,22 @@
 					}
 				});
 			},
-			getDriverRelationVoucherInvalid() {
+			getDriverReservationInformation() {//司机预约信息
+				const config = {
+					url: "reservationInformation",
+					method: "GET",
+				};
+				uniRequest(config).then((res) => {
+					console.log("获取司机预约信息", res);
+					if (res.data.code === 200 && res.data.data) {
+						this.canAppointList = res.data.data.list;
+						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
+							this.isEnd_canAppointList = true;
+						}
+					}
+				});
+			},
+			getDriverRelationVoucherInvalid() {//获取司机关联预约凭证列表:已失效的
 				const config = {
 					url: "getDriverRelationVoucher",
 					method: "GET",
@@ -593,17 +608,6 @@
 		flex-shrink: 0;
 	}
 
-	.info_station_content_navigation {
-		font-size: 24upx;
-		color: #2366F2;
-		border: solid #2366F2 1upx;
-		padding-left: 9upx;
-		padding-right: 9upx;
-		border-radius: 4upx;
-		margin-left: 14upx;
-		flex-shrink: 0;
-	}
-
 	.info_station_content {
 		display: flex;
 		align-items: flex-start;
@@ -612,31 +616,14 @@
 		margin-left: 12upx;
 	}
 
-	.info_station_content_valueView {
-		display: flex;
-		align-items: flex-start;
-		flex-direction: row;
-		justify-content: space-between;
-	}
-
-	.info_icon_company {
-		width: 58upx;
-		height: 58upx;
-		flex-shrink: 0;
-	}
-
-	.info_icon_time {
-		width: 58upx;
-		height: 58upx;
-		flex-shrink: 0;
-	}
-
 	.info_noContentView {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		justify-content: space-between;
 		padding-top: 60upx;
+		background-color: #FFFFFF;
+		border-radius: 16upx;
 	}
 
 	.info_bottom {
@@ -726,9 +713,9 @@
 
 	.noContent_label {
 		font-size: 32upx;
-		color: #121212;
-		padding-top: 70upx;
-		opacity: 0.5;
+		color: #999999;
+		padding-top: 28upx;
+		padding-bottom: 34upx;
 	}
 
 	.switchHead {
@@ -913,65 +900,5 @@
 		margin-bottom: 36upx;
 	}
 
-	.canAppointViewLeftLabel {
-		font-size: 28upx;
-		color: #333333;
-		padding-left: 15upx;
-		padding-top: 11upx;
-		/* 		white-space: nowrap;
-		text-overflow: ellipsis;
-		overflow: hidden;
-		word-break: break-all; */
-	}
 
-	.canAppointViewLeft_haveSendCount {
-		font-size: 28upx;
-		color: #333333;
-		padding-left: 15upx;
-		padding-top: 11upx;
-		margin-left: 77upx;
-	}
-
-	.canAppointViewLeft_canAppointCountAndHaveSendCount {
-		display: flex;
-		flex-direction: row;
-	}
-
-	.canAppointViewRight {
-		background-color: #2366F2;
-		width: 138upx;
-		height: 100%;
-		display: flex;
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		align-items: center;
-		flex-direction: row;
-		justify-content: space-between;
-		border-radius: 0upx 15upx 15upx 0upx;
-	}
-
-	.canAppointViewRight2 {
-		background-color: #24B2B4;
-		height: 100%;
-		width: 138upx;
-		display: flex;
-		position: absolute;
-		top: 0;
-		bottom: 0;
-		right: 0;
-		align-items: center;
-		flex-direction: row;
-		justify-content: space-between;
-		border-radius: 0upx 15upx 15upx 0upx;
-		float: right;
-	}
-
-	.canAppointViewRightLabel {
-		font-size: 32upx;
-		font-weight: bold;
-		color: #FFFFFF;
-		padding-left: 30upx;
-	}
 </style>
