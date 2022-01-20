@@ -61,16 +61,16 @@
 						<image class="info_station_bottom_alert" src="/static/appointment/appointment_alert.png"
 							mode="aspectFit">
 						</image>
-						<view class="info_station_bottom_carTime">还有32辆车未入场，预计60分钟</view>
+						<view class="info_station_bottom_carTime">还有{{appointmentInfo.carCount}}辆车未入场</view>
 					</view>
 					<view class="info_bottom_right">
-						<hr class="info_bottom_right_line">
+<!-- 						<hr class="info_bottom_right_line">
 						<view class="info_bottom_right_view">
 							<image class="info_station_bottom_navi" src="/static/appointment/appointment_navi.png"
 								mode="aspectFit">
 							</image>
 							<view class="info_station_bottom_naviLabel">导航</view>
-						</view>
+						</view> -->
 					</view>
 				</view>
 			</view>
@@ -170,7 +170,8 @@
 					station: '',
 					companyName: '',
 					date: '',
-					qrCode: '',
+					code: '',
+					carCount: '',
 				},
 				activeIndex: '0',
 				tabTitleData: [{
@@ -264,8 +265,11 @@
 					console.log("获取司机预约信息", res);
 					if (res.data.code === 200 && res.data) {
 						this.appointmentInfo.id = res.data.id;
-						this.appointmentInfo.station = res.data.nickName;
-						this.appointmentInfo.companyName = res.data.nickName;
+						this.appointmentInfo.station = this.getStationName(res.data.buildingInfoVos);
+						this.appointmentInfo.companyName = res.data.companyName;
+						this.appointmentInfo.code = res.data.code;
+						this.appointmentInfo.date = res.data.createTime;
+						this.appointmentInfo.carCount = res.data.carCount;
 					} 
 				});
 			},
@@ -650,7 +654,8 @@
 		flex-direction: row;
 		justify-content: space-between;
 
-		width: 180upx;
+		//width: 180upx;
+		width: 0upx;
 		height: 100%;
 		position: absolute;
 		top: 0;
