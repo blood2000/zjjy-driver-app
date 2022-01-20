@@ -90,19 +90,21 @@
 			</view>
 			<view class="canAppointView" v-for="(sub, index) in getListData()"
 				v-bind:key="index">
-				<view class="canAppointViewLeft">
-					<text class="canAppointViewLeftLabel">预约场站：{{getStationName(sub.buildingInfoVos)}}</text>
-					<text class="canAppointViewLeftLabel">货主名称：{{sub.companyName}}</text>
-					<view class="canAppointViewLeft_canAppointCountAndHaveSendCount">
-						<text class="canAppointViewLeftLabel">可预约数：{{sub.reserveNumber}}</text>
-						<text class="canAppointViewLeft_haveSendCount">已承运数：{{sub.useNumber}}</text>
+				<view class="canAppointViewTop">
+					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png"></image>
+					<text class="canAppointViewTop_label">{{getStationName(sub.buildingInfoVos)}}</text>
+					<view class="canAppointViewTop_appointment" @click="onClickGotoAppointment(sub)">
+						<view class="canAppointViewTop_appointment_label">预约</view>
 					</view>
-					<text class="canAppointViewLeftLabel">预约时段：{{sub.effectiveDate}} - {{sub.expirationDate}}</text>
 				</view>
-				<view :class="activeIndex==0?'canAppointViewRight':'canAppointViewRight2'">
-					<text v-if="activeIndex==0" class="canAppointViewRightLabel"
-						@click="onClickGotoAppointment(sub)">预约</text>
-					<text v-else class="canAppointViewRightLabel">详情</text>
+				<view class="canAppointView_company">
+					<view>aaa</view>
+				</view>
+				<view class="canAppointView_canAppointment">
+					<view>bbb</view>
+				</view>
+				<view class="canAppointView_date">
+					<view>ccc</view>
 				</view>
 			</view>
 		</view>
@@ -262,6 +264,7 @@
 
 			},
 			onClickGotoAppointment(sub) {
+				console.log("点击了去预约");
 				uni.navigateTo({
 					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
 				});
@@ -718,27 +721,82 @@
 	}
 
 	.canAppointView {
-		background-color: #FFFFFF;
 		border-radius: 15upx;
-		margin-left: 20upx;
-		margin-right: 20upx;
+		margin-left: 32upx;
+		margin-right: 32upx;
 		margin-top: 15upx;
 		display: flex;
 		align-items: flex-start;
-		position: relative;
+		flex-direction: column;
+		justify-content: space-between;
+		background-image: linear-gradient(#FFFFFF, #FFFFFF, #FFFFFF, #FFFFFF, #E8EFFE);
+	}
+
+	.canAppointViewTop {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: flex-start;
+		background-color: #E8EFFE;
+		height: 88upx;
+		width: 100%;
+	}
+	
+	.canAppointViewTop_icon {
+		width: 50upx;
+		height: 50upx;
+		margin-left: 32upx;
+		flex-shrink: 0;
+	}
+	
+	.canAppointViewTop_label {
+		font-size: 32upx;
+		font-weight: bold;
+		color: #333333;
+		padding-left: 14upx;
+		margin-top: -5upx;
+	}
+	
+	.canAppointViewTop_appointment {
+		width: 110upx;
+		height: 50upx;
+		color: #2366F2;
+		background-color: #2366F2;
+		border-radius: 25upx;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: center;
+		position: absolute;
+		right: 60upx;
+	}
+	
+	.canAppointViewTop_appointment_label {
+		font-size: 28upx;
+		font-weight: bold;
+		color: #FFFFFF;
+		margin-top: -5upx;
+	}
+	
+	.canAppointView_company {
+		display: flex;
+		align-items: flex-start;
 		flex-direction: row;
 		justify-content: space-between;
 	}
-
-	.canAppointViewLeft {
-		background-color: #FFFFFF;
-		width: 70%;
+	
+	.canAppointView_canAppointment {
 		display: flex;
-		flex-direction: column;
-		border-radius: 15upx 0upx 0upx 15upx;
-		margin-left: 24upx;
-		margin-top: 25upx;
-		margin-bottom: 25upx;
+		align-items: flex-start;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+	
+	.canAppointView_date {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: row;
+		justify-content: space-between;
 	}
 
 	.canAppointViewLeftLabel {
