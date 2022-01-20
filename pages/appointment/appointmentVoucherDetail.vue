@@ -3,22 +3,22 @@
 
 		<appointmentView :displayTime="false" :displayViewEnter="false" :appointInfo="appointInfo">
 		</appointmentView>
-		<view style="margin-top: 32rpx;">
+		<view style="margin-top: 32rpx;" v-if="record && record.length > 0">
 			<text class="recordLabel">承运记录列表</text>
 			<view class="record">
 				<view v-for="(item, index) in record" v-bind:key="item.title" class="recordItem">
 					<view style="display: flex; flex-direction: column; width: 25%;">
 						<view :class="index === 0?'recordTopEmptyLine':'recordTopLine'"></view>
 						<view style="display: flex; align-items: center;">
-							<image class="point" :src="item.state === 1?pointBlue:pointRed" />
+							<image class="point" :src="item.reservationStatus <= 1?pointBlue:pointRed" />
 							<text
-								:class="item.state === 1?'stateBlue':'stateRed'">{{item.state === 1?"已完成":"未完成"}}</text>
+								:class="item.reservationStatus <= 1?'stateBlue':'stateRed'">{{getAppointmentState(item)}}</text>
 						</view>
 						<view class="recordLine" />
 					</view>
-					<view class="infoView" :style="{backgroundImage: item.state === 1?blueImage:redImage}">
-						<text class="title">{{item.title}}</text>
-						<text class="desc">{{item.desc}}</text>
+					<view class="infoView" :style="{backgroundImage: item.reservationStatus <= 1?blueImage:redImage}">
+						<text class="title">{{item.licenseNumber?item.licenseNumber:"暂无车辆"}}</text>
+						<text class="desc">{{getAppointmentStateTimeText(item)}}</text>
 					</view>
 				</view>
 			</view>
@@ -40,8 +40,8 @@
 		},
 		onLoad(option) {
 			if (option.appointInfo) {
-				this.appointInfo = JSON.parse(option.appointInfo);
-				this.getVoucherDetail(this.appointInfo.code)
+				this.getAppointmentDetail(option.appointInfo)
+				this.getVoucherDetail(option.appointInfo)
 			}
 		},
 		data() {
@@ -53,33 +53,62 @@
 				pointBlue: "/static/appointment/ic_blue_point.png",
 				redImage: "url('/static/appointment/ic_red_bg.png')",
 				blueImage: "url('/static/appointment/ic_blue_bg.png')",
-				record: [{
-					title: "闽A12325",
-					desc: "2021-12-13 12:08:04",
-					state: 1,
-				}, {
-					title: "闽A12321",
-					desc: "2021-12-13 12:08:04",
-					state: 1,
-				}, {
-					title: "闽A123C5",
-					desc: "2021-12-13 12:08:04",
-					state: 2,
-				}]
+				record: null
 			}
 		},
 		methods: {
-			getVoucherDetail() {
+			getVoucherDetail(code) {
 				const config = {
 					url: "voucherInfo",
 					method: "GET",
 					querys: {
-						code: "1",
+						code: code,
 					},
 				};
 				uniRequest(config).then((res) => {
-					console.log("获取司机关联预约凭证列表", res);
+					if (res.data.code === 200) {
+						this.record = res.data.data
+					}
 				});
+			},
+
+			getAppointmentDetail(code) {
+				const config = {
+					url: "appointmentDetail",
+					method: "GET",
+					querys: {
+						code: code,
+					},
+				};
+				uniRequest(config).then((res) => {
+					if (res.data.code === 200) {
+						this.appointInfo = res.data.data
+					}
+				});
+			},
+
+			getAppointmentState(item) {
+				let stateStr = null //预约状态 0待入场；1已入场；2已出场
+				if (item.reservationStatus === 0) {
+					stateStr = "待入场"
+				} else if (item.reservationStatus === 1) {
+					stateStr = "已入场"
+				} else if (item.reservationStatus === 2) {
+					stateStr = "已出场"
+				}
+				return stateStr
+			},
+
+			getAppointmentStateTimeText(item) {
+				let stateStr = null //预约状态 0待入场；1已入场；2已出场
+				if (item.reservationStatus === 0) {
+					stateStr = item.createTime
+				} else if (item.reservationStatus === 1) {
+					stateStr = item.admissionTime
+				} else if (item.reservationStatus === 2) {
+					stateStr = item.appearanceTime
+				}
+				return stateStr
 			},
 		}
 	}

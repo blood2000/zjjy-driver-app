@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view v-if="appointInfo">
 		<view class="topAppointmentView">
 			<view class="companyView">
 				<image :src="companyIcon" style="width: 50rpx; height: 50rpx;"></image>
@@ -12,25 +12,25 @@
 				<view class="circle"></view>
 			</view>
 			<view class="infoView">
-				<text class="infoLabel">场站信息：</text>
+				<text class="infoLabel">场站信息:</text>
 				<text class="infoValue">{{getAddressText()?getAddressText():"暂无数据"}}</text>
 			</view>
 			<view class="infoView">
-				<text class="infoLabel">货品类型：</text>
+				<text class="infoLabel">货品类型:</text>
 				<text class="infoValue">{{appointInfo.goodsName?appointInfo.goodsName:"暂无数据"}}</text>
 			</view>
 			<view class="infoView">
-				<text class="infoLabel">总车次：</text>
+				<text class="infoLabel">总车次:</text>
 				<text class="infoValue">{{appointInfo.reserveNumber}}</text>
 			</view>
 			<view class="infoView">
-				<text class="infoLabel">预约时段：</text>
-				<text class="infoValue">{{appointInfo.effectiveDate+"~"+appointInfo.expirationDate}}</text>
+				<text class="infoLabel">预约时段:</text>
+				<text class="infoValue">{{getTimeText()}}</text>
 			</view>
 			<view class="infoView">
-				<text class="infoLabel">场站信息：</text>
+				<text class="infoLabel">已承运数:</text>
 				<view>
-					<text class="infoValue">{{appointInfo.useNumber?appointInfo.useNumber:"暂无数据"}}</text>
+					<text class="infoValue">{{appointInfo.admissionNumber?appointInfo.admissionNumber:"0"}}</text>
 					<text v-if="displayViewEnter" class="infoValueClick" @click="viewDetail">(查看出入区)</text>
 				</view>
 			</view>
@@ -93,9 +93,14 @@
 			},
 			viewDetail() {
 				uni.navigateTo({
-					url: "./appointmentVoucherDetail?appointInfo=" + JSON.stringify(this.appointInfo),
+					url: "../../pages/appointment/appointmentVoucherDetail?appointInfo=" + this.appointInfo.code,
 				});
-			}
+			},
+			getTimeText() {
+				let startTime = this.appointInfo.effectiveDate ? this.appointInfo.effectiveDate : "暂无数据"
+				let endTime = this.appointInfo.expirationDate ? this.appointInfo.expirationDate : "暂无数据"
+				return startTime + " ~ " + endTime
+			},
 		}
 	}
 </script>

@@ -40,7 +40,6 @@
 		},
 		onLoad(option) {
 			if (option.appointInfo) {
-				console.log(this.appointmentInfo)
 				this.getAppointmentDetail(option.appointInfo)
 				this.getVoucherDetail(option.appointInfo)
 			}
@@ -68,12 +67,11 @@
 				};
 				uniRequest(config).then((res) => {
 					if (res.data.code === 200) {
-						console.log("获取预约规则凭证信息", res.data.data);
 						this.timeList = res.data.data
 						this.timeList.map(item => {
 							this.select = false
 						})
-						let index = this.timeList.find(item => item.isSelect === 1)
+						let index = this.timeList.findIndex(item => item.isSelect === 0)
 						this.timeList[index].select = true
 					}
 				});
@@ -101,11 +99,31 @@
 				this.timeList = temp
 			},
 			submitAppointment() {
+				if (this.getTime()) {
+					uni.showModal({
+						title: "提示",
+						content: "确定要预约吗？",
+						success: (res) => {
+							console.log("res", res);
+							if (res.confirm) {
+								this.submitRequest()
+							}
+						},
+					});
+				} else {
+					uni.showToast({
+						title: "请选择预约时段",
+						icon: "none",
+						duration: 2000
+					})
+				}
+			},
+			submitRequest() {
 				let param = {
 					ruleAdmissionTimeIntervalCode: "",
 					subscribeRuleVoucherCode: ""
 				}
-				param.subscribeRuleVoucherCode = this.appointmentInfo.subscribeRuleCode
+				param.subscribeRuleVoucherCode = this.appointmentInfo.code
 				param.ruleAdmissionTimeIntervalCode = this.getTime()
 				const config = {
 					url: "insertAppointment",
@@ -113,7 +131,6 @@
 					data: JSON.stringify(param),
 				};
 				uniRequest(config).then((res) => {
-					console.log(res.data.msg)
 					uni.showToast({
 						title: res.data.msg,
 						icon: 'none',
