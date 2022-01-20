@@ -93,9 +93,13 @@
 				<view class="canAppointViewTop">
 					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png"></image>
 					<text class="canAppointViewTop_label">{{getStationName(sub.buildingInfoVos)}}</text>
-					<view class="canAppointViewTop_appointment" @click="onClickGotoAppointment(sub)">
+					<view v-if="activeIndex==0" class="canAppointViewTop_appointment" @click="onClickGotoAppointment(sub)">
 						<view class="canAppointViewTop_appointment_label">预约</view>
 					</view>
+					<view v-else class="canAppointViewTop_appointment_detail" @click="onClickGotoDetail(sub)">
+						<view class="canAppointViewTop_appointment_label_detail">详情</view>
+					</view>
+					
 				</view>
 				<view class="canAppointView_company">
 					<view>aaa</view>
@@ -265,6 +269,12 @@
 			},
 			onClickGotoAppointment(sub) {
 				console.log("点击了去预约");
+				uni.navigateTo({
+					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
+				});
+			},
+			onClickGotoDetail(sub) {
+				console.log("点击了去详情");
 				uni.navigateTo({
 					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
 				});
@@ -740,6 +750,7 @@
 		background-color: #E8EFFE;
 		height: 88upx;
 		width: 100%;
+		position: relative;
 	}
 	
 	.canAppointViewTop_icon {
@@ -768,13 +779,34 @@
 		flex-direction: row;
 		justify-content: center;
 		position: absolute;
-		right: 60upx;
+		right: 24upx;
 	}
 	
 	.canAppointViewTop_appointment_label {
 		font-size: 28upx;
 		font-weight: bold;
 		color: #FFFFFF;
+		margin-top: -5upx;
+	}
+	
+	.canAppointViewTop_appointment_detail {
+		width: 110upx;
+		height: 50upx;
+		color: #FFFFFF;
+		background-color: #FFFFFF;
+		border-radius: 25upx;
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: center;
+		position: absolute;
+		right: 24upx;
+	}
+	
+	.canAppointViewTop_appointment_label_detail {
+		font-size: 28upx;
+		font-weight: bold;
+		color: #2366F2;
 		margin-top: -5upx;
 	}
 	
