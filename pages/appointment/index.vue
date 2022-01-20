@@ -25,8 +25,7 @@
 						<view class="scanView_label">扫码预约</view>
 						<view class="scanView_arrow_right"></view>
 					</view>
-					<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit"
-						@click="onClickQR()"></image>
+					<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit"></image>
 				</view>
 			</view>
 		</div>
@@ -94,10 +93,10 @@
 					</image>
 					<text class="canAppointViewTop_label">{{getStationName(sub.buildingInfoVos)}}</text>
 					<view v-if="activeIndex==0" class="canAppointViewTop_appointment"
-						@click="onClickGotoAppointment(sub)">
+						@click="onClickGotoAppointment(sub.code)">
 						<view class="canAppointViewTop_appointment_label">预约</view>
 					</view>
-					<view v-else class="canAppointViewTop_appointment_detail" @click="onClickGotoDetail(sub)">
+					<view v-else class="canAppointViewTop_appointment_detail" @click="onClickGotoDetail(sub.code)">
 						<view class="canAppointViewTop_appointment_label_detail">详情</view>
 					</view>
 
@@ -264,13 +263,13 @@
 				};
 				uniRequest(config).then((res) => {
 					console.log("获取司机预约信息", res);
-					if (res.data.code === 200 && res.data) {
-						this.appointmentInfo.id = res.data.id;
-						this.appointmentInfo.station = this.getStationName(res.data.buildingInfoVos);
-						this.appointmentInfo.companyName = res.data.companyName;
-						this.appointmentInfo.code = res.data.code;
-						this.appointmentInfo.date = res.data.createTime;
-						this.appointmentInfo.carCount = res.data.notAdmittedNumber;
+					if (res.data.code === 200 && res.data.data) {
+						this.appointmentInfo.id = res.data.data.id;
+						this.appointmentInfo.station = this.getStationName(res.data.data.buildingInfoVos);
+						this.appointmentInfo.companyName = res.data.data.companyName;
+						this.appointmentInfo.code = res.data.data.code;
+						this.appointmentInfo.date = res.data.data.createTime;
+						this.appointmentInfo.carCount = res.data.data.notAdmittedNumber;
 					}
 				});
 			},
@@ -307,7 +306,7 @@
 				         console.log('条码类型：' + res.scanType);
 				         console.log('条码内容：' + res.result);
 						 if (res.result.length > 0) {
-							 
+							 this.onClickGotoAppointment(sub.code);
 						 }
 				     }
 				 });
@@ -342,16 +341,16 @@
 					},
 				});
 			},
-			onClickGotoAppointment(sub) {
+			onClickGotoAppointment(code) {
 				console.log("点击了去预约");
 				uni.navigateTo({
-					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub.code),
+					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(code),
 				});
 			},
-			onClickGotoDetail(sub) {
+			onClickGotoDetail(code) {
 				console.log("点击了去详情");
 				uni.navigateTo({
-					url: "./appointmentVoucherDetail?appointInfo=" + JSON.stringify(sub.code),
+					url: "./appointmentVoucherDetail?appointInfo=" + JSON.stringify(code),
 				});
 			},
 			getListData() {
