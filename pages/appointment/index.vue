@@ -101,11 +101,16 @@
 					</view>
 					
 				</view>
+				<image class="canAppointView_downArrow" src="../../static/appointment/appointment_downArrow.png"></image>
 				<view class="canAppointView_company">
-					<view>aaa</view>
+					<image class="canAppointView_company_icon" src="../../static/appointment/appointment_company2.png"></image>
+					<view class="canAppointView_company_view">
+						<view class="canAppointView_company_view_value">{{sub.companyName}}</view>
+						<view class="canAppointView_company_view_name">货主名称</view>
+					</view>
 				</view>
 				<view class="canAppointView_canAppointment">
-					<view>bbb</view>
+					<view class="">bbb</view>
 				</view>
 				<view class="canAppointView_date">
 					<view>ccc</view>
@@ -734,7 +739,7 @@
 		border-radius: 15upx;
 		margin-left: 32upx;
 		margin-right: 32upx;
-		margin-top: 15upx;
+		margin-top: 0upx;
 		display: flex;
 		align-items: flex-start;
 		flex-direction: column;
@@ -810,11 +815,46 @@
 		margin-top: -5upx;
 	}
 	
+	.canAppointView_downArrow {
+		width: 33upx;
+		height: 16upx;
+		margin-left: 41upx;
+		margin-top: 0upx;
+		flex-shrink: 0;
+	}
+	
 	.canAppointView_company {
 		display: flex;
 		align-items: flex-start;
 		flex-direction: row;
 		justify-content: space-between;
+	}
+	
+	.canAppointView_company_icon {
+		width: 35upx;
+		height: 35upx;
+		margin-left: 32upx;
+		margin-top: 35upx;
+		flex-shrink: 0;
+	}
+	
+	.canAppointView_company_view {
+		display: flex;
+		align-items: flex-start;
+		flex-direction: column;
+		justify-content: center;
+		margin-top: 12upx;
+		margin-left: 24upx;
+	}
+	
+	.canAppointView_company_view_value {
+		font-size: 28upx;
+		color: #333333;
+	}
+	
+	.canAppointView_company_view_name {
+		font-size: 24upx;
+		color: #999999;
 	}
 	
 	.canAppointView_canAppointment {
