@@ -165,11 +165,6 @@
 		data() {
 			return {
 				avatar: "",
-				userInfo: {
-					avatar: '',
-					userName: '张三',
-					licenseNumber: '闽A*888SW'
-				},
 				appointmentInfo: {
 					id: '',
 					station: '',
@@ -202,15 +197,17 @@
 		onLoad(option) {
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
+			this.getDriverReservationInformation();
 		},
 		onPullDownRefresh() {
-			if (this.activeIndex == 0) {
-				this.isEnd_canAppointList = false;
-				this.getDriverRelationVoucher();
-			} else {
-				this.isEnd_invalidAppoint = false;
-				this.getDriverRelationVoucherInvalid();
-			}
+			// if (this.activeIndex == 0) {
+			// 	this.isEnd_canAppointList = false;
+			// 	this.getDriverRelationVoucher();
+			// } else {
+			// 	this.isEnd_invalidAppoint = false;
+			// 	this.getDriverRelationVoucherInvalid();
+			// }
+			this.getDriverReservationInformation();
 		},
 		// 触底加载
 		onReachBottom() {
@@ -265,12 +262,11 @@
 				};
 				uniRequest(config).then((res) => {
 					console.log("获取司机预约信息", res);
-					if (res.data.code === 200 && res.data.data) {
-						this.canAppointList = res.data.data.list;
-						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
-							this.isEnd_canAppointList = true;
-						}
-					}
+					if (res.data.code === 200 && res.data) {
+						this.appointmentInfo.id = res.data.id;
+						this.appointmentInfo.station = res.data.nickName;
+						this.appointmentInfo.companyName = res.data.nickName;
+					} 
 				});
 			},
 			getDriverRelationVoucherInvalid() {//获取司机关联预约凭证列表:已失效的
@@ -313,13 +309,13 @@
 			onClickGotoAppointment(sub) {
 				console.log("点击了去预约");
 				uni.navigateTo({
-					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
+					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub.code),
 				});
 			},
 			onClickGotoDetail(sub) {
 				console.log("点击了去详情");
 				uni.navigateTo({
-					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(sub),
+					url: "./appointmentVoucherDetail?appointInfo=" + JSON.stringify(sub.code),
 				});
 			},
 			getListData() {
@@ -362,8 +358,6 @@
 		align-items: center;
 		flex-direction: row;
 		justify-content: space-between;
-		/* 		position: absolute;
-		bottom: 8upx; */
 	}
 
 	.headerView {
