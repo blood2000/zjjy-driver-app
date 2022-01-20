@@ -125,7 +125,7 @@
 						<image class="canAppointView_company_icon" src="../../static/appointment/appointment_ship3.png">
 						</image>
 						<view class="canAppointView_company_view">
-							<view class="canAppointView_company_view_value">{{sub.useNumber}}</view>
+							<view class="canAppointView_company_view_value">{{sub.admissionNumber}}</view>
 							<view class="canAppointView_company_view_name">已承运数</view>
 						</view>
 					</view>
@@ -141,7 +141,9 @@
 				</view>
 			</view>
 		</view>
-		<qrcode></qrcode>
+		<div>
+			<qrcode :showModal="showPickerModal" :appointInfo="appointmentInfo" @cancelModal="cancelPickerModal"></qrcode>
+		</div>
 	</view>
 </template>
 
@@ -156,7 +158,9 @@
 	} from "../../config/request.js";
 	export default {
 		name: 'appointment',
-		components: { qrcode },
+		components: {
+			qrcode
+		},
 		computed: {
 			...mapState({
 				vehicleMsg: (state) => state.user.vehicleMsg,
@@ -167,6 +171,7 @@
 		},
 		data() {
 			return {
+				showPickerModal: false,
 				avatar: "",
 				appointmentInfo: {
 					id: '',
@@ -175,6 +180,7 @@
 					date: '',
 					code: '',
 					carCount: '',
+					licenseNumber: '',
 				},
 				activeIndex: '0',
 				tabTitleData: [{
@@ -273,6 +279,7 @@
 						this.appointmentInfo.code = res.data.data.code;
 						this.appointmentInfo.date = res.data.data.createTime;
 						this.appointmentInfo.carCount = res.data.data.notAdmittedNumber;
+						this.appointmentInfo.licenseNumber = res.data.data.licenseNumber;
 					}
 				});
 			},
@@ -318,7 +325,7 @@
 				this.activeIndex = index;
 			},
 			onClickQR() {
-
+				this.showPickerModal = true;
 			},
 			onClickClose() {
 				console.log("删除预约信息");
@@ -358,7 +365,10 @@
 			},
 			getListData() {
 				return this.activeIndex == 0 ? this.canAppointList : this.invalidAppointList
-			}
+			},
+			cancelPickerModal() {
+				this.showPickerModal = false;
+			},
 		}
 	}
 </script>
@@ -931,5 +941,18 @@
 		flex-direction: row;
 		justify-content: space-between;
 		margin-bottom: 36upx;
+	}
+
+	.warp {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+	}
+
+	.rect {
+		width: 120px;
+		height: 120px;
+		background-color: #fff;
 	}
 </style>
