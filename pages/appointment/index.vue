@@ -141,6 +141,7 @@
 				</view>
 			</view>
 		</view>
+		<qrcode></qrcode>
 	</view>
 </template>
 
@@ -149,15 +150,13 @@
 		mapState
 	} from "vuex";
 	import urlConfig from "../../config/urlConfig.js";
-	import qrcode from "./qrcode.vue"
+	import qrcode from "@/pages/appointment/qrcode.vue";
 	import {
 		uniRequest
 	} from "../../config/request.js";
 	export default {
 		name: 'appointment',
-		components: {
-			qrcode
-		},
+		components: { qrcode },
 		computed: {
 			...mapState({
 				vehicleMsg: (state) => state.user.vehicleMsg,
@@ -333,9 +332,9 @@
 							const config = {
 								url: "delReservationRecord",
 								method: "DELETE",
-								params: {
-									id: this.appointmentInfo.id
-								}
+							};
+							params: {
+								id: this.appointmentInfo.id
 							};
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
