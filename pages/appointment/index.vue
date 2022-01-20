@@ -166,7 +166,6 @@
 			return {
 				avatar: "",
 				appointmentInfo: {
-					id: '',
 					station: '',
 					companyName: '',
 					date: '',
@@ -264,7 +263,6 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机预约信息", res);
 					if (res.data.code === 200 && res.data.data) {
-						this.appointmentInfo.id = res.data.data.id;
 						this.appointmentInfo.station = this.getStationName(res.data.data.buildingInfoVos);
 						this.appointmentInfo.companyName = res.data.data.companyName;
 						this.appointmentInfo.code = res.data.data.code;
@@ -321,7 +319,7 @@
 				console.log("删除预约信息");
 				uni.showModal({
 					title: "提示",
-					content: "确定要删除删除预约信息吗？",
+					content: "确定要删除预约信息吗？",
 					// showCancel: false,
 					success: (res) => {
 						console.log("res", res);
@@ -330,7 +328,7 @@
 								url: "delReservationRecord",
 								method: "DELETE",
 								querys: {
-									id: this.appointmentInfo.id
+									id: this.appointmentInfo.code
 								},
 							};
 							uniRequest(config).then((res) => {
