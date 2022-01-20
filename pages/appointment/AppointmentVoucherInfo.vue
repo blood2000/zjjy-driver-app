@@ -1,29 +1,28 @@
 <template>
 	<view class="content-page">
 
-		<appointmentView :displayTime="true" :displayViewEnter="true"></appointmentView>
-
-		<view style="margin-top: 32rpx;">
-			<text class="recordLabel">承运记录列表</text>
-			<view class="record">
-				<view v-for="(item, index) in record" v-bind:key="item.title" class="recordItem">
-					<view style="display: flex; flex-direction: column; width: 25%;">
-						<view :class="index === 0?'recordTopEmptyLine':'recordTopLine'"></view>
-						<view style="display: flex; align-items: center;">
-							<image class="point" :src="item.state === 1?pointBlue:pointRed" />
-							<text
-								:class="item.state === 1?'stateBlue':'stateRed'">{{item.state === 1?"已完成":"未完成"}}</text>
+		<appointmentView :displayTime="true" :displayViewEnter="true" :appointInfo="appointmentInfo">
+			<view slot="timePicker">
+				<view style="margin-top: 13rpx; display: flex; flex-direction: column;">
+					<view class="divilerView">
+						<view class="circle"></view>
+						<view class="diviler"></view>
+						<view class="circle"></view>
+					</view>
+					<text class="appointmentTimeView">场站现可预约时段</text>
+					<radio-group class="radioGroup">
+						<view v-for="(item,index) in timeList" @click="timeClick(item,index)">
+							<button :class="(item.select && item.isSelect === 0)?'timeSelectSelect':'timeSelectNormal'"
+								:disabled='item.isSelect === 1'>
+								{{item.startTime+'-'+item.endTime}}
+							</button>
 						</view>
-						<view class="recordLine" />
-					</view>
-					<view class="infoView" :style="{backgroundImage: item.state === 1?blueImage:redImage}">
-						<text class="title">{{item.title}}</text>
-						<text class="desc">{{item.desc}}</text>
-					</view>
+					</radio-group>
 				</view>
 			</view>
-			<button class="appointBtn">立即预约</button>
-		</view>
+		</appointmentView>
+
+		<button class="appointBtn" @click="submitAppointment">立即预约</button>
 	</view>
 </template>
 
@@ -40,53 +39,102 @@
 			appointmentView
 		},
 		onLoad(option) {
-			// if (option.appointInfo) {
-				console.log("获取到数据 --->>> ", option.appointInfo)
-				// const appointInfo = JSON.parse(option.appointInfo);
-			// }
-			//this.getVoucherDetail()
+			if (option.appointInfo) {
+				console.log(this.appointmentInfo)
+				this.getAppointmentDetail(option.appointInfo)
+				this.getVoucherDetail(option.appointInfo)
+			}
 		},
 		data() {
 			return {
+				appointmentInfo: null,
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",
 				pointRed: "/static/appointment/ic_red_point.png",
 				pointBlue: "/static/appointment/ic_blue_point.png",
 				redImage: "url('/static/appointment/ic_red_bg.png')",
 				blueImage: "url('/static/appointment/ic_blue_bg.png')",
-				record: [{
-					title: "闽A12325",
-					desc: "2021-12-13 12:08:04",
-					state: 1,
-				}, {
-					title: "闽A12321",
-					desc: "2021-12-13 12:08:04",
-					state: 1,
-				}, {
-					title: "闽A123C5",
-					desc: "2021-12-13 12:08:04",
-					state: 2,
-				}]
+				timeList: null,
 			}
 		},
 		methods: {
-			getVoucherDetail() {
+			getVoucherDetail(code) {
 				const config = {
-					url: "voucherInfo",
+					url: "getMakeAnAppointment",
 					method: "GET",
 					querys: {
-						code: "1",
+						code: code,
 					},
 				};
 				uniRequest(config).then((res) => {
-					console.log("获取司机关联预约凭证列表", res);
+					if (res.data.code === 200) {
+						console.log("获取预约规则凭证信息", res.data.data);
+						this.timeList = res.data.data
+						this.timeList.map(item => {
+							this.select = false
+						})
+						let index = this.timeList.find(item => item.isSelect === 1)
+						this.timeList[index].select = true
+					}
 				});
 			},
+			getAppointmentDetail(code) {
+				const config = {
+					url: "appointmentDetail",
+					method: "GET",
+					querys: {
+						code: code,
+					},
+				};
+				uniRequest(config).then((res) => {
+					if (res.data.code === 200) {
+						this.appointmentInfo = res.data.data
+					}
+				});
+			},
+			timeClick(item, index) {
+				let temp = JSON.parse(JSON.stringify(this.timeList))
+				temp.map(item => {
+					item.select = false
+				})
+				temp[index].select = true
+				this.timeList = temp
+			},
+			submitAppointment() {
+				let param = {
+					ruleAdmissionTimeIntervalCode: "",
+					subscribeRuleVoucherCode: ""
+				}
+				param.subscribeRuleVoucherCode = this.appointmentInfo.subscribeRuleCode
+				param.ruleAdmissionTimeIntervalCode = this.getTime()
+				const config = {
+					url: "insertAppointment",
+					method: "POST",
+					data: JSON.stringify(param),
+				};
+				uniRequest(config).then((res) => {
+					console.log(res.data.msg)
+					uni.showToast({
+						title: res.data.msg,
+						icon: 'none',
+						duration: 2000
+					})
+				});
+			},
+			getTime() {
+				let time = null
+				this.timeList.map(item => {
+					if (item.select) {
+						time = item.code
+					}
+				})
+				return time
+			}
 		}
 	}
 </script>
 
-<style>
+<style scoped>
 	.content-page {
 		background: #F3F3F3;
 		margin: 32rpx;
@@ -176,12 +224,95 @@
 		font-size: 26rpx;
 		color: #999999
 	}
-	
-	.appointBtn{
+
+	.appointmentTimeView {
+		font-size: 28rpx;
+		color: #999999;
+		margin-top: 13rpx;
+		margin-left: 32rpx;
+	}
+
+	.radioGroup {
+		display: flex;
+		flex-direction: row;
+		flex-wrap: wrap;
+		margin-top: 16rpx;
+		margin-left: 17rpx;
+		margin-right: 17rpx;
+		justify-content: flex-start;
+	}
+
+	.timeSelectDisabled {
+		padding-left: 16rpx;
+		padding-right: 16rpx;
+		margin-left: 15rpx;
+		margin-right: 15rpx;
+		border-radius: 8rpx;
+		font-size: 28rpx;
+		color: #999999;
+	}
+
+	.timeSelectNormal {
+		padding-left: 16rpx;
+		padding-right: 16rpx;
+		margin-left: 15rpx;
+		margin-right: 15rpx;
+		border-radius: 8rpx;
+		font-size: 28rpx;
+		background-color: #FFF;
+		border: 1rpx dashed #DDDDDD;
+		color: #333333;
+	}
+
+	.timeSelectSelect {
+		margin-left: 15rpx;
+		border-radius: 8rpx;
+		margin-right: 15rpx;
+		padding-left: 16rpx;
+		padding-right: 16rpx;
+		font-size: 28rpx;
+		background-color: #2366F2;
+		color: #FFF;
+	}
+
+	.appointBtn {
 		background-color: #2366F2;
 		color: #FFFFFF;
+		width: 90%;
 		font-size: 32rpx;
 		margin-top: 32rpx;
+		position: absolute;
+		bottom: 32rpx;
+		right: 32rpx;
 		font-weight: bold;
+	}
+
+	.circle {
+		background-color: #F3F3F3;
+		width: 20rpx;
+		height: 20rpx;
+		margin-left: -10rpx;
+		margin-right: -10rpx;
+		border-radius: 50rpx;
+	}
+
+	.divilerView {
+		margin-top: 14rpx;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.diviler {
+		height: 1rpx;
+		width: 100%;
+		margin-left: 32rpx;
+		margin-right: 32rpx;
+		border-top: 1rpx solid #F0F0F0;
+	}
+
+	button::after {
+		border: none
 	}
 </style>

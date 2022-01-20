@@ -1,8 +1,8 @@
 <template>
 	<view class="content-page">
 
-		<appointmentView :displayTime="true" :displayViewEnter="true"></appointmentView>
-
+		<appointmentView :displayTime="false" :displayViewEnter="false" :appointInfo="appointInfo">
+		</appointmentView>
 		<view style="margin-top: 32rpx;">
 			<text class="recordLabel">承运记录列表</text>
 			<view class="record">
@@ -22,7 +22,6 @@
 					</view>
 				</view>
 			</view>
-			<button class="appointBtn">立即预约</button>
 		</view>
 	</view>
 </template>
@@ -40,14 +39,14 @@
 			appointmentView
 		},
 		onLoad(option) {
-			// if (option.appointInfo) {
-			// 	console.log("option --->>> ", option.appointInfo)
-			// 	const appointInfo = JSON.parse(option.appointInfo);
-			// }
-			//this.getVoucherDetail()
+			if (option.appointInfo) {
+				this.appointInfo = JSON.parse(option.appointInfo);
+				this.getVoucherDetail(this.appointInfo.code)
+			}
 		},
 		data() {
 			return {
+				appointInfo: null,
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",
 				pointRed: "/static/appointment/ic_red_point.png",
@@ -176,8 +175,8 @@
 		font-size: 26rpx;
 		color: #999999
 	}
-	
-	.appointBtn{
+
+	.appointBtn {
 		background-color: #2366F2;
 		color: #FFFFFF;
 		font-size: 32rpx;

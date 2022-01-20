@@ -344,13 +344,13 @@
 			onClickGotoAppointment(code) {
 				console.log("点击了去预约");
 				uni.navigateTo({
-					url: "./appointmentVoucherInfo?appointInfo=" + JSON.stringify(code),
+					url: "./appointmentVoucherInfo?appointInfo=" + code,
 				});
 			},
 			onClickGotoDetail(code) {
 				console.log("点击了去详情");
 				uni.navigateTo({
-					url: "./appointmentVoucherDetail?appointInfo=" + JSON.stringify(code),
+					url: "./appointmentVoucherDetail?appointInfo=" + code,
 				});
 			},
 			getListData() {

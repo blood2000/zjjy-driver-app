@@ -3,7 +3,7 @@
 		<view class="topAppointmentView">
 			<view class="companyView">
 				<image :src="companyIcon" style="width: 50rpx; height: 50rpx;"></image>
-				<text class="companyText">山西华汇通商贸有限公司</text>
+				<text class="companyText">{{appointInfo.companyName}}</text>
 				<img :src="deleteIcon" class="deleteImg"></img>
 			</view>
 			<view class="divilerView">
@@ -13,42 +13,29 @@
 			</view>
 			<view class="infoView">
 				<text class="infoLabel">场站信息：</text>
-				<text class="infoValue">山西五福洗煤厂 / 32 号堆</text>
+				<text class="infoValue">{{getAddressText()?getAddressText():"暂无数据"}}</text>
 			</view>
 			<view class="infoView">
 				<text class="infoLabel">货品类型：</text>
-				<text class="infoValue">原煤</text>
+				<text class="infoValue">{{appointInfo.goodsName?appointInfo.goodsName:"暂无数据"}}</text>
 			</view>
 			<view class="infoView">
 				<text class="infoLabel">总车次：</text>
-				<text class="infoValue">32</text>
+				<text class="infoValue">{{appointInfo.reserveNumber}}</text>
 			</view>
 			<view class="infoView">
 				<text class="infoLabel">预约时段：</text>
-				<text class="infoValue">2021-12-26 ~ 2021-12-26</text>
+				<text class="infoValue">{{appointInfo.effectiveDate+"~"+appointInfo.expirationDate}}</text>
 			</view>
 			<view class="infoView">
 				<text class="infoLabel">场站信息：</text>
 				<view>
-					<text class="infoValue">10</text>
-					<text v-if="displayViewEnter" class="infoValueClick">(查看出入区)</text>
+					<text class="infoValue">{{appointInfo.useNumber?appointInfo.useNumber:"暂无数据"}}</text>
+					<text v-if="displayViewEnter" class="infoValueClick" @click="viewDetail">(查看出入区)</text>
 				</view>
 			</view>
-			<view v-if="displayTime" style="margin-top: 13rpx; display: flex; flex-direction: column;">
-				<view class="divilerView">
-					<view class="circle"></view>
-					<view class="diviler"></view>
-					<view class="circle"></view>
-				</view>
-				<text class="appointmentTimeView">场站现可预约时段</text>
-				<radio-group class="radioGroup">
-					<view v-for="(item,index) in timeData">
-						<button :class="item.select?'timeSelectSelect':'timeSelectNormal'" :disabled="item.disabled"
-							@click="timeClick(item,index)">
-							{{item.time}}
-						</button>
-					</view>
-				</radio-group>
+			<view class="timePicker">
+				<slot name="timePicker"></slot>
 			</view>
 		</view>
 	</view>
@@ -66,36 +53,18 @@
 			displayViewEnter: {
 				type: Boolean,
 				default: false,
+			},
+			appointInfo: {
+				type: Object,
+				default: null,
 			}
 		},
 		data() {
 			return {
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",
-				timeData: [{
-					time: "9:00",
-					disabled: true,
-					select: false
-				}, {
-					time: "10:00",
-					disabled: false,
-					select: false
-				}, {
-					time: "11:00",
-					disabled: false,
-					select: true
-				}, {
-					time: "12:00",
-					disabled: false,
-					select: false
-				}, {
-					time: "13:00",
-					disabled: false,
-				}, {
-					time: "14:00",
-					disabled: false,
-					select: false
-				}]
+				addressText: null,
+				textLimit: 18,
 			}
 		},
 		methods: {
@@ -104,6 +73,28 @@
 					item.select = false
 				})
 				this.timeData[index].select = true
+			},
+			getAddressText() {
+				var totalName = "";
+				if (this.appointInfo && this.appointInfo.buildingInfoVos) {
+					for (var i = 0; i < this.appointInfo.buildingInfoVos.length; i++) {
+						var sub = this.appointInfo.buildingInfoVos[i]
+						totalName += sub.buildingName;
+						if (i < this.appointInfo.buildingInfoVos.length - 1) {
+							totalName += ","
+						}
+					}
+				}
+				//限制20个字符
+				if (totalName.length > this.textLimit) {
+					totalName = totalName.substring(0, this.textLimit) + "..."
+				}
+				return totalName;
+			},
+			viewDetail() {
+				uni.navigateTo({
+					url: "./appointmentVoucherDetail?appointInfo=" + JSON.stringify(this.appointInfo),
+				});
 			}
 		}
 	}
@@ -182,6 +173,8 @@
 		font-size: 28rpx;
 		font-weight: bold;
 		color: #333333;
+		white-space: nowrap;
+		word-wrap: break-word;
 	}
 
 	.infoValueClick {
@@ -237,9 +230,5 @@
 		font-size: 28rpx;
 		background-color: #2366F2;
 		color: #FFF;
-	}
-
-	button::after {
-		border: none
 	}
 </style>
