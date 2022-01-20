@@ -64,7 +64,7 @@
 						<view class="info_station_bottom_carTime">还有{{appointmentInfo.carCount}}辆车未入场</view>
 					</view>
 					<view class="info_bottom_right">
-<!-- 						<hr class="info_bottom_right_line">
+						<!-- 						<hr class="info_bottom_right_line">
 						<view class="info_bottom_right_view">
 							<image class="info_station_bottom_navi" src="/static/appointment/appointment_navi.png"
 								mode="aspectFit">
@@ -114,16 +114,16 @@
 				</view>
 				<view class="canAppointView_canAppointment">
 					<view class="canAppointView_canAppointment_left">
-						<image class="canAppointView_company_icon"
-							src="../../static/appointment/appointment_ship2.png"></image>
+						<image class="canAppointView_company_icon" src="../../static/appointment/appointment_ship2.png">
+						</image>
 						<view class="canAppointView_company_view">
 							<view class="canAppointView_company_view_value">{{sub.reserveNumber}}</view>
 							<view class="canAppointView_company_view_name">可预约数</view>
 						</view>
 					</view>
 					<view class="canAppointView_canAppointment_right">
-						<image class="canAppointView_company_icon"
-							src="../../static/appointment/appointment_ship3.png"></image>
+						<image class="canAppointView_company_icon" src="../../static/appointment/appointment_ship3.png">
+						</image>
 						<view class="canAppointView_company_view">
 							<view class="canAppointView_company_view_value">{{sub.useNumber}}</view>
 							<view class="canAppointView_company_view_name">已承运数</view>
@@ -134,7 +134,8 @@
 					<image class="canAppointView_company_icon" src="../../static/appointment/appointment_time2.png">
 					</image>
 					<view class="canAppointView_company_view">
-						<view class="canAppointView_company_view_value">{{sub.effectiveDate}}-{{sub.expirationDate}}</view>
+						<view class="canAppointView_company_view_value">{{sub.effectiveDate}}-{{sub.expirationDate}}
+						</view>
 						<view class="canAppointView_company_view_name">预约时段</view>
 					</view>
 				</view>
@@ -236,7 +237,7 @@
 				}
 				return totalName;
 			},
-			getDriverRelationVoucher() {//获取司机关联预约凭证列表:可预约的
+			getDriverRelationVoucher() { //获取司机关联预约凭证列表:可预约的
 				const config = {
 					url: "getDriverRelationVoucher",
 					method: "GET",
@@ -256,7 +257,7 @@
 					}
 				});
 			},
-			getDriverReservationInformation() {//司机预约信息
+			getDriverReservationInformation() { //司机预约信息
 				const config = {
 					url: "reservationInformation",
 					method: "GET",
@@ -270,10 +271,10 @@
 						this.appointmentInfo.code = res.data.code;
 						this.appointmentInfo.date = res.data.createTime;
 						this.appointmentInfo.carCount = res.data.carCount;
-					} 
+					}
 				});
 			},
-			getDriverRelationVoucherInvalid() {//获取司机关联预约凭证列表:已失效的
+			getDriverRelationVoucherInvalid() { //获取司机关联预约凭证列表:已失效的
 				const config = {
 					url: "getDriverRelationVoucher",
 					method: "GET",
@@ -308,7 +309,28 @@
 
 			},
 			onClickClose() {
-
+				console.log("删除预约信息");
+				uni.showModal({
+					title: "提示",
+					content: "确定要删除删除预约信息吗？",
+					// showCancel: false,
+					success: (res) => {
+						console.log("res", res);
+						if (res.confirm) {
+							const config = {
+								url: "delReservationRecord",
+								method: "DELETE",
+								querys: {
+									id: this.appointmentInfo.id
+								},
+							};
+							uniRequest(config).then((res) => {
+								console.log("删除", res);
+								this.appointmentInfo = null;
+							});
+						}
+					},
+				});
 			},
 			onClickGotoAppointment(sub) {
 				console.log("点击了去预约");
@@ -841,7 +863,7 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
-	
+
 	.canAppointView_company_icon {
 		width: 35upx;
 		height: 35upx;
@@ -875,14 +897,14 @@
 		flex-direction: row;
 		justify-content: space-between;
 	}
-	
+
 	.canAppointView_canAppointment_left {
 		display: flex;
 		align-items: flex-start;
 		flex-direction: row;
 		justify-content: space-between;
 	}
-	
+
 	.canAppointView_canAppointment_right {
 		display: flex;
 		align-items: flex-start;
@@ -898,6 +920,4 @@
 		justify-content: space-between;
 		margin-bottom: 36upx;
 	}
-
-
 </style>
