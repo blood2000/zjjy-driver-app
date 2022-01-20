@@ -25,7 +25,8 @@
 						<view class="scanView_label">扫码预约</view>
 						<view class="scanView_arrow_right"></view>
 					</view>
-					<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit"></image>
+					<image class="scanView_icon" src="/static/appointment/appointment_scan.png" mode="aspectFit">
+					</image>
 				</view>
 			</view>
 		</div>
@@ -154,7 +155,9 @@
 	} from "../../config/request.js";
 	export default {
 		name: 'appointment',
-		components: {qrcode},
+		components: {
+			qrcode
+		},
 		computed: {
 			...mapState({
 				vehicleMsg: (state) => state.user.vehicleMsg,
@@ -302,21 +305,21 @@
 			onClickScanAction() {
 				console.log("点击了扫码");
 				// 允许从相机和相册扫码
-				 uni.scanCode({
-				     success: function (res) {
-				         console.log('条码类型：' + res.scanType);
-				         console.log('条码内容：' + res.result);
-						 if (res.result.length > 0) {
-							 this.onClickGotoAppointment(sub.code);
-						 }
-				     }
-				 });
+				uni.scanCode({
+					success: function(res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+						if (res.result.length > 0) {
+							this.onClickGotoAppointment(sub.code);
+						}
+					}
+				});
 			},
 			clickTab(index) {
 				this.activeIndex = index;
 			},
 			onClickQR() {
-				
+
 			},
 			onClickClose() {
 				console.log("删除预约信息");
@@ -328,8 +331,11 @@
 						console.log("res", res);
 						if (res.confirm) {
 							const config = {
-								url: "delReservationRecord"+this.appointmentInfo.id,
+								url: "delReservationRecord",
 								method: "DELETE",
+								params: {
+									id: this.appointmentInfo.id
+								}
 							};
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
