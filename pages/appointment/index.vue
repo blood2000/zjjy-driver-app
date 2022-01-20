@@ -148,12 +148,13 @@
 		mapState
 	} from "vuex";
 	import urlConfig from "../../config/urlConfig.js";
+	import qrcode from "./qrcode.vue"
 	import {
 		uniRequest
 	} from "../../config/request.js";
 	export default {
 		name: 'appointment',
-		components: {},
+		components: {qrcode},
 		computed: {
 			...mapState({
 				vehicleMsg: (state) => state.user.vehicleMsg,
@@ -166,6 +167,7 @@
 			return {
 				avatar: "",
 				appointmentInfo: {
+					id: '',
 					station: '',
 					companyName: '',
 					date: '',
@@ -263,6 +265,7 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机预约信息", res);
 					if (res.data.code === 200 && res.data.data) {
+						this.appointmentInfo.id = res.data.data.id;
 						this.appointmentInfo.station = this.getStationName(res.data.data.buildingInfoVos);
 						this.appointmentInfo.companyName = res.data.data.companyName;
 						this.appointmentInfo.code = res.data.data.code;
@@ -325,11 +328,8 @@
 						console.log("res", res);
 						if (res.confirm) {
 							const config = {
-								url: "delReservationRecord",
+								url: "delReservationRecord"+this.appointmentInfo.id,
 								method: "DELETE",
-								querys: {
-									id: this.appointmentInfo.code
-								},
 							};
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
