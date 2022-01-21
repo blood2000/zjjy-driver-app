@@ -36,7 +36,7 @@
 					<view class="info-container-top-left">
 						<view class="info_station">
 							<view class="info_station_content_name">预约场站</view>
-							<view class="info_station_content_value">{{getStationName(appointmentInfo.buildingInfoVos)}}
+							<view class="info_station_content_value">{{getStationName(appointmentInfo)}}
 							</view>
 						</view>
 						<view class="info_company">
@@ -93,7 +93,7 @@
 				<view class="canAppointViewTop">
 					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png">
 					</image>
-					<text class="canAppointViewTop_label">{{getStationName(sub.buildingInfoVos)}}</text>
+					<text class="canAppointViewTop_label">{{getStationName(sub)}}</text>
 					<view v-if="activeIndex==0" class="canAppointViewTop_appointment"
 						@click="onClickGotoAppointment(sub.code)">
 						<view class="canAppointViewTop_appointment_label">预约</view>
@@ -227,7 +227,9 @@
 			}
 		},
 		methods: {
-			getStationName(buildingInfoVos) {
+			getStationName(appointment) {
+				console.log(appointment);
+				var buildingInfoVos = appointment.buildingInfoVos;
 				var totalName = "";
 				for (var i = 0; i < buildingInfoVos.length; i++) {
 					var sub = buildingInfoVos[i]
@@ -240,8 +242,8 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
-				if (this.appointmentInfo && this.appointmentInfo.jyzName) {
-					return this.appointmentInfo.jyzName + "/" + totalName;
+				if (appointment && appointment.jyzName) {
+					return appointment.jyzName + "/" + totalName;
 				} else {
 					return totalName;
 				}
@@ -257,7 +259,7 @@
 					},
 				};
 				uniRequest(config).then((res) => {
-					console.log("获取司机关联预约凭证列表", res);
+					console.log("获取司机关联预约凭证列表_可预约的", res);
 					if (res.data.code === 200 && res.data.data) {
 						this.canAppointList = res.data.data.list;
 						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
@@ -289,7 +291,7 @@
 					},
 				};
 				uniRequest(config).then((res) => {
-					console.log("获取司机关联预约凭证列表", res);
+					console.log("获取司机关联预约凭证列表_已失效的", res);
 					if (res.data.code === 200 && res.data.data) {
 						this.invalidAppointList = res.data.data.list;
 						if (res.data.data.list.length < this.invalidAppointListQueryParams.pageSize) {
