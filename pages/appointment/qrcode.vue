@@ -14,10 +14,11 @@
 			</view>
 			<view class="licenseNumberView">
 				<view class="licenseNumberValue">{{appointInfo.licenseNumber || "暂无车辆"}}</view>
-				<view class="heapNumberValue">{{getStationName(appointInfo.buildingInfoVos)}}</view>
+				<view class="heapNumberValue">{{getStationName(appointInfo)}}</view>
 			</view>
 			<view class="qr">
 				<image class="qr_code" :src="qrcode.src" mode="aspectFill"></image>
+				<view class="qr_cion_bg"></view>
 				<image class="qr_icon" :src="qrcode.icon" mode="aspectFill"></image>
 			</view>
 			<view class="contents">
@@ -85,7 +86,11 @@
 			cancelModal() {
 				this.$emit("cancelModal");
 			},
-			getStationName(buildingInfoVos) {
+			getStationName(appointInfo) {
+				if (appointInfo == null) {
+					return "";
+				}
+				var buildingInfoVos = appointInfo.buildingInfoVos
 				var totalName = "";
 				for (var i = 0; i < buildingInfoVos.length; i++) {
 					var sub = buildingInfoVos[i]
@@ -192,6 +197,16 @@
 		position: absolute;
 	}
 
+ 	.qr_cion_bg {
+		background-color: #FFFFFF;
+		width: 116upx;
+		height: 116upx;
+		position: absolute;
+		top: 159upx;
+		left:176upx;
+		border-radius: 16upx;
+	} 
+	
 	.qr_icon {
 		width: 106upx;
 		height: 106upx;
