@@ -7,14 +7,14 @@
 				<image src="../../static/appointment/qrTitle_left.png" mode="aspectFill"
 					style="height:2upx;width:90upx;">
 				</image>
-				<text class="titleView_stationName">{{appointInfo.station}}</text>
+				<text class="titleView_stationName">{{appointInfo.jyzName}}</text>
 				<image src="../../static/appointment/qrTitle_right.png" mode="aspectFill"
 					style="height:2upx;width:90upx;">
 				</image>
 			</view>
 			<view class="licenseNumberView">
-				<view class="licenseNumberValue">{{appointInfo.station}}</view>
-				<view class="heapNumberValue">{{appointInfo.station}}</view>
+				<view class="licenseNumberValue">{{appointInfo.licenseNumber || "暂无车辆"}}</view>
+				<view class="heapNumberValue">{{getStationName(appointInfo.buildingInfoVos)}}</view>
 			</view>
 			<view class="qr">
 				<image class="qr_code" :src="qrcode.src" mode="aspectFill"></image>
@@ -25,7 +25,7 @@
 					<view class="">{{ appointInfo.companyName }}</view>
 				</view>
 				<view class="contents-bottom">
-					<view class="">{{ appointInfo.companyName }}</view>
+					<view class="">{{appointInfo.effectiveDate}} ~ {{appointInfo.expirationDate}}</view>
 				</view>
 			</view>
 		</div>
@@ -41,6 +41,7 @@
 	export default {
 		data() {
 			return {
+				textLimit: 10,
 				appointInfo: null,
 				qrcode: {
 					val: '', // 要生成的二维码值
@@ -83,6 +84,21 @@
 		methods: {
 			cancelModal() {
 				this.$emit("cancelModal");
+			},
+			getStationName(buildingInfoVos) {
+				var totalName = "";
+				for (var i = 0; i < buildingInfoVos.length; i++) {
+					var sub = buildingInfoVos[i]
+					totalName += sub.buildingName;
+					if (i < buildingInfoVos.length - 1) {
+						totalName += ",";
+					}
+				}
+				//限制20个字符
+				if (totalName.length > this.textLimit) {
+					totalName = totalName.substring(0, this.textLimit) + "..."
+				}
+				return totalName;
 			},
 		},
 	};
