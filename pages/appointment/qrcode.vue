@@ -18,8 +18,12 @@
 			</view>
 			<view class="qr">
 				<image class="qr_code" :src="qrcode.src" mode="aspectFill"></image>
-				<view class="qr_cion_bg"></view>
-				<image class="qr_icon" :src="qrcode.icon" mode="aspectFill"></image>
+				<!-- 				<view class="qr_cion_bg"></view>
+				<image class="qr_icon" :src="qrcode.icon" mode="aspectFill"></image> -->
+				<tki-qrcode class="qr_code" :show="true" cid="qrcode1" ref="qrcode" :val="qrcode.val" :size="qrcode.size"
+					:unit="qrcode.unit" :background="qrcode.background" :foreground="qrcode.foreground"
+					:pdground="qrcode.pdground" :icon="qrcode.icon" :iconSize="qrcode.iconsize" :lv="qrcode.lv"
+					:onval="qrcode.onval" :loadMake="qrcode.loadMake" :usingComponents="true" @result="result" />
 			</view>
 			<view class="contents">
 				<view class="contents-top">
@@ -45,7 +49,7 @@
 				textLimit: 10,
 				//appointInfo: null,
 				qrcode: {
-					val: '', // 要生成的二维码值
+					val: 'www.sina.com', // 要生成的二维码值
 					size: 400, // 二维码大小
 					unit: 'upx', // 单位
 					background: '#FFFFFF', // 背景色
@@ -56,7 +60,8 @@
 					lv: 3, // 二维码容错级别 ， 一般不用设置，默认就行
 					onval: true, // val值变化时自动重新生成二维码
 					loadMake: true, // 组件加载完成后自动生成二维码
-					src: 'https://img2.baidu.com/it/u=2656539769,2055516863&fm=253&fmt=auto&app=138&f=JPG?w=408&h=409' // 二维码生成后的图片地址或base64
+					src: ''
+					//src: 'https://img2.baidu.com/it/u=2656539769,2055516863&fm=253&fmt=auto&app=138&f=JPG?w=408&h=409' // 二维码生成后的图片地址或base64
 				},
 			};
 		},
@@ -193,26 +198,26 @@
 		height: 400upx;
 		position: static;
 		top: 17upx;
-		left:35upx;
+		left: 35upx;
 		position: absolute;
 	}
 
- 	.qr_cion_bg {
+	.qr_cion_bg {
 		background-color: #FFFFFF;
 		width: 116upx;
 		height: 116upx;
 		position: absolute;
 		top: 159upx;
-		left:176upx;
+		left: 176upx;
 		border-radius: 16upx;
-	} 
-	
+	}
+
 	.qr_icon {
 		width: 106upx;
 		height: 106upx;
 		position: absolute;
 		top: 163upx;
-		left:182upx;
+		left: 182upx;
 	}
 
 	.contents {
