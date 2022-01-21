@@ -166,9 +166,6 @@
 				vehicleMsg: (state) => state.user.vehicleMsg,
 			})
 		},
-		onLoad() {
-			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
-		},
 		data() {
 			return {
 				showPickerModal: false,
@@ -205,6 +202,12 @@
 			}
 		},
 		onLoad(option) {
+			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
+			this.getDriverRelationVoucher();
+			this.getDriverRelationVoucherInvalid();
+			this.getDriverReservationInformation();
+		},
+		onShow() {
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
 			this.getDriverReservationInformation();

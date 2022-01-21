@@ -16,19 +16,16 @@
 				<view class="licenseNumberValue">{{appointInfo.station}}</view>
 				<view class="heapNumberValue">{{appointInfo.station}}</view>
 			</view>
-			<view class="qr" :class="cbData && cbData.transRelType == 'chy' ? 'chy' : ''" @tap.stop>
-				<image :src="qrcode.src" mode="aspectFill" style="height:400upx;width:400upx"></image>
-				<tki-qrcode :show="false" cid="qrcode1" ref="qrcode" :val="qrcode.val" :size="qrcode.size"
-					:unit="qrcode.unit" :background="qrcode.background" :foreground="qrcode.foreground"
-					:pdground="qrcode.pdground" :icon="qrcode.icon" :iconSize="qrcode.iconsize" :lv="qrcode.lv"
-					:onval="qrcode.onval" :loadMake="qrcode.loadMake" :usingComponents="true" @result="result" />
+			<view class="qr">
+				<image class="qr_code" :src="qrcode.src" mode="aspectFill"></image>
+				<image class="qr_icon" :src="qrcode.icon" mode="aspectFill"></image>
 			</view>
 			<view class="contents">
-				<view class="contents-top ly-flex ly-flex-pack-justify ly-flex-align-start">
-					<view class="name g-double-row">{{ qrcodeInfo.companyName }}</view>
+				<view class="contents-top">
+					<view class="">{{ appointInfo.companyName }}</view>
 				</view>
-				<view class="contents-bottom ly-flex ly-flex-pack-justify ly-flex-align-center">
-					<view class="g-single-row text">{{ qrcodeInfo.dateStr }}</view>
+				<view class="contents-bottom">
+					<view class="">{{ appointInfo.companyName }}</view>
 				</view>
 			</view>
 		</div>
@@ -45,6 +42,20 @@
 		data() {
 			return {
 				appointInfo: null,
+				qrcode: {
+					val: '', // 要生成的二维码值
+					size: 400, // 二维码大小
+					unit: 'upx', // 单位
+					background: '#FFFFFF', // 背景色
+					foreground: '#000000', // 前景色
+					pdground: '#000000', // 角标色
+					icon: '../../static/jylogo.png', // 二维码中心图标
+					iconsize: 53, // 二维码图标大小
+					lv: 3, // 二维码容错级别 ， 一般不用设置，默认就行
+					onval: true, // val值变化时自动重新生成二维码
+					loadMake: true, // 组件加载完成后自动生成二维码
+					src: 'https://img2.baidu.com/it/u=2656539769,2055516863&fm=253&fmt=auto&app=138&f=JPG?w=408&h=409' // 二维码生成后的图片地址或base64
+				},
 			};
 		},
 
@@ -80,9 +91,9 @@
 	.type-modal-box {
 		position: fixed;
 		left: calc((100vw - 580upx)/2.0);
-		top: calc((100vh - 740upx)/2.0);
+		top: calc((100vh - 740upx)/2.0 - 40upx);
 		width: 580upx;
-		height: 741upx;
+		height: 781upx;
 		background: #3A65FF;
 		border-radius: 20upx;
 		z-index: 102;
@@ -126,15 +137,15 @@
 		display: flex;
 		align-items: center;
 		flex-direction: row;
-		justify-content: space-between;
+		justify-content: flex-start;
 	}
 
 	.licenseNumberValue {
 		font-size: 28upx;
 		font-weight: bold;
 		color: #FFFFFF;
-		position: relative;
-		left: -120upx;
+ 		position: relative;
+		left: -150upx; 
 	}
 
 	.heapNumberValue {
@@ -146,31 +157,38 @@
 		padding-left: 14upx;
 		padding-right: 14upx;
 		position: relative;
-		right: -120upx;
+		right: -150upx;
 	}
 
 	.qr {
 		border-radius: 12rpx;
-		width: 480rpx;
-		height: 470rpx;
+		width: 470upx;
+		height: 440upx;
 		background-color: #FFFFFF;
-		padding: 35upx 40upx;
+		position: relative;
+	}
 
-		&.chy {
-			width: 480upx;
-			height: 520upx;
-			// background: url('../../static/transportPlan/box-bg.png') no-repeat;
-			background-size: 100% 100%;
-			padding: 94upx 40upx 26upx 40upx;
-		}
+	.qr_code {
+		width: 400upx;
+		height: 400upx;
+		position: static;
+		top: 17upx;
+		left:35upx;
+		position: absolute;
+	}
+
+	.qr_icon {
+		width: 106upx;
+		height: 106upx;
+		position: absolute;
+		top: 163upx;
+		left:182upx;
 	}
 
 	.contents {
 		width: 480upx;
 		background: rgba(255, 255, 255, 0);
-		border-radius: 12upx;
 		margin-top: 35upx;
-		padding: 0 22upx;
 
 		.contents-top {
 			font-size: 26upx;
@@ -178,25 +196,7 @@
 			font-weight: bold;
 			color: #FFFFFF;
 			line-height: 38upx;
-			margin: 22upx 0;
-
-			.tag {
-				width: 60upx;
-				height: 27upx;
-				line-height: 27upx;
-				text-align: center;
-				background: #FFFFFF;
-				border-radius: 16upx 14upx 14upx 0upx;
-				font-size: 20upx;
-				font-family: PingFang SC;
-				font-weight: bold;
-				color: #3A65FF;
-				margin-top: 5upx;
-			}
-
-			.name {
-				width: calc(100% - 68upx);
-			}
+			margin: 8upx 0;
 		}
 
 		.contents-bottom {
@@ -204,27 +204,9 @@
 			font-family: PingFang SC;
 			font-weight: bold;
 			color: #FFFFFF;
-			padding: 24upx 0 10upx;
+			padding: 8upx 0 10upx;
 			border-top: 2upx solid rgba(255, 255, 255, 0.15);
-
-			.img {
-				height: 16upx;
-				width: 64upx;
-				margin: 0 22upx;
-			}
-
-			.text {
-				width: calc(100% - 68upx);
-			}
 		}
-	}
-
-	.message {
-		color: #FFFFFF;
-		line-height: 50rpx;
-		text-align: center;
-		margin: 32upx 0 0;
-		font-size: 28upx;
 	}
 
 	.btn {
