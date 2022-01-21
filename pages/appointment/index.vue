@@ -143,7 +143,7 @@
 			</view>
 		</view>
 		<div>
-			<qrcode :showModal="showPickerModal" :appointInfo="appointmentInfo" @cancelModal="cancelPickerModal">
+			<qrcode v-if="appointmentInfo" :showModal="showPickerModal" :appointInfo="appointmentInfo" @cancelModal="cancelPickerModal">
 			</qrcode>
 		</div>
 	</view>
