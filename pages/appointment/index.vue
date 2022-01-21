@@ -308,6 +308,7 @@
 			onClickScanAction() {
 				console.log("点击了扫码");
 				// 允许从相机和相册扫码
+				var that = this;
 				uni.scanCode({
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
@@ -326,7 +327,7 @@
 							});
 
 							//跳转到预约界面
-							this.onClickGotoAppointment(sub.code);
+							that.onClickGotoAppointment(res.result);
 						}
 					}
 				});
