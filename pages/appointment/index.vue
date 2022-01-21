@@ -319,6 +319,19 @@
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
 						if (res.result.length > 0) {
+							//新增司机关联凭证
+							const config = {
+							  url: "insertVoucherRelation",
+							  method: "POST",
+							  data: {
+							    subscribeRuleVoucherCode: res.result,
+							  },
+							};
+							uniRequest(config).then((res) => {
+							  console.log("res", res);
+							});
+							
+							//跳转到预约界面
 							this.onClickGotoAppointment(sub.code);
 						}
 					}
