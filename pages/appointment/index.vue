@@ -36,7 +36,7 @@
 					<view class="info-container-top-left">
 						<view class="info_station">
 							<view class="info_station_content_name">预约场站</view>
-							<view class="info_station_content_value">{{getStationName(appointmentInfo.buildingInfoVos)}}
+							<view class="info_station_content_value">{{getStationName(appointmentInfo)}}
 							</view>
 						</view>
 						<view class="info_company">
@@ -93,7 +93,7 @@
 				<view class="canAppointViewTop">
 					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png">
 					</image>
-					<text class="canAppointViewTop_label">{{getStationName(sub.buildingInfoVos)}}</text>
+					<text class="canAppointViewTop_label">{{getStationName(sub)}}</text>
 					<view v-if="activeIndex==0" class="canAppointViewTop_appointment"
 						@click="onClickGotoAppointment(sub.code)">
 						<view class="canAppointViewTop_appointment_label">预约</view>
@@ -196,13 +196,8 @@
 				invalidAppointList: [],
 			}
 		},
-		onLoad(option) {
-			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
-			this.getDriverRelationVoucher();
-			this.getDriverRelationVoucherInvalid();
-			this.getDriverReservationInformation();
-		},
 		onShow() {
+			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
 			this.getDriverReservationInformation();
@@ -232,7 +227,9 @@
 			}
 		},
 		methods: {
-			getStationName(buildingInfoVos) {
+			getStationName(appointment) {
+				console.log(appointment);
+				var buildingInfoVos = appointment.buildingInfoVos;
 				var totalName = "";
 				for (var i = 0; i < buildingInfoVos.length; i++) {
 					var sub = buildingInfoVos[i]
@@ -245,8 +242,8 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
-				if (this.appointmentInfo && this.appointmentInfo.jyzName) {
-					return this.appointmentInfo.jyzName + "/" + totalName;
+				if (appointment && appointment.jyzName) {
+					return appointment.jyzName + "/" + totalName;
 				} else {
 					return totalName;
 				}
@@ -262,7 +259,7 @@
 					},
 				};
 				uniRequest(config).then((res) => {
-					console.log("获取司机关联预约凭证列表", res);
+					console.log("获取司机关联预约凭证列表_可预约的", res);
 					if (res.data.code === 200 && res.data.data) {
 						this.canAppointList = res.data.data.list;
 						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
@@ -294,7 +291,7 @@
 					},
 				};
 				uniRequest(config).then((res) => {
-					console.log("获取司机关联预约凭证列表", res);
+					console.log("获取司机关联预约凭证列表_已失效的", res);
 					if (res.data.code === 200 && res.data.data) {
 						this.invalidAppointList = res.data.data.list;
 						if (res.data.data.list.length < this.invalidAppointListQueryParams.pageSize) {
@@ -311,6 +308,7 @@
 			onClickScanAction() {
 				console.log("点击了扫码");
 				// 允许从相机和相册扫码
+				var that = this;
 				uni.scanCode({
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
@@ -329,7 +327,7 @@
 							});
 
 							//跳转到预约界面
-							this.onClickGotoAppointment(sub.code);
+							that.onClickGotoAppointment(res.result);
 						}
 					}
 				});
@@ -347,18 +345,20 @@
 					content: "确定要删除预约信息吗？",
 					// showCancel: false,
 					success: (res) => {
-						console.log("res", res);
 						if (res.confirm) {
 							const config = {
 								url: "delReservationRecord",
 								method: "DELETE",
+								params: {
+									id: this.appointmentInfo.driverReservationRecordId
+								},
 							};
-							params: {
-								id: this.appointmentInfo.driverReservationRecordId
-							};
+							
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
-								this.appointmentInfo = null;
+								if (res.data.code === 200) {
+									this.appointmentInfo = null;
+								}
 							});
 						}
 					},

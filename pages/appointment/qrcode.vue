@@ -42,7 +42,7 @@
 		data() {
 			return {
 				textLimit: 10,
-				appointInfo: null,
+				//appointInfo: null,
 				qrcode: {
 					val: '', // 要生成的二维码值
 					size: 400, // 二维码大小
