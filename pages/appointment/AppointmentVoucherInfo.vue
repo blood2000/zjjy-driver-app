@@ -1,7 +1,8 @@
 <template>
 	<view class="content-page">
 
-		<appointmentView :displayTime="true" :displayViewEnter="true" :appointInfo="appointmentInfo">
+		<appointmentView v-if="appointmentInfo" :displayTime="true" :displayViewEnter="true"
+			:appointInfo="appointmentInfo" :subscribeRuleVoucherCode="subscribeRuleVoucherCode">
 			<view slot="timePicker">
 				<view style="margin-top: 13rpx; display: flex; flex-direction: column;">
 					<view class="divilerView">
@@ -28,6 +29,9 @@
 
 <script>
 	import appointmentView from "@/components/appointment/appointmentView.vue";
+	import {
+		mapState
+	} from "vuex";
 
 	import urlConfig from "../../config/urlConfig.js";
 	import {
@@ -38,14 +42,23 @@
 		components: {
 			appointmentView
 		},
+
+		computed: {
+			...mapState({
+				vehicleMsg: (state) => state.user.vehicleMsg,
+			}),
+		},
+
 		onLoad(option) {
 			if (option.appointInfo) {
+				this.subscribeRuleVoucherCode = option.appointInfo
 				this.getAppointmentDetail(option.appointInfo)
 				this.getVoucherDetail(option.appointInfo)
 			}
 		},
 		data() {
 			return {
+				subscribeRuleVoucherCode:null,
 				appointmentInfo: null,
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",
@@ -99,6 +112,14 @@
 				this.timeList = temp
 			},
 			submitAppointment() {
+				let vehicleCode = this.vehicleMsg.vehicleCode
+				if (!vehicleCode) {
+					uni.showModal({
+						title: "提示",
+						content: "请绑定车辆后再进行预约？",
+					});
+					return
+				}
 				if (this.getTime()) {
 					uni.showModal({
 						title: "提示",
@@ -106,7 +127,7 @@
 						success: (res) => {
 							console.log("res", res);
 							if (res.confirm) {
-								this.submitRequest()
+								this.submitRequest(vehicleCode)
 							}
 						},
 					});
@@ -118,10 +139,11 @@
 					})
 				}
 			},
-			submitRequest() {
+			submitRequest(vehicleCode) {
 				let param = {
 					ruleAdmissionTimeIntervalCode: "",
-					subscribeRuleVoucherCode: ""
+					subscribeRuleVoucherCode: "",
+					vehicleCode: vehicleCode
 				}
 				param.subscribeRuleVoucherCode = this.appointmentInfo.code
 				param.ruleAdmissionTimeIntervalCode = this.getTime()
