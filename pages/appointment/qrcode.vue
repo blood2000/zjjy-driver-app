@@ -49,7 +49,7 @@
 				textLimit: 10,
 				//appointInfo: null,
 				qrcode: {
-					val: 'www.sina.com', // 要生成的二维码值
+					val: appointInfo.driverReservationRecordCode, // 要生成的二维码值
 					size: 400, // 二维码大小
 					unit: 'upx', // 单位
 					background: '#FFFFFF', // 背景色
