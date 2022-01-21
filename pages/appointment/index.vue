@@ -245,7 +245,7 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
-				if (this.appointmentInfo.jyzName) {
+				if (this.appointmentInfo && this.appointmentInfo.jyzName) {
 					return this.appointmentInfo.jyzName + "/" + totalName;
 				} else {
 					return totalName;
