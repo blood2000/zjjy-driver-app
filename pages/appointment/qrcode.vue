@@ -243,32 +243,5 @@
 			border-top: 2upx solid rgba(255, 255, 255, 0.15);
 		}
 	}
-
-	.btn {
-		width: 500upx;
-
-		button {
-			width: 230upx;
-			height: 80upx;
-			line-height: 80upx;
-			font-size: 28upx;
-			font-weight: bold;
-			padding: 0;
-
-			&:first-child {
-				color: #FFFFFF;
-				background-color: transparent;
-				border: 2upx solid #FFFFFF;
-				line-height: 76upx;
-
-				&:active {
-					background-color: #6c88e5;
-				}
-			}
-
-			&:last-child {
-				color: #3c65fd;
-			}
-		}
-	}
+	
 </style>
