@@ -153,15 +153,15 @@
 		display: flex;
 		align-items: center;
 		flex-direction: row;
-		justify-content: flex-start;
+		justify-content: space-between;
+		width: 100%;
 	}
 
 	.licenseNumberValue {
 		font-size: 28upx;
 		font-weight: bold;
 		color: #FFFFFF;
- 		position: relative;
-		left: -150upx; 
+		margin-left: 55upx;
 	}
 
 	.heapNumberValue {
@@ -172,8 +172,7 @@
 		border: 2upx solid #FFFFFF;
 		padding-left: 14upx;
 		padding-right: 14upx;
-		position: relative;
-		right: -150upx;
+		margin-right: 55upx;
 	}
 
 	.qr {

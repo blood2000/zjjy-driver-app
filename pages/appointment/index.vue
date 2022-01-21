@@ -245,7 +245,11 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
-				return this.appointmentInfo.jyzName + "/" + totalName;
+				if (this.appointmentInfo.jyzName) {
+					return this.appointmentInfo.jyzName + "/" + totalName;
+				} else {
+					return totalName;
+				}
 			},
 			getDriverRelationVoucher() { //获取司机关联预约凭证列表:可预约的
 				const config = {
@@ -350,7 +354,7 @@
 								method: "DELETE",
 							};
 							params: {
-								id: this.appointmentInfo.id
+								id: this.appointmentInfo.driverReservationRecordId
 							};
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
@@ -404,6 +408,7 @@
 		color: #333333;
 		z-index: 1;
 		margin-left: 30upx;
+		padding-top: 4upx;
 	}
 
 	.header-container {
