@@ -1,7 +1,8 @@
 <template>
 	<view class="content-page">
 
-		<appointmentView :displayTime="false" :displayViewEnter="false" :appointInfo="appointInfo">
+		<appointmentView :displayTime="false" :displayViewEnter="false" :appointInfo="appointInfo"
+			:subscribeRuleVoucherCode="subscribeRuleVoucherCode">
 		</appointmentView>
 		<view style="margin-top: 32rpx;" v-if="record && record.length > 0">
 			<text class="recordLabel">承运记录列表</text>
@@ -40,12 +41,14 @@
 		},
 		onLoad(option) {
 			if (option.appointInfo) {
+				this.subscribeRuleVoucherCode = option.appointInfo
 				this.getAppointmentDetail(option.appointInfo)
 				this.getVoucherDetail(option.appointInfo)
 			}
 		},
 		data() {
 			return {
+				subscribeRuleVoucherCode: null,
 				appointInfo: null,
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",

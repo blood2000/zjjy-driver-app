@@ -4,7 +4,7 @@
 			<view class="companyView">
 				<image :src="companyIcon" style="width: 50rpx; height: 50rpx;"></image>
 				<text class="companyText">{{appointInfo.companyName}}</text>
-				<img :src="deleteIcon" class="deleteImg"></img>
+				<img :src="deleteIcon" class="deleteImg" @click="deleteVoucherRelation"></img>
 			</view>
 			<view class="divilerView">
 				<view class="circle"></view>
@@ -42,6 +42,11 @@
 </template>
 
 <script>
+	import urlConfig from "../../config/urlConfig.js";
+	import {
+		uniRequest
+	} from "../../config/request.js";
+
 	export default {
 		props: {
 			//是否显示下方时间选择
@@ -53,6 +58,10 @@
 			displayViewEnter: {
 				type: Boolean,
 				default: false,
+			},
+			subscribeRuleVoucherCode: {
+				type: String,
+				default: null,
 			},
 			appointInfo: {
 				type: Object,
@@ -74,6 +83,41 @@
 				})
 				this.timeData[index].select = true
 			},
+			deleteVoucherRelation() {
+				uni.showModal({
+					title: "提示",
+					content: "确定删除车辆关联吗？",
+					success: (res) => {
+						if (res.confirm) {
+							this.submitDelete()
+						}
+					},
+				});
+			},
+
+			submitDelete() {
+				console.log("提交删除")
+				const config = {
+					url: "deleteVoucherRelation",
+					method: "DELETE",
+					params: {
+						subscribeRuleVoucherCode: this.subscribeRuleVoucherCode
+					},
+				};
+				uniRequest(config).then((res) => {
+					uni.showToast({
+						title: res.data.msg,
+						icon: 'none',
+						duration: 2000
+					})
+					let delta = getCurrentPages().length - 2
+					if (res.data.code === 200) {
+						uni.navigateBack({
+							delta: delta
+						})
+					}
+				});
+			},
 			getAddressText() {
 				var totalName = "";
 				if (this.appointInfo && this.appointInfo.buildingInfoVos) {
@@ -89,11 +133,11 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
-				return totalName;
+				return this.appointInfo.jyzName + "/" + totalName;
 			},
 			viewDetail() {
 				uni.navigateTo({
-					url: "../../pages/appointment/appointmentVoucherDetail?appointInfo=" + this.appointInfo.code,
+					url: "/pages/appointment/appointmentVoucherDetail?appointInfo=" + this.appointInfo.code,
 				});
 			},
 			getTimeText() {
@@ -129,6 +173,7 @@
 	.deleteImg {
 		height: 22rpx;
 		width: 22rpx;
+		padding: 15rpx;
 		position: absolute;
 		right: 64rpx;
 	}
