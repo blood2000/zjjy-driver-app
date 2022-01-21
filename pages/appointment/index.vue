@@ -31,12 +31,13 @@
 			</view>
 		</div>
 		<view class="info-container">
-			<view v-if="appointmentInfo.station">
+			<view v-if="appointmentInfo">
 				<view class="info-container-top">
 					<view class="info-container-top-left">
 						<view class="info_station">
 							<view class="info_station_content_name">预约场站</view>
-							<view class="info_station_content_value">{{appointmentInfo.station}}</view>
+							<view class="info_station_content_value">{{getStationName(appointmentInfo.buildingInfoVos)}}
+							</view>
 						</view>
 						<view class="info_company">
 							<view class="info_station_content_name">货主名称</view>
@@ -44,7 +45,7 @@
 						</view>
 						<view class="info_date">
 							<view class="info_station_content_name">预约时间</view>
-							<view class="info_station_content_value">{{appointmentInfo.date}}
+							<view class="info_station_content_value">{{appointmentInfo.createTime}}
 							</view>
 						</view>
 					</view>
@@ -61,7 +62,7 @@
 						<image class="info_station_bottom_alert" src="/static/appointment/appointment_alert.png"
 							mode="aspectFit">
 						</image>
-						<view class="info_station_bottom_carTime">还有{{appointmentInfo.carCount}}辆车未入场</view>
+						<view class="info_station_bottom_carTime">还有{{appointmentInfo.notAdmittedNumber}}辆车未入场</view>
 					</view>
 					<view class="info_bottom_right">
 						<!-- 						<hr class="info_bottom_right_line">
@@ -142,7 +143,8 @@
 			</view>
 		</view>
 		<div>
-			<qrcode :showModal="showPickerModal" :appointInfo="appointmentInfo" @cancelModal="cancelPickerModal"></qrcode>
+			<qrcode :showModal="showPickerModal" :appointInfo="appointmentInfo" @cancelModal="cancelPickerModal">
+			</qrcode>
 		</div>
 	</view>
 </template>
@@ -168,17 +170,10 @@
 		},
 		data() {
 			return {
+				textLimit: 18,
 				showPickerModal: false,
 				avatar: "",
-				appointmentInfo: {
-					id: '',
-					station: '',
-					companyName: '',
-					date: '',
-					code: '',
-					carCount: '',
-					licenseNumber: '',
-				},
+				appointmentInfo: null,
 				activeIndex: '0',
 				tabTitleData: [{
 						name: '可预约'
@@ -246,7 +241,11 @@
 						totalName += ",";
 					}
 				}
-				return totalName;
+				//限制20个字符
+				if (totalName.length > this.textLimit) {
+					totalName = totalName.substring(0, this.textLimit) + "..."
+				}
+				return this.appointmentInfo.jyzName + "/" + totalName;
 			},
 			getDriverRelationVoucher() { //获取司机关联预约凭证列表:可预约的
 				const config = {
@@ -276,13 +275,7 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机预约信息", res);
 					if (res.data.code === 200 && res.data.data) {
-						this.appointmentInfo.id = res.data.data.id;
-						this.appointmentInfo.station = this.getStationName(res.data.data.buildingInfoVos);
-						this.appointmentInfo.companyName = res.data.data.companyName;
-						this.appointmentInfo.code = res.data.data.code;
-						this.appointmentInfo.date = res.data.data.createTime;
-						this.appointmentInfo.carCount = res.data.data.notAdmittedNumber;
-						this.appointmentInfo.licenseNumber = res.data.data.licenseNumber;
+						this.appointmentInfo = res.data.data;
 					}
 				});
 			},
@@ -321,16 +314,16 @@
 						if (res.result.length > 0) {
 							//新增司机关联凭证
 							const config = {
-							  url: "insertVoucherRelation",
-							  method: "POST",
-							  data: {
-							    subscribeRuleVoucherCode: res.result,
-							  },
+								url: "insertVoucherRelation",
+								method: "POST",
+								data: {
+									subscribeRuleVoucherCode: res.result,
+								},
 							};
 							uniRequest(config).then((res) => {
-							  console.log("res", res);
+								console.log("res", res);
 							});
-							
+
 							//跳转到预约界面
 							this.onClickGotoAppointment(sub.code);
 						}

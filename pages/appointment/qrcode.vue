@@ -29,7 +29,7 @@
 				</view>
 			</view>
 		</div>
-		<view class="closeBtn">
+		<view class="closeBtn" v-if="showModal">
 			<image class="closeBtn" src="../../static/appointment/qr_close.png" @click="cancelModal">
 			</image>
 		</view>
