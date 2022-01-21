@@ -4,7 +4,7 @@
 			<view class="companyView">
 				<image :src="companyIcon" style="width: 50rpx; height: 50rpx;"></image>
 				<text class="companyText">{{appointInfo.companyName}}</text>
-				<img :src="deleteIcon" class="deleteImg" @click="deleteVoucherRelation"></img>
+				<img v-if="displayViewEnter" :src="deleteIcon" class="deleteImg" @click="deleteVoucherRelation"></img>
 			</view>
 			<view class="divilerView">
 				<view class="circle"></view>
@@ -86,7 +86,7 @@
 			deleteVoucherRelation() {
 				uni.showModal({
 					title: "提示",
-					content: "确定删除车辆关联吗？",
+					content: "确定删除该凭证？",
 					success: (res) => {
 						if (res.confirm) {
 							this.submitDelete()
@@ -96,7 +96,6 @@
 			},
 
 			submitDelete() {
-				console.log("提交删除")
 				const config = {
 					url: "deleteVoucherRelation",
 					method: "DELETE",
@@ -133,7 +132,7 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
-				
+
 				if (this.appointInfo && this.appointInfo.jyzName) {
 					return this.appointInfo.jyzName + "/" + totalName;
 				} else {
