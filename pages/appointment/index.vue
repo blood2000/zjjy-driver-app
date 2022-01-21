@@ -211,6 +211,9 @@
 				this.getDriverRelationVoucherInvalid();
 			}
 			this.getDriverReservationInformation();
+			setTimeout(function () {
+			  uni.stopPullDownRefresh();
+			}, 1000);
 		},
 		// 触底加载
 		onReachBottom() {
