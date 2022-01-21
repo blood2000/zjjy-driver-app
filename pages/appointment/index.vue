@@ -196,13 +196,8 @@
 				invalidAppointList: [],
 			}
 		},
-		onLoad(option) {
-			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
-			this.getDriverRelationVoucher();
-			this.getDriverRelationVoucherInvalid();
-			this.getDriverReservationInformation();
-		},
 		onShow() {
+			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
 			this.getDriverReservationInformation();
@@ -347,14 +342,13 @@
 					content: "确定要删除预约信息吗？",
 					// showCancel: false,
 					success: (res) => {
-						console.log("res", res);
 						if (res.confirm) {
 							const config = {
 								url: "delReservationRecord",
 								method: "DELETE",
 							};
 							params: {
-								id: this.appointmentInfo.driverReservationRecordId
+								id: this.appointmentInfo.driverReservationRecordId.toString()
 							};
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
