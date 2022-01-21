@@ -163,6 +163,7 @@ export default {
       vehicleMsg: (state) => state.user.vehicleMsg,
       userInfo: (state) => state.user.userInfo,
       scanInfo: (state) => state.user.scanInfo,
+      appointmentInfo: (state) => state.user.appointmentInfo,
     }),
   },
 
@@ -177,6 +178,13 @@ export default {
       });
       // return;
     }
+	if (this.appointmentInfo.code) {
+	  uni.navigateTo({
+	    url: `../appointment/appointmentVoucherInfo?appointInfo=${this.appointmentInfo.code}`,
+	  });
+	  // return;
+	}
+	
     this.getDriverInfo();
     console.log(this.avatar);
   },

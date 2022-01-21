@@ -19,6 +19,7 @@ const store = {
 			longitude: 119.3141,
 		},
 		scanInfo: {},
+		appointmentInfo: {},
 		beforeWaybillCode: '',
 	},
 	// getters: {
@@ -32,6 +33,11 @@ const store = {
 		},
 		setScanInfo: (state, val) => {
 			state.scanInfo = {
+				...val
+			};
+		},
+		setAppointment: (state, val) => {
+			state.appointmentInfo = {
 				...val
 			};
 		},
