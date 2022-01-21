@@ -133,7 +133,12 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
-				return this.appointInfo.jyzName + "/" + totalName;
+				
+				if (this.appointInfo && this.appointInfo.jyzName) {
+					return this.appointInfo.jyzName + "/" + totalName;
+				} else {
+					return totalName;
+				}
 			},
 			viewDetail() {
 				uni.navigateTo({
