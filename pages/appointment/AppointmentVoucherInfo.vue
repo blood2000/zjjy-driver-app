@@ -116,7 +116,8 @@
 				if (!vehicleCode) {
 					uni.showModal({
 						title: "提示",
-						content: "请绑定车辆后再进行预约？",
+						content: "请绑定车辆后再进行预约",
+						showCancel:false
 					});
 					return
 				}
@@ -125,7 +126,7 @@
 						title: "提示",
 						content: "确定要预约吗？",
 						success: (res) => {
-							console.log("res", res);
+							console.log("预约");
 							if (res.confirm) {
 								this.submitRequest(vehicleCode)
 							}
