@@ -346,13 +346,16 @@
 							const config = {
 								url: "delReservationRecord",
 								method: "DELETE",
+								params: {
+									id: this.appointmentInfo.driverReservationRecordId
+								},
 							};
-							params: {
-								id: this.appointmentInfo.driverReservationRecordId.toString()
-							};
+							
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
-								this.appointmentInfo = null;
+								if (res.data.code === 200) {
+									this.appointmentInfo = null;
+								}
 							});
 						}
 					},
