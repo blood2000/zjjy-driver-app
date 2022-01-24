@@ -197,12 +197,12 @@
 			}
 		},
 		onLoad() {
+			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
-			this.getDriverReservationInformation();
 		},
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
-			this.getDriverRelationVoucher();
+			this.getDriverReservationInformation();
 		},
 		onPullDownRefresh() {
 			if (this.activeIndex == 0) {
