@@ -196,18 +196,24 @@
 				invalidAppointList: [],
 			}
 		},
+		onLoad() {
+			this.getDriverRelationVoucherInvalid();
+			this.getDriverReservationInformation();
+		},
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
 			this.getDriverRelationVoucher();
-			this.getDriverRelationVoucherInvalid();
-			this.getDriverReservationInformation();
 		},
 		onPullDownRefresh() {
 			if (this.activeIndex == 0) {
 				this.isEnd_canAppointList = false;
+				this.canAppointListQueryParams.pageNum = 1;
+				this.canAppointList = [];
 				this.getDriverRelationVoucher();
 			} else {
 				this.isEnd_invalidAppoint = false;
+				this.invalidAppointListQueryParams.pageNum = 1;
+				this.invalidAppointList = [];
 				this.getDriverRelationVoucherInvalid();
 			}
 			this.getDriverReservationInformation();
@@ -264,7 +270,7 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_可预约的", res);
 					if (res.data.code === 200 && res.data.data) {
-						this.canAppointList = res.data.data.list;
+						this.canAppointList = [...this.canAppointList,...res.data.data.list];
 						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
 							this.isEnd_canAppointList = true;
 						}
@@ -296,7 +302,7 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_已失效的", res);
 					if (res.data.code === 200 && res.data.data) {
-						this.invalidAppointList = res.data.data.list;
+						this.invalidAppointList = [...this.invalidAppointList,...res.data.data.list];
 						if (res.data.data.list.length < this.invalidAppointListQueryParams.pageSize) {
 							this.isEnd_invalidAppoint = true;
 						}
