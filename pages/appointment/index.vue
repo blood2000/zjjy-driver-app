@@ -200,6 +200,11 @@
 		onLoad() {
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
+
+			window.addEventListener('message', this.handleReload)
+			this.$once('hook:beforeDestroy', () => {
+				window.removeEventListener('message', this.handleReload)
+			})
 		},
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
@@ -331,7 +336,7 @@
 								const tmp = that.getlocationParams(q);
 								console.log("tmp 解码对象", tmp);
 								if (tmp && tmp.appointmentInfo) {
-									subscribeRuleVoucherCode =  tmp.appointmentInfo;
+									subscribeRuleVoucherCode = tmp.appointmentInfo;
 								}
 							}
 
@@ -404,21 +409,27 @@
 			},
 			// 获取url地址上参数
 			getlocationParams(docval) {
-			  if (!docval) return null;
-			  const valStr = docval.split("?")[1];
-			  if (!valStr) return null;
-			  console.log("valStr", valStr);
-			  const tmp = valStr.split("&");
-			  if (!tmp) return null;
-			  console.log("valStr", tmp);
-			  const obj = {};
-			  if (!tmp || tmp.length == 0) return obj;
-			  tmp.forEach((element) => {
-			    const tmp1 = element.split("=");
-			    obj[tmp1[0]] = tmp1[1];
-			  });
-			  console.log("obj", obj);
-			  return obj;
+				if (!docval) return null;
+				const valStr = docval.split("?")[1];
+				if (!valStr) return null;
+				console.log("valStr", valStr);
+				const tmp = valStr.split("&");
+				if (!tmp) return null;
+				console.log("valStr", tmp);
+				const obj = {};
+				if (!tmp || tmp.length == 0) return obj;
+				tmp.forEach((element) => {
+					const tmp1 = element.split("=");
+					obj[tmp1[0]] = tmp1[1];
+				});
+				console.log("obj", obj);
+				return obj;
+			},
+			handleReload() {
+				this.isEnd_canAppointList = false;
+				this.canAppointListQueryParams.pageNum = 1;
+				this.canAppointList = [];
+				this.getDriverRelationVoucher();
 			},
 		}
 	}
