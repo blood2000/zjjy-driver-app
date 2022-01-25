@@ -143,7 +143,8 @@
 			</view>
 		</view>
 		<div>
-			<qrcode v-if="appointmentInfo" :showModal="showPickerModal" :appointInfo="appointmentInfo" @cancelModal="cancelPickerModal">
+			<qrcode v-if="appointmentInfo" :showModal="showPickerModal" :appointInfo="appointmentInfo"
+				@cancelModal="cancelPickerModal">
 			</qrcode>
 		</div>
 	</view>
@@ -217,8 +218,8 @@
 				this.getDriverRelationVoucherInvalid();
 			}
 			this.getDriverReservationInformation();
-			setTimeout(function () {
-			  uni.stopPullDownRefresh();
+			setTimeout(function() {
+				uni.stopPullDownRefresh();
 			}, 1000);
 		},
 		// 触底加载
@@ -270,7 +271,7 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_可预约的", res);
 					if (res.data.code === 200 && res.data.data) {
-						this.canAppointList = [...this.canAppointList,...res.data.data.list];
+						this.canAppointList = [...this.canAppointList, ...res.data.data.list];
 						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
 							this.isEnd_canAppointList = true;
 						}
@@ -302,7 +303,7 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_已失效的", res);
 					if (res.data.code === 200 && res.data.data) {
-						this.invalidAppointList = [...this.invalidAppointList,...res.data.data.list];
+						this.invalidAppointList = [...this.invalidAppointList, ...res.data.data.list];
 						if (res.data.data.list.length < this.invalidAppointListQueryParams.pageSize) {
 							this.isEnd_invalidAppoint = true;
 						}
@@ -322,13 +323,24 @@
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
-						if (res.result.length > 0) {
+						var subscribeRuleVoucherCode = res.result;
+						if (res.result.length > 0 && res.result.search("http") != -1) {
+							const q = decodeURIComponent(res.result); // 获取到二维码原始链接内容
+							console.log("获取链接参数", q, typeof q);
+							if (q !== "undefined") {
+								const tmp = that.getlocationParams(q);
+								console.log("tmp 解码对象", tmp);
+								if (tmp && tmp.appointmentInfo) {
+									subscribeRuleVoucherCode =  tmp.appointmentInfo;
+								}
+							}
+
 							//新增司机关联凭证
 							const config = {
 								url: "insertVoucherRelation",
 								method: "POST",
 								data: {
-									subscribeRuleVoucherCode: res.result,
+									subscribeRuleVoucherCode: subscribeRuleVoucherCode,
 								},
 							};
 							uniRequest(config).then((res) => {
@@ -362,7 +374,7 @@
 									id: this.appointmentInfo.driverReservationRecordId
 								},
 							};
-							
+
 							uniRequest(config).then((res) => {
 								console.log("删除", res);
 								if (res.data.code === 200) {
@@ -390,6 +402,24 @@
 			},
 			cancelPickerModal() {
 				this.showPickerModal = false;
+			},
+			// 获取url地址上参数
+			getlocationParams(docval) {
+			  if (!docval) return null;
+			  const valStr = docval.split("?")[1];
+			  if (!valStr) return null;
+			  console.log("valStr", valStr);
+			  const tmp = valStr.split("&");
+			  if (!tmp) return null;
+			  console.log("valStr", tmp);
+			  const obj = {};
+			  if (!tmp || tmp.length == 0) return obj;
+			  tmp.forEach((element) => {
+			    const tmp1 = element.split("=");
+			    obj[tmp1[0]] = tmp1[1];
+			  });
+			  console.log("obj", obj);
+			  return obj;
 			},
 		}
 	}
