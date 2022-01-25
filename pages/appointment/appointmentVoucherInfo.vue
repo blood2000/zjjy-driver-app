@@ -112,7 +112,7 @@
 				this.timeList = temp
 			},
 			submitAppointment() {
-				let vehicleCode = this.vehicleMsg.vehicleCode
+				let vehicleCode = this.vehicleMsg.code
 				if (!vehicleCode) {
 					uni.showModal({
 						title: "提示",
@@ -170,7 +170,7 @@
 				let time = null
 				this.timeList.map(item => {
 					if (item.select) {
-						time = item.code
+						time = item.ruleAdmissionTimeIntervalCode
 					}
 				})
 				return time

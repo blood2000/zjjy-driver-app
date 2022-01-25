@@ -110,6 +110,7 @@
 						duration: 2000
 					})
 					let delta = getCurrentPages().length - 2
+					uni.$emit('reload',{msg:'页面更新'})
 					if (res.data.code === 200) {
 						uni.navigateBack({
 							delta: delta

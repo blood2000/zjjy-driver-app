@@ -201,11 +201,12 @@
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
 
-			window.addEventListener('message', this.handleReload)
-			this.$once('hook:beforeDestroy', () => {
-				window.removeEventListener('message', this.handleReload)
-			})
+			uni.$on('reload', this.handleReload)
 		},
+		onUnload() {    
+		    // 移除监听事件    
+		     uni.$off('reload',this.handleReload);    
+		    },
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
 			this.getDriverReservationInformation();
@@ -321,7 +322,7 @@
 				});
 			},
 			onClickScanAction() {
-				console.log("点击了扫码");
+				console.log("点击了扫码", this.vehicleMsg);
 				// 允许从相机和相册扫码
 				var that = this;
 				uni.scanCode({
@@ -350,6 +351,7 @@
 							};
 							uniRequest(config).then((res) => {
 								console.log("res", res);
+								uni.$emit('reload',{msg:'页面更新'})
 								//跳转到预约界面
 								that.onClickGotoAppointment(subscribeRuleVoucherCode);
 							});
@@ -430,6 +432,7 @@
 				this.canAppointListQueryParams.pageNum = 1;
 				this.canAppointList = [];
 				this.getDriverRelationVoucher();
+				this.getDriverReservationInformation();
 			},
 		}
 	}
