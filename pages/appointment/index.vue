@@ -430,7 +430,6 @@
 		height: 100vh;
 		padding: 0 0 30upx;
 		font-family: 'PingFang Regular';
-		overflow: scroll;
 	}
 
 	.header-title {

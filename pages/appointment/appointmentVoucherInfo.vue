@@ -159,6 +159,11 @@
 						icon: 'none',
 						duration: 2000
 					})
+					if (res.data.code === 200) {//预约成功后返回上一级
+						uni.navigateBack({
+							delta: 1,
+						});
+					}
 				});
 			},
 			getTime() {
