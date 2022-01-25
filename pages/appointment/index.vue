@@ -426,10 +426,11 @@
 
 <style lang="scss" scoped>
 	.home-page {
-		width: 100vw;
-		height: 100vh;
+		width: 100%;
+		height: 100%;
 		padding: 0 0 30upx;
 		font-family: 'PingFang Regular';
+		overflow: inherit;
 	}
 
 	.header-title {
