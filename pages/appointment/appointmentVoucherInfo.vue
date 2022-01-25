@@ -12,7 +12,7 @@
 					</view>
 					<text class="appointmentTimeView">场站现可预约时段</text>
 					<radio-group class="radioGroup">
-						<view v-for="(item,index) in timeList" @click="timeClick(item,index)">
+						<view v-for="(item,index) in timeList" :key="index" @click="timeClick(item,index)">
 							<button :class="(item.select && item.isSelect === 0)?'timeSelectSelect':'timeSelectNormal'"
 								:disabled='item.isSelect === 1'>
 								{{item.startTime+'-'+item.endTime}}
