@@ -30,12 +30,12 @@
 				<text class="stationView_nameLabel">承运记录</text>
 			</view>
 			<view class="historyListView">
-				<view v-for="(item,index) in appointmentInfo.history">
+				<view v-for="(item,index) in appointmentInfo.history" :key="index">
 					<view >
 						<view class="testImageView">
 							<view class="testState">
 								<img :src="item.isFinished ? greenRing : redRing" mode="aspectFill"
-									style="width: 26rpx; height: 26rpx;"></img>
+									style="width: 26rpx; height: 26rpx;" />
 								<text style="font-size: 28rpx; margin-left: 5rpx;">{{item.desc}}</text>
 							</view>
 							<view class="testLine"></view>
