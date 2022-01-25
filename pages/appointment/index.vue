@@ -322,7 +322,7 @@
 				});
 			},
 			onClickScanAction() {
-				console.log("点击了扫码", this.vehicleMsg);
+				console.log("点击了扫码");
 				// 允许从相机和相册扫码
 				var that = this;
 				uni.scanCode({
