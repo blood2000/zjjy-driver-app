@@ -345,10 +345,9 @@
 							};
 							uniRequest(config).then((res) => {
 								console.log("res", res);
+								//跳转到预约界面
+								that.onClickGotoAppointment(subscribeRuleVoucherCode);
 							});
-
-							//跳转到预约界面
-							that.onClickGotoAppointment(res.result);
 						}
 					}
 				});
