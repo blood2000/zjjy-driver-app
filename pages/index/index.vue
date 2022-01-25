@@ -232,6 +232,7 @@ export default {
           if (res.data.data.driverInfoVo.vehicleInfoVo) {
             vehicleInfo.vehicleCode =
               res.data.data.driverInfoVo.vehicleInfoVo.licenseNumber;
+            vehicleInfo.code = res.data.data.driverInfoVo.vehicleInfoVo.code;
           }
           this.$store.commit("setVehicleMsg", vehicleInfo);
           if (res.data.data.jyzWaybillInfoVo) {

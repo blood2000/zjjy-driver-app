@@ -8,9 +8,10 @@ const store = {
 		vehicleMsg: {
 			userCode: '',
 			name: '',
-			vehicleCode: '',
+			vehicleCode: '',  //车牌号
 			phone: '',
 			auth: false,
+			code: '',  //车辆编码
 		},
 		// licenseNumbers: ["闽A123123", "闽A223123", "闽A423123"],
 		licenseNumbers: [],
