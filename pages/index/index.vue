@@ -130,11 +130,11 @@ export default {
         transCompany: "",
       },
       funcModules: [
-        // {
-        //   name: "预约排号",
-        //   img: "../../static/index_queue.png",
-        //   module: "reserve",
-        // },
+        {
+          name: "预约排号",
+          img: "../../static/index_queue.png",
+          module: "reserve",
+        },
         {
           name: "我的车辆",
           img: "../../static/index_vehicle.png",
@@ -163,6 +163,7 @@ export default {
       vehicleMsg: (state) => state.user.vehicleMsg,
       userInfo: (state) => state.user.userInfo,
       scanInfo: (state) => state.user.scanInfo,
+      appointmentInfo: (state) => state.user.appointmentInfo,
     }),
   },
 
@@ -177,6 +178,13 @@ export default {
       });
       // return;
     }
+	if (this.appointmentInfo.code) {
+	  uni.navigateTo({
+	    url: `../appointment/appointmentVoucherInfo?appointInfo=${this.appointmentInfo.code}`,
+	  });
+	  // return;
+	}
+	
     this.getDriverInfo();
     console.log(this.avatar);
   },
@@ -268,7 +276,7 @@ export default {
         case "reserve":
           uni.navigateTo({
             // url: "../reserve/reserveMsg",
-            url: "../reserve/reserve",
+            url: "../appointment/index",
           });
           break;
         case "vehicle":

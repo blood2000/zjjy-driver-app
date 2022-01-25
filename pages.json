@@ -1,221 +1,273 @@
 {
-  "pages": [
-    {
-      "path": "pages/startPage/startPage",
-      "style": {
-        "navigationBarTitleText": "",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "titleNView": "false"
-        }
-      }
-    },
-    {
-      "path": "pages/login/login",
-      "style": {
-        "navigationBarTitleText": "登录",
-        "enablePullDownRefresh": false,
-        "disableScroll": false,
-        "app-plus": {
-          "bounce": "none",
-          "titleNView": "false"
-        }
-      }
-    },
-    {
-      "path": "pages/protocol/service",
-      "style": {
-        "navigationBarTitleText": "用户协议",
-        "enablePullDownRefresh": false,
-        "disableScroll": false,
-        "app-plus": {
-          "bounce": "none",
-          "titleNView": "false"
-        }
-      }
-    },
-    {
-      "path": "pages/protocol/user",
-      "style": {
-        "navigationBarTitleText": "隐私政策",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none",
-          "titleNView": "false"
-        }
-      }
-    },
+	"pages": [{
+			"path": "pages/startPage/startPage",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"titleNView": "false"
+				}
+			}
+		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"enablePullDownRefresh": false,
+				"disableScroll": false,
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": "false"
+				}
+			}
+		},
+		{
+			"path": "pages/protocol/service",
+			"style": {
+				"navigationBarTitleText": "用户协议",
+				"enablePullDownRefresh": false,
+				"disableScroll": false,
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": "false"
+				}
+			}
+		},
+		{
+			"path": "pages/protocol/user",
+			"style": {
+				"navigationBarTitleText": "隐私政策",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": "false"
+				}
+			}
+		},
 
-    {
-      "path": "pages/index/index",
-      "style": {
-        "navigationBarTitleText": "首页",
-        "enablePullDownRefresh": true,
-        "navigationStyle": "custom",
-        "app-plus": {
-          "bounce": "none",
-          "titleNView": "false"
-        }
-      }
-    },
-    {
-      "path": "pages/reserve/reserve",
-      "style": {
-        "navigationBarTitleText": "预约排号",
-        "enablePullDownRefresh": false,
-        "navigationStyle": "custom",
-        "app-plus": {
-          "bounce": "none",
-          "titleNView": "false"
-        }
-      }
-    },
-    {
-      "path": "pages/index/choose",
-      "style": {
-        "navigationBarTitleText": "选择创建方式",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/index/vehicle",
-      "style": {
-        "navigationBarTitleText": "新建司机",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/index/relate",
-      "style": {
-        "navigationBarTitleText": "关联司机",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/scan/index",
-      "style": {
-        "navigationBarTitleText": "扫码接单入口",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/scan/scanOrder",
-      "style": {
-        "navigationBarTitleText": "扫码接单",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/scan/orderInfo",
-      "style": {
-        "navigationBarTitleText": "扫码接单",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/scan/orderSucceed",
-      "style": {
-        "navigationBarTitleText": "提交成功",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/scan/changeDriverInfo",
-      "style": {
-        "navigationBarTitleText": "扫码接单",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/scan/unload",
-      "style": {
-        "navigationBarTitleText": "扫码卸货",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/car/addCar",
-      "style": {
-        "navigationBarTitleText": "添加车辆",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/car/carList",
-      "style": {
-        "navigationBarTitleText": "车辆管理",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/car/approve",
-      "style": {
-        "navigationBarTitleText": "提交S认证",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/reserve/reserveMsg",
-      "style": {
-        "navigationBarTitleText": "预约信息",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    },
-    {
-      "path": "pages/scan/authInfo",
-      "style": {
-        "navigationBarTitleText": "认证信息",
-        "enablePullDownRefresh": false,
-        "app-plus": {
-          "bounce": "none"
-        }
-      }
-    }
-    
-  ],
-  "globalStyle": {
-    "navigationBarTextStyle": "black",
-    "navigationBarTitleText": "至简集运",
-    "navigationBarBackgroundColor": "#ffffff",
-    "backgroundColor": "#ffffff"
-  }
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"enablePullDownRefresh": true,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": "false"
+				}
+			}
+		},
+		{
+			"path": "pages/reserve/reserve",
+			"style": {
+				"navigationBarTitleText": "预约排号",
+				"enablePullDownRefresh": false,
+				"navigationStyle": "custom",
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": "false"
+
+				}
+			}
+		},
+		{
+			"path": "pages/index/choose",
+			"style": {
+				"navigationBarTitleText": "选择创建方式",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/index/vehicle",
+			"style": {
+				"navigationBarTitleText": "新建司机",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/index/relate",
+			"style": {
+				"navigationBarTitleText": "关联司机",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/scan/index",
+			"style": {
+				"navigationBarTitleText": "扫码接单入口",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/scan/scanOrder",
+			"style": {
+				"navigationBarTitleText": "扫码接单",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/scan/orderInfo",
+			"style": {
+				"navigationBarTitleText": "扫码接单",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/scan/orderSucceed",
+			"style": {
+				"navigationBarTitleText": "提交成功",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/scan/changeDriverInfo",
+			"style": {
+				"navigationBarTitleText": "扫码接单",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/scan/unload",
+			"style": {
+				"navigationBarTitleText": "扫码卸货",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/car/addCar",
+			"style": {
+				"navigationBarTitleText": "添加车辆",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/car/carList",
+			"style": {
+				"navigationBarTitleText": "车辆管理",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/car/approve",
+			"style": {
+				"navigationBarTitleText": "提交S认证",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/reserve/reserveMsg",
+			"style": {
+				"navigationBarTitleText": "预约信息",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/scan/authInfo",
+			"style": {
+				"navigationBarTitleText": "认证信息",
+				"enablePullDownRefresh": false,
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/appointment/index",
+			"style": {
+				"navigationBarTitleText": "预约",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#3a65ff"
+			}
+		},
+		{
+			"path": "pages/appointment/qrcode",
+			"style": {
+				"navigationBarTitleText": "QRCode",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#3a65ff"
+			}
+		},
+		{
+			"path": "pages/appointment/makeAppointment",
+			"style": {
+				"navigationBarTitleText": "预约凭证信息1",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#3a65ff"
+			}
+		},
+		{
+			"path": "pages/appointment/appointmentDeatail",
+			"style": {
+				"navigationBarTitleText": "凭证信息",
+				"navigationStyle": "custom",
+				"enablePullDownRefresh": true,
+				"navigationBarBackgroundColor": "#3a65ff"
+			}
+		},
+		{
+			"path": "pages/appointment/appointmentVoucherInfo",
+			"style": {
+				"navigationBarTitleText": "预约凭证信息",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFF"
+			}
+		},
+		{
+			"path": "pages/appointment/appointmentVoucherDetail",
+			"style": {
+				"navigationBarTitleText": "预约凭证详情",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#FFF"
+			}
+		}
+	],
+
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "至简集运",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
+	}
 }

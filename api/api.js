@@ -7,7 +7,15 @@ const apiUrl = {
   uploadFile: '/assets/upload/uploadToHW',
   getDriverAuth: '/system/user/certificates',  //获取司机认证信息
   uploadOCR: '/jyz/ocr/getCertInfo',  //OCR识别
-
+  getDriverRelationVoucher: '/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getDriverRelationVoucher',//获取司机关联预约凭证列表
+  voucherInfo:"/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getDriverReservationRecord",//获取司机预约凭证列表
+  reservationInformation:"/zjz1-jyz-service/wx/rcyy/driverReservationRecord/reservationInformation",//司机预约信息
+  delReservationRecord:"/zjz1-jyz-service/wx/rcyy/driverReservationRecord/del/",
+  appointmentDetail:'/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getSubscribeRulesVoucherDetails',//获取预约凭证详情
+  getMakeAnAppointment:'/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getMakeAnAppointment',//获取预约规则凭证信息
+  insertAppointment:'/zjz1-jyz-service/wx/rcyy/driverReservationRecord/insert',//新增司机预约凭证（时间段）
+  deleteVoucherRelation:'/zjz1-jyz-service/rcyy/driverRelationVoucher/del',//删除司机关联凭证
+  insertVoucherRelation:'/zjz1-jyz-service/rcyy/driverRelationVoucher/insert'//新增司机关联凭证
 }
 
 
