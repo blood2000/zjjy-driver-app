@@ -31,7 +31,7 @@
 				<text class="infoLabel">已承运数:</text>
 				<view>
 					<text class="infoValue">{{appointInfo.admissionNumber?appointInfo.admissionNumber:"0"}}</text>
-					<text v-if="displayViewEnter" class="infoValueClick" @click="viewDetail">(查看出入区)</text>
+					<text v-if="displayViewEnter" :class="(appointInfo.admissionNumber || appointInfo.admissionNumber > 0)?'infoValueClick':'infoValueClick_invalid'" @click="viewDetail">(查看出入区)</text>
 				</view>
 			</view>
 			<view class="timePicker">
@@ -140,6 +140,9 @@
 				}
 			},
 			viewDetail() {
+				if (appointInfo.admissionNumber == null || appointInfo.admissionNumber == 0) {//已承运数为0，不跳转
+					return;
+				}
 				uni.navigateTo({
 					url: "/pages/appointment/appointmentVoucherDetail?appointInfo=" + this.appointInfo.code,
 				});
@@ -235,6 +238,12 @@
 		font-size: 28rpx;
 		font-weight: bold;
 		color: #2366F2;
+	}
+	
+	.infoValueClick_invalid {
+		font-size: 28rpx;
+		font-weight: bold;
+		color: #DDDDDD;
 	}
 
 	.appointmentTimeView {
