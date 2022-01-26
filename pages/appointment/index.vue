@@ -485,7 +485,7 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 	button::after {
 		border: none;
 	}
@@ -639,6 +639,7 @@
 		margin-top: 0upx;
 		margin-bottom: 0upx;
 		border-radius: 16upx;
+		padding-top: 11rpx;
 	}
 
 	.info-container-top {
