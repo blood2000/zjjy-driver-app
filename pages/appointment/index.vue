@@ -99,13 +99,12 @@
 		</view>
 		<view class="switchHead">
 			<view v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
-				:key="index">
-				<view @click="clickTab(index)">{{item.name}}</view>
+				:key="index" @click="clickTab(index)">
+				<view class="boxList_item">{{item.name}}</view>
 				<view v-if="activeIndex==index" class="switchLine"></view>
 			</view>
 		</view>
 		<view class="canAppointView-container">
-
 			<view class="canAppointView" v-for="(sub, index) in getListData()" v-bind:key="index">
 				<view class="canAppointViewTop">
 					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png">
@@ -634,7 +633,7 @@
 		margin-left: 24upx;
 		margin-right: 24upx;
 		margin-top: 0upx;
-		margin-bottom: 40upx;
+		margin-bottom: 0upx;
 		border-radius: 16upx;
 	}
 
@@ -871,18 +870,25 @@
 	}
 
 	.switchHead {
-		height: 75rpx;
+		height: 115rpx;
 		display: flex;
 		justify-content: flex-start;
 		align-items: baseline;
 		color: #333333;
 		margin-left: 50upx;
+		padding-top: 0upx;
+		margin-bottom: 0rpx;
 	}
 
 	.boxList {
 		height: 100%;
-		margin-right: 68upx;
+		padding-right: 68upx;
 		font-size: 30upx;
+		background-color: #FF0000;
+	}
+	
+	.boxList_item {
+		padding-top: 40rpx;
 	}
 
 	.switchLine {
