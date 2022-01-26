@@ -878,6 +878,7 @@
 		height: 115rpx;
 		display: flex;
 		flex-direction: row;
+		align-items: baseline;
 		justify-content: flex-start;
 		color: #333333;
 		padding-top: 0upx;
@@ -898,7 +899,8 @@
 	.switchLine {
 		width: 58upx;
 		height: 6upx;
-		margin-left: 14upx;
+		margin-left: 14rpx;
+		margin-top: -15rpx;
 		border-top: solid #2366F2 6upx;
 	}
 
