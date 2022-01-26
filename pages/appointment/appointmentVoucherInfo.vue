@@ -10,7 +10,7 @@
 						<view class="circle"></view>
 					</view>
 					<text class="appointmentTimeView">场站现可预约时段</text>
-					<radio-group class="radioGroup">
+					<radio-group class="radioGroup" v-if="timeList && timeList.length > 0">
 						<view v-for="(item,index) in timeList" :key="index" @click="timeClick(item,index)">
 							<button :class="(item.select && item.isSelect === 0)?'timeSelectSelect':'timeSelectNormal'"
 								:disabled='item.isSelect === 1'>
@@ -18,11 +18,18 @@
 							</button>
 						</view>
 					</radio-group>
+					<view v-else class="info_noContentView">
+						<image class="noContent_icon" src="/static/appointment/appointment_noContent.png"
+							mode="aspectFill">
+						</image>
+						<text class="noContent_label">暂无可预约时段</text>
+					</view>
 				</view>
 			</view>
 		</appointmentView>
 
-		<button v-if="appointmentInfo" class="appointBtn" @click="submitAppointment">立即预约</button>
+		<button v-if="appointmentInfo" :disabled="timeList === null || timeList.length === 0" class="appointBtn"
+			@click="submitAppointment">立即预约</button>
 	</view>
 </template>
 
@@ -70,6 +77,9 @@
 		},
 		methods: {
 			getVoucherDetail(code) {
+				uni.showLoading({
+					mask: true
+				});
 				const config = {
 					url: "getMakeAnAppointment",
 					method: "GET",
@@ -85,6 +95,7 @@
 						})
 						let index = this.timeList.findIndex(item => item.isSelect === 0)
 						this.timeList[index].select = true
+						uni.hideLoading()
 					}
 				});
 			},
@@ -125,7 +136,6 @@
 						title: "提示",
 						content: "确定要预约吗？",
 						success: (res) => {
-							console.log("预约");
 							if (res.confirm) {
 								this.submitRequest(vehicleCode)
 							}
@@ -133,7 +143,7 @@
 					});
 				} else {
 					uni.showToast({
-						title: "请选择预约时段",
+						title: "预约时段不能为空",
 						icon: "none",
 						duration: 2000
 					})
@@ -158,19 +168,11 @@
 						icon: 'none',
 						duration: 2000
 					})
-					if (res.data.code === 200) { //预约成功后返回上一级
-						let delta = getCurrentPages().length - 2
-						if (delta === 2) {
-							//普通流程进入
-							uni.navigateBack({
-								delta: 1,
-							});
-						} else {
-							//微信扫码进入
-							uni.redirectTo({
-								url: "/pages/appointment/index"
-							})
-						}
+					if (res.data.code === 200) {
+						//预约成功后返回上一级
+						uni.navigateBack({
+							delta: 1,
+						});
 					}
 				});
 			},
@@ -299,6 +301,7 @@
 		padding-left: 16rpx;
 		padding-right: 16rpx;
 		margin-left: 15rpx;
+		margin-top: 30rpx;
 		margin-right: 15rpx;
 		border-radius: 8rpx;
 		font-size: 28rpx;
@@ -310,6 +313,7 @@
 		padding-right: 16rpx;
 		margin-left: 15rpx;
 		margin-right: 15rpx;
+		margin-top: 30rpx;
 		border-radius: 8rpx;
 		font-size: 28rpx;
 		background-color: #FFF;
@@ -321,6 +325,7 @@
 		margin-left: 15rpx;
 		border-radius: 8rpx;
 		margin-right: 15rpx;
+		margin-top: 30rpx;
 		padding-left: 16rpx;
 		padding-right: 16rpx;
 		font-size: 28rpx;
@@ -363,6 +368,28 @@
 		margin-left: 32rpx;
 		margin-right: 32rpx;
 		border-top: 1rpx solid #F0F0F0;
+	}
+
+	.info_noContentView {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-top: 60upx;
+		background-color: #FFFFFF;
+		border-radius: 16upx;
+	}
+
+	.noContent_icon {
+		width: 362upx;
+		height: 203upx;
+	}
+
+	.noContent_label {
+		font-size: 32upx;
+		color: #999999;
+		padding-top: 28upx;
+		padding-bottom: 34upx;
 	}
 
 	button::after {
