@@ -2,10 +2,25 @@
 	<view class="home-page">
 		<div class="tab-header">
 			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
-			<div class="tab-back" @click="back">
-				<uni-icons type="back" size="24" color="#333"></uni-icons>
-			</div>
-			<view class="header-title">入场预约系统</view>
+			<view class="musichead" @click="back">
+				<view class="status_bar" :style="{'height':statusBarHeight+'px'}"></view>
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="musicheadWEIXIN" :style="{
+						'height':musicheadHeight+'px',
+						'line-height': musicheadHeight+'px'
+						}">
+					<!-- 左边按钮 -->
+					<view class="btn" :style="{
+									'width':200+'px',
+									'height':menuButtonInfo.height+'px',
+									'line-height':menuButtonInfo.height+'px',
+									'top':(menuButtonInfo.top)+'px'
+									}">
+						<uni-icons type="back" size="24" color="#333"></uni-icons>
+						<view class="header-title">入场预约系统</view>
+					</view>
+				</view>
+			</view>
 			<view class="header-container">
 				<view class="headerView">
 					<view class="top-avatar">
@@ -171,6 +186,9 @@
 		},
 		data() {
 			return {
+				menuButtonInfo: 0, //胶囊按钮信息
+				statusBarHeight: 0, //状态栏高度
+				musicheadHeight: 0,
 				textLimit: 18,
 				showPickerModal: false,
 				avatar: "",
@@ -197,16 +215,42 @@
 				invalidAppointList: [],
 			}
 		},
+		onReady() {
+			// #ifdef  MP-WEIXIN
+			//获取状态栏高度
+			const {
+				statusBarHeight,
+				windowHeight,
+				screenHeight
+			} = uni.getSystemInfoSync()
+			this.statusBarHeight = statusBarHeight
+			// 获取胶囊按钮信息（width、height、top等）
+			const {
+				width,
+				height,
+				top
+			} = uni.getMenuButtonBoundingClientRect()
+			this.menuButtonInfo = {
+				width,
+				height,
+				top
+			}
+			// 胶囊按钮相对于离导航栏的上边距
+			const topDistance = this.menuButtonInfo.top - this.statusBarHeight;
+			// 计算导航栏高度
+			this.musicheadHeight = this.menuButtonInfo.height + topDistance * 2;
+			// #endif
+		},
 		onLoad() {
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
 
 			uni.$on('reload', this.handleReload)
 		},
-		onUnload() {    
-		    // 移除监听事件    
-		     uni.$off('reload',this.handleReload);    
-		    },
+		onUnload() {
+			// 移除监听事件    
+			uni.$off('reload', this.handleReload);
+		},
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
 			this.getDriverReservationInformation();
@@ -351,7 +395,9 @@
 							};
 							uniRequest(config).then((res) => {
 								console.log("res", res);
-								uni.$emit('reload',{msg:'页面更新'})
+								uni.$emit('reload', {
+									msg: '页面更新'
+								})
 								//跳转到预约界面
 								that.onClickGotoAppointment(subscribeRuleVoucherCode);
 							});
@@ -445,22 +491,6 @@
 		padding: 0 0 30upx;
 		font-family: 'PingFang Regular';
 		overflow: inherit;
-	}
-
-	.header-title {
-		box-sizing: border-box;
-		position: absolute;
-		bottom: 294rpx;
-		width: 100%;
-		height: 40rpx;
-		line-height: 20rpx;
-		text-align: left;
-		font-size: 36rpx;
-		font-weight: bold;
-		color: #333333;
-		z-index: 1;
-		margin-left: 30upx;
-		padding-top: 4upx;
 	}
 
 	.header-container {
@@ -1020,5 +1050,37 @@
 		width: 120px;
 		height: 120px;
 		background-color: #fff;
+	}
+
+	.musicheadWEIXIN {
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+	}
+
+	.status_bar {
+		width: 100%;
+	}
+
+	.btn {
+		position: absolute;
+		display: flex;
+		flex-direction: row;
+		box-sizing: border-box;
+		align-items: center;
+		padding: 0;
+		margin: 0;
+		justify-content: flex-start;
+		left: 10px;
+
+		.header-title {
+			position: absolute;
+			font-size: 36rpx;
+			font-weight: bold;
+			color: #333333;
+			left: 10px;
+			top: 5px;
+		}
 	}
 </style>
