@@ -1,9 +1,10 @@
 <template>
 	<view class="content-page">
-
+		
 		<appointmentView :displayTime="false" :displayViewEnter="false" :appointInfo="appointInfo"
-			:subscribeRuleVoucherCode="subscribeRuleVoucherCode">
+			:subscribeRuleVoucherCode="subscribeRuleVoucherCode" class="content">
 		</appointmentView>
+		<view style="height: 580rpx"></view>
 		<view style="margin-top: 32rpx;" v-if="record && record.length > 0">
 			<text class="recordLabel">承运记录列表</text>
 			<view class="record">
@@ -120,7 +121,16 @@
 <style>
 	.content-page {
 		background: #F3F3F3;
+		display: flex;
+		flex-direction: column;
 		margin: 32rpx;
+	}
+
+	.content{
+		position: fixed;
+		top: 32rpx;
+		left: 32rpx;
+		right: 32rpx;
 	}
 
 	.record {
