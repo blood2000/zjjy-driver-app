@@ -488,12 +488,6 @@
 <style lang="scss">
 	page {
 		display: -webkit-box;
-		position: fixed;
-		left: 0rpx;
-		right: 0rpx;
-		top: 0rpx;
-		bottom: 0rpx;
-		overflow:hidden;
 	}
 
 	.home-page {
@@ -503,6 +497,7 @@
 		display: flex;
 		min-height: 100vh;
 		flex-direction: column;
+		overflow:hidden;
 	}
 
 	.header-container {
