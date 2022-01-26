@@ -99,7 +99,7 @@
 		</view>
 		<view class="switchHead">
 			<button v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
-				:key="index" @click="clickTab(index)">
+				:key="index" @click="clickTab(index)" >
 				<view class="boxList_item">{{item.name}}</view>
 				<view v-if="activeIndex==index" class="switchLine"></view>
 			</button>
@@ -485,7 +485,16 @@
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+	button::after {
+		border: none;
+	}
+
+	button {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
 	page {
 		display: -webkit-box;
 	}
@@ -497,7 +506,7 @@
 		display: flex;
 		min-height: 100vh;
 		flex-direction: column;
-		overflow:hidden;
+		overflow: hidden;
 	}
 
 	.header-container {
@@ -865,25 +874,22 @@
 	}
 
 	.switchHead {
-		width: 100%;
 		height: 115rpx;
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
-		align-items: center;
 		color: #333333;
-		margin-left: 50upx;
 		padding-top: 0upx;
 		margin-bottom: 0rpx;
-		background-color: #7F7F7F;
 	}
 
 	.boxList {
 		height: 115rpx;
-		padding-right: 68rpx;
 		font-size: 30rpx;
+		margin-left: 17rpx;
+		background: #00000000;
 	}
-	
+
 	.boxList_item {
 		padding-top: 10rpx;
 	}
