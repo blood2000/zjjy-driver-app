@@ -24,7 +24,7 @@
 					:size="qrcode.size" :unit="qrcode.unit" :background="qrcode.background"
 					:foreground="qrcode.foreground" :pdground="qrcode.pdground" :icon="qrcode.icon"
 					:iconSize="qrcode.iconsize" :lv="qrcode.lv" :onval="qrcode.onval" :loadMake="qrcode.loadMake"
-					:usingComponents="true" @result="result" />
+					:usingComponents="true" :showLoading="false" @result="result" />
 			</view>
 			<view class="contents">
 				<view class="contents-top">
