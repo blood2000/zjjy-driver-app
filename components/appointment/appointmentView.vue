@@ -141,7 +141,8 @@
 				}
 			},
 			viewDetail() {
-				if (appointInfo.admissionNumber == null || appointInfo.admissionNumber == 0) {//已承运数为0，不跳转
+				if (this.appointInfo.admissionNumber === null || this.appointInfo.admissionNumber === 0) {
+					//已承运数为0，不跳转
 					return;
 				}
 				uni.navigateTo({
