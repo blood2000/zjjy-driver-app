@@ -494,6 +494,7 @@
 		right: 0rpx;
 		top: 0rpx;
 		bottom: 0rpx;
+		overflow:hidden;
 	}
 
 	.home-page {
