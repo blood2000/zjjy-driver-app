@@ -96,14 +96,15 @@
 				<text class="noContent_label">暂无预约信息哦</text>
 			</view>
 		</view>
-		<view class="list-container">
-			<view class="switchHead">
-				<view v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
-					:key="index">
-					<view @click="clickTab(index)">{{item.name}}</view>
-					<view v-if="activeIndex==index" class="switchLine"></view>
-				</view>
+		<view class="switchHead">
+			<view v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
+				:key="index">
+				<view @click="clickTab(index)">{{item.name}}</view>
+				<view v-if="activeIndex==index" class="switchLine"></view>
 			</view>
+		</view>
+		<view class="canAppointView-container">
+
 			<view class="canAppointView" v-for="(sub, index) in getListData()" v-bind:key="index">
 				<view class="canAppointViewTop">
 					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png">
@@ -484,20 +485,30 @@
 	}
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+	page {
+		display: -webkit-box;
+		position: fixed;
+		left: 0rpx;
+		right: 0rpx;
+		top: 0rpx;
+		bottom: 0rpx;
+	}
+
 	.home-page {
 		width: 100%;
-		height: 100%;
 		padding: 0 0 30upx;
 		font-family: 'PingFang Regular';
-		overflow: inherit;
+		display: flex;
+		min-height: 100vh;
+		flex-direction: column;
 	}
 
 	.header-container {
 		margin-left: 20upx;
 		margin-right: 20upx;
 		margin-top: 0upx;
-		height: 206upx;
+		height: 206rpx;
 		display: flex;
 		align-items: center;
 		flex-direction: row;
@@ -858,7 +869,7 @@
 	}
 
 	.switchHead {
-		height: 35px;
+		height: 75rpx;
 		display: flex;
 		justify-content: flex-start;
 		align-items: baseline;
@@ -882,6 +893,11 @@
 	.activeCss {
 		font-size: 32upx;
 		font-weight: bold;
+	}
+
+	.canAppointView-container {
+		height: 100%;
+		overflow-y: scroll;
 	}
 
 	.canAppointView {
