@@ -23,12 +23,11 @@
 						</view>
 					</view>
 				</view>
-				<view v-else class="info_noContentView">
-					<image class="noContent_icon" src="/static/appointment/appointment_noContent.png"
-						mode="aspectFill" />
-					<text class="noContent_text">{{recordTip}}</text>
-				</view>
 			</view>
+		</view>
+		<view v-if="record !== null && record.length===0" class="info_noContentView">
+			<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill" />
+			<text class="noContent_text">{{recordTip}}</text>
 		</view>
 	</view>
 </template>
@@ -86,6 +85,9 @@
 			},
 
 			getAppointmentDetail(code) {
+				uni.showLoading({
+					mask: true
+				});
 				const config = {
 					url: "appointmentDetail",
 					method: "GET",
@@ -97,6 +99,7 @@
 					if (res.data.code === 200) {
 						this.appointInfo = res.data.data
 					}
+					uni.hideLoading()
 				});
 			},
 
