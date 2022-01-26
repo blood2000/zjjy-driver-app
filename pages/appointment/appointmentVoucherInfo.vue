@@ -230,14 +230,14 @@
 	.recordTopLine {
 		height: 30%;
 		width: 1rpx;
-		border-left: 1rpx dashed #DDDDDD;
+		border-left: 2rpx dashed #DDDDDD;
 		margin-left: 16rpx;
 	}
 
 	.recordLine {
 		height: 100%;
 		width: 1rpx;
-		border-left: 1rpx dashed #DDDDDD;
+		border-left: 2rpx dashed #DDDDDD;
 		margin-left: 16rpx;
 	}
 
