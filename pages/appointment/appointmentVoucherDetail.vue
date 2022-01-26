@@ -1,11 +1,11 @@
 <template>
 	<view class="content-page">
-		
+
 		<appointmentView :displayTime="false" :displayViewEnter="false" :appointInfo="appointInfo"
-			:subscribeRuleVoucherCode="subscribeRuleVoucherCode" class="content">
+			:subscribeRuleVoucherCode="subscribeRuleVoucherCode" class="content" style="height: 500rpx">
 		</appointmentView>
-		<view style="height: 580rpx"></view>
-		<view style="margin-top: 32rpx;" v-if="record && record.length > 0">
+		<view style="height: 480rpx"></view>
+		<view v-if="record && record.length > 0">
 			<text class="recordLabel">承运记录列表</text>
 			<view class="record">
 				<view v-for="(item, index) in record" v-bind:key="item.title" class="recordItem">
@@ -18,7 +18,7 @@
 						</view>
 						<view class="recordLine" />
 					</view>
-					<view class="infoView" :style="{backgroundImage: item.reservationStatus <= 1?blueImage:redImage}">
+					<view :class="item.reservationStatus <= 1 ? 'blueImage':'redImage'">
 						<text class="title">{{item.licenseNumber?item.licenseNumber:"暂无车辆"}}</text>
 						<text class="desc">{{getAppointmentStateTimeText(item)}}</text>
 					</view>
@@ -49,15 +49,15 @@
 		},
 		data() {
 			return {
-				subscribeRuleVoucherCode: null,
-				appointInfo: null,
+				redImage: "url('/static/appointment/ic_red_bg.png')",
+				blueImage: "url('/static/appointment/ic_blue_bg.png')",
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",
 				pointRed: "/static/appointment/ic_red_point.png",
 				pointBlue: "/static/appointment/ic_blue_point.png",
-				redImage: "url('/static/appointment/ic_red_bg.png')",
-				blueImage: "url('/static/appointment/ic_blue_bg.png')",
-				record: null
+				record: null,
+				subscribeRuleVoucherCode: null,
+				appointInfo: null,
 			}
 		},
 		methods: {
@@ -126,9 +126,11 @@
 		margin: 32rpx;
 	}
 
-	.content{
+	.content {
 		position: fixed;
-		top: 32rpx;
+		padding-top: 32rpx;
+		background-color: #F3F3F3;
+		top: 0rpx;
 		left: 32rpx;
 		right: 32rpx;
 	}
@@ -159,25 +161,49 @@
 		height: 32rpx;
 	}
 
+	.redImage {
+		width: 75%;
+		padding-left: 26rpx;
+		display: flex;
+		flex-direction: column;
+		padding-top: 26rpx;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		-moz-background-size: 100% 100%;
+		background-image: url(/static/appointment/ic_red_bg.png);
+	}
+
+	.blueImage {
+		width: 75%;
+		padding-left: 26rpx;
+		display: flex;
+		flex-direction: column;
+		padding-top: 26rpx;
+		background-repeat: no-repeat;
+		background-size: 100% 100%;
+		-moz-background-size: 100% 100%;
+		background-image: url(/static/appointment/ic_blue_bg.png);
+	}
+
 	.recordTopEmptyLine {
 		height: 30%;
-		width: 1rpx;
+		width: 2rpx;
 		border-left: 1rpx dashed #FFFFFF;
-		margin-left: 16rpx;
+		margin-left: 15rpx;
 	}
 
 	.recordTopLine {
 		height: 30%;
-		width: 1rpx;
-		border-left: 1rpx dashed #DDDDDD;
-		margin-left: 16rpx;
+		width: 4rpx;
+		border-left: 2rpx dashed #DDDDDD;
+		margin-left: 15rpx;
 	}
 
 	.recordLine {
 		height: 100%;
-		width: 1rpx;
-		border-left: 1rpx dashed #DDDDDD;
-		margin-left: 16rpx;
+		width: 4rpx;
+		border-left: 2rpx dashed #DDDDDD;
+		margin-left: 15rpx;
 	}
 
 	.stateRed {
@@ -192,17 +218,6 @@
 		font-weight: bold;
 		margin-left: 19rpx;
 		font-size: 28rpx;
-	}
-
-	.infoView {
-		width: 75%;
-		padding-left: 26rpx;
-		display: flex;
-		flex-direction: column;
-		padding-top: 26rpx;
-		background-repeat: no-repeat;
-		background-size: 100% 100%;
-		-moz-background-size: 100% 100%;
 	}
 
 	.title {
