@@ -1,6 +1,5 @@
 <template>
 	<view class="content-page">
-
 		<appointmentView v-if="appointmentInfo" :displayTime="true" :displayViewEnter="true"
 			:appointInfo="appointmentInfo" :subscribeRuleVoucherCode="subscribeRuleVoucherCode">
 			<view slot="timePicker">

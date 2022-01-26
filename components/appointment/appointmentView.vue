@@ -39,8 +39,8 @@
 			<view class="timePicker">
 				<slot name="timePicker"></slot>
 			</view>
-			
 		</view>
+		<text v-if="!displayViewEnter" class="recordLabel">承运记录列表</text>
 	</view>
 </template>
 
@@ -165,7 +165,9 @@
 
 <style scoped>
 	.root {
-		background-color: #F3F3F3;
+		display: flex;
+		flex-direction: column;
+		background-color: #00000000;
 	}
 
 	.topAppointmentView {
@@ -304,5 +306,11 @@
 		font-size: 28rpx;
 		background-color: #2366F2;
 		color: #FFF;
+	}
+
+	.recordLabel {
+		font-size: 36rpx;
+		font-weight: bold;
+		margin-top: 16rpx;
 	}
 </style>

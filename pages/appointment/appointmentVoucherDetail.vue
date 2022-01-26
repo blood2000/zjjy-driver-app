@@ -1,13 +1,11 @@
 <template>
 	<view class="content-page">
-
 		<appointmentView :displayTime="false" :displayViewEnter="false" :appointInfo="appointInfo"
-			:subscribeRuleVoucherCode="subscribeRuleVoucherCode" class="content" style="height: 500rpx">
+			:subscribeRuleVoucherCode="subscribeRuleVoucherCode" class="content" style="height: 540rpx">
 		</appointmentView>
-		<view style="height: 480rpx"></view>
-		<view v-if="record && record.length > 0">
-			<text class="recordLabel">承运记录列表</text>
-			<view class="record">
+		<view style="height: 540rpx"></view>
+		<view style="display: flex; flex-direction: column;">
+			<view v-if="record !== null && record.length>0" class="record">
 				<view v-for="(item, index) in record" v-bind:key="item.title" class="recordItem">
 					<view style="display: flex; flex-direction: column; width: 25%;">
 						<view :class="index === 0?'recordTopEmptyLine':'recordTopLine'"></view>
@@ -23,6 +21,10 @@
 						<text class="desc">{{getAppointmentStateTimeText(item)}}</text>
 					</view>
 				</view>
+			</view>
+			<view v-else class="info_noContentView">
+				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill" />
+				<text class="noContent_text">{{recordTip}}</text>
 			</view>
 		</view>
 	</view>
@@ -55,6 +57,7 @@
 				deleteIcon: "/static/appointment/ic_close.png",
 				pointRed: "/static/appointment/ic_red_point.png",
 				pointBlue: "/static/appointment/ic_blue_point.png",
+				recordTip: "正在获取承运记录信息",
 				record: null,
 				subscribeRuleVoucherCode: null,
 				appointInfo: null,
@@ -72,6 +75,9 @@
 				uniRequest(config).then((res) => {
 					if (res.data.code === 200) {
 						this.record = res.data.data
+						if (!this.record || this.record.length < 1) {
+							this.recordTip = "暂无承运记录信息"
+						}
 					}
 				});
 			},
@@ -106,11 +112,11 @@
 			getAppointmentStateTimeText(item) {
 				let stateStr = null //预约状态 0待入场；1已入场；2已出场
 				if (item.reservationStatus === 0) {
-					stateStr = item.createTime
+					stateStr = item.createTime ? item.createTime : "暂无数据"
 				} else if (item.reservationStatus === 1) {
-					stateStr = item.admissionTime
+					stateStr = item.admissionTime ? item.admissionTime : "暂无数据"
 				} else if (item.reservationStatus === 2) {
-					stateStr = item.appearanceTime
+					stateStr = item.appearanceTime ? item.appearanceTime : "暂无数据"
 				}
 				return stateStr
 			},
@@ -123,12 +129,12 @@
 		background: #F3F3F3;
 		display: flex;
 		flex-direction: column;
-		margin: 32rpx;
+		margin-top: 32rpx;
 	}
 
 	.content {
 		position: fixed;
-		padding-top: 32rpx;
+		margin-top: 32rpx;
 		background-color: #F3F3F3;
 		top: 0rpx;
 		left: 32rpx;
@@ -138,9 +144,10 @@
 	.record {
 		color: #333333;
 		padding: 32rpx;
+		margin-left: 32rpx;
+		margin-right: 32rpx;
 		display: flex;
 		flex-direction: column;
-		margin-top: 23rpx;
 		background-color: #FFF;
 		border-radius: 20rpx;
 	}
@@ -183,6 +190,33 @@
 		background-size: 100% 100%;
 		-moz-background-size: 100% 100%;
 		background-image: url(/static/appointment/ic_blue_bg.png);
+	}
+
+	.info_noContentView {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		padding-bottom: 32rpx;
+		margin-top: 16rpx;
+		margin-left: 32rpx;
+		margin-right: 32rpx;
+		justify-content: space-between;
+		padding-top: 60upx;
+		background-color: #FFFFFF;
+		border-radius: 16upx;
+	}
+
+	.noContent_icon {
+		background-color: #FFF;
+		width: 362rpx;
+		height: 203upx;
+	}
+
+	.noContent_text {
+		font-size: 32upx;
+		color: #999999;
+		padding-top: 28upx;
+		padding-bottom: 34upx;
 	}
 
 	.recordTopEmptyLine {
