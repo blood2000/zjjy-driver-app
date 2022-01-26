@@ -20,6 +20,7 @@
 						<view class="header-title">入场预约系统</view>
 					</view>
 				</view>
+				<!--  #endif -->
 			</view>
 			<view class="header-container">
 				<view class="headerView">
