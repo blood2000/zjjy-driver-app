@@ -22,7 +22,7 @@
 			</view>
 		</appointmentView>
 
-		<button class="appointBtn" @click="submitAppointment">立即预约</button>
+		<button v-if="appointmentInfo" class="appointBtn" @click="submitAppointment">立即预约</button>
 	</view>
 </template>
 

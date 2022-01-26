@@ -4,27 +4,30 @@
 			:subscribeRuleVoucherCode="subscribeRuleVoucherCode" class="content" style="height: 540rpx">
 		</appointmentView>
 		<view style="height: 540rpx"></view>
-		<view style="display: flex; flex-direction: column;">
-			<view v-if="record !== null && record.length>0" class="record">
-				<view v-for="(item, index) in record" v-bind:key="item.title" class="recordItem">
-					<view style="display: flex; flex-direction: column; width: 25%;">
-						<view :class="index === 0?'recordTopEmptyLine':'recordTopLine'"></view>
-						<view style="display: flex; align-items: center;">
-							<image class="point" :src="item.reservationStatus <= 1?pointBlue:pointRed" />
-							<text
-								:class="item.reservationStatus <= 1?'stateBlue':'stateRed'">{{getAppointmentState(item)}}</text>
+		<view v-if="record !== null && record.length>0">
+			<view style="display: flex; flex-direction: column;">
+				<view v-if="record !== null && record.length>0" class="record">
+					<view v-for="(item, index) in record" v-bind:key="item.title" class="recordItem">
+						<view style="display: flex; flex-direction: column; width: 25%;">
+							<view :class="index === 0?'recordTopEmptyLine':'recordTopLine'"></view>
+							<view style="display: flex; align-items: center;">
+								<image class="point" :src="item.reservationStatus <= 1?pointBlue:pointRed" />
+								<text
+									:class="item.reservationStatus <= 1?'stateBlue':'stateRed'">{{getAppointmentState(item)}}</text>
+							</view>
+							<view class="recordLine" />
 						</view>
-						<view class="recordLine" />
-					</view>
-					<view :class="item.reservationStatus <= 1 ? 'blueImage':'redImage'">
-						<text class="title">{{item.licenseNumber?item.licenseNumber:"暂无车辆"}}</text>
-						<text class="desc">{{getAppointmentStateTimeText(item)}}</text>
+						<view :class="item.reservationStatus <= 1 ? 'blueImage':'redImage'">
+							<text class="title">{{item.licenseNumber?item.licenseNumber:"暂无车辆"}}</text>
+							<text class="desc">{{getAppointmentStateTimeText(item)}}</text>
+						</view>
 					</view>
 				</view>
-			</view>
-			<view v-else class="info_noContentView">
-				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill" />
-				<text class="noContent_text">{{recordTip}}</text>
+				<view v-else class="info_noContentView">
+					<image class="noContent_icon" src="/static/appointment/appointment_noContent.png"
+						mode="aspectFill" />
+					<text class="noContent_text">{{recordTip}}</text>
+				</view>
 			</view>
 		</view>
 	</view>
