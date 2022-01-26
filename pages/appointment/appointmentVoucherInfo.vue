@@ -58,7 +58,7 @@
 		},
 		data() {
 			return {
-				subscribeRuleVoucherCode:null,
+				subscribeRuleVoucherCode: null,
 				appointmentInfo: null,
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",
@@ -117,7 +117,7 @@
 					uni.showModal({
 						title: "提示",
 						content: "请绑定车辆后再进行预约",
-						showCancel:false
+						showCancel: false
 					});
 					return
 				}
@@ -159,10 +159,19 @@
 						icon: 'none',
 						duration: 2000
 					})
-					if (res.data.code === 200) {//预约成功后返回上一级
-						uni.navigateBack({
-							delta: 1,
-						});
+					if (res.data.code === 200) { //预约成功后返回上一级
+						let delta = getCurrentPages().length - 2
+						if (delta === 2) {
+							//普通流程进入
+							uni.navigateBack({
+								delta: 1,
+							});
+						} else {
+							//微信扫码进入
+							uni.redirectTo({
+								url: "/pages/appointment/index"
+							})
+						}
 					}
 				});
 			},
