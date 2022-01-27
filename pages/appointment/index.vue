@@ -899,7 +899,7 @@
 	.switchLine {
 		width: 58upx;
 		height: 6upx;
-		margin-left: 14rpx;
+		margin-left: 16rpx;
 		margin-top: -15rpx;
 		border-top: solid #2366F2 6upx;
 	}
