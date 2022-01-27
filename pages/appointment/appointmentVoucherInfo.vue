@@ -198,7 +198,9 @@
 <style scoped>
 	.content-page {
 		background: #F3F3F3;
-		margin: 32rpx;
+		margin-left: 32rpx;
+		margin-right: 32rpx;
+		padding-top: 32rpx;
 	}
 
 	.record {
@@ -334,6 +336,7 @@
 		margin-top: 30rpx;
 		padding-left: 16rpx;
 		padding-right: 16rpx;
+		border: 1rpx solid #2366F2;
 		font-size: 28rpx;
 		background-color: #2366F2;
 		color: #FFF;
@@ -342,6 +345,7 @@
 	.appointBtn {
 		background-color: #2366F2;
 		color: #FFFFFF;
+		position: absolute;
 		width: 90%;
 		font-size: 32rpx;
 		margin-top: 32rpx;
