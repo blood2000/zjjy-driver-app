@@ -99,7 +99,7 @@
 		</view>
 		<view class="switchHead">
 			<button v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
-				:key="index" @click="clickTab(index)" >
+				:key="index" @click="clickTab(index)">
 				<view class="boxList_item">{{item.name}}</view>
 				<view v-if="activeIndex==index" class="switchLine"></view>
 			</button>
@@ -157,7 +157,7 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="getListData().length == 0"  class="info_noContentView_canAppointView">
+			<view v-if="getListData().length == 0" class="info_noContentView_canAppointView">
 				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill">
 				</image>
 				<text class="noContent_label">暂无数据</text>
@@ -376,10 +376,17 @@
 				// 允许从相机和相册扫码
 				var that = this;
 				uni.scanCode({
+					fail: () => {
+						uni.showToast({
+							title: "二维码有误",
+							icon: 'none',
+							duration: 2000
+						})
+					},
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
-						var subscribeRuleVoucherCode = res.result;
+						var subscribeRuleVoucherCode = null;
 						if (res.result.length > 0 && res.result.search("http") != -1) {
 							const q = decodeURIComponent(res.result); // 获取到二维码原始链接内容
 							console.log("获取链接参数", q, typeof q);
@@ -390,23 +397,36 @@
 									subscribeRuleVoucherCode = tmp.appointmentInfo;
 								}
 							}
-
-							//新增司机关联凭证
-							const config = {
-								url: "insertVoucherRelation",
-								method: "POST",
-								data: {
-									subscribeRuleVoucherCode: subscribeRuleVoucherCode,
-								},
-							};
-							uniRequest(config).then((res) => {
-								console.log("res", res);
-								uni.$emit('reload', {
-									msg: '页面更新'
+							if (subscribeRuleVoucherCode != null) {
+								//新增司机关联凭证
+								const config = {
+									url: "insertVoucherRelation",
+									method: "POST",
+									data: {
+										subscribeRuleVoucherCode: subscribeRuleVoucherCode,
+									},
+								};
+								uniRequest(config).then((res) => {
+									console.log("res", res);
+									uni.$emit('reload', {
+										msg: '页面更新'
+									})
+									//跳转到预约界面
+									that.onClickGotoAppointment(subscribeRuleVoucherCode);
+								});
+							} else {
+								uni.showToast({
+									title: "二维码有误",
+									icon: 'none',
+									duration: 2000
 								})
-								//跳转到预约界面
-								that.onClickGotoAppointment(subscribeRuleVoucherCode);
-							});
+							}
+						} else {
+							uni.showToast({
+								title: "二维码有误",
+								icon: 'none',
+								duration: 2000
+							})
 						}
 					}
 				});
@@ -797,7 +817,7 @@
 		margin-left: 24rpx;
 		margin-right: 24rpx;
 	}
-	
+
 	.info_bottom {
 		width: calc(100vw - 48upx);
 		margin-top: 0upx;
