@@ -264,7 +264,7 @@
 			let sys = uni.getSystemInfoSync();	
 			let winWidth = sys.windowWidth;
 			let winrate = 750 / winWidth;	
-			let winHeight = parseInt(sys.windowHeight * winrate) - 900;
+			let winHeight = parseInt(sys.windowHeight * winrate) - (this.appointmentInfo?900:930);
 			this.scrollHeight = winHeight;
 			console.log("lianfeng=====", winHeight);
 		},
