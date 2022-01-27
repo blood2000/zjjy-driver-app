@@ -104,7 +104,10 @@
 				<view v-if="activeIndex==index" class="switchLine"></view>
 			</button>
 		</view>
-		<view class="canAppointView-container">
+		<scroll-view class="scrollviewCss" :style="{'height':scrollHeight+'rpx'}" scroll-y="false"
+			refresher-enabled="true" :refresher-triggered="triggered" :refresher-threshold="45"
+			refresher-background="#f8f8f8" @refresherrefresh="onRefresh" @refresherrestore="onRestore"
+			@refresherabort="onAbort" @scrolltolower="scrollBottem">
 			<view class="canAppointView" v-for="(sub, index) in getListData()" v-bind:key="index">
 				<view class="canAppointViewTop">
 					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png">
@@ -157,12 +160,13 @@
 					</view>
 				</view>
 			</view>
+			<uLi-load-more status="loading"></uLi-load-more>	
 			<view v-if="getListData().length == 0" class="info_noContentView_canAppointView">
 				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill">
 				</image>
 				<text class="noContent_label">暂无数据</text>
 			</view>
-		</view>
+		</scroll-view>
 		<div>
 			<qrcode v-if="appointmentInfo" :showModal="showPickerModal" :appointInfo="appointmentInfo"
 				@cancelModal="cancelPickerModal">
@@ -192,6 +196,7 @@
 		},
 		data() {
 			return {
+				scrollHeight: 300,
 				menuButtonInfo: 0, //胶囊按钮信息
 				statusBarHeight: 0, //状态栏高度
 				musicheadHeight: 0,
@@ -213,12 +218,15 @@
 				},
 				invalidAppointListQueryParams: { // 请求参数
 					pageNum: 1,
-					pageSize: 10,
+					pageSize: 5,
 				},
 				isEnd_canAppointList: false,
 				isEnd_invalidAppoint: false,
 				canAppointList: [],
 				invalidAppointList: [],
+				triggered: true,
+				status: 'loadmore',
+				iconType: 'flower',
 			}
 		},
 		onReady() {
@@ -245,13 +253,36 @@
 			const topDistance = this.menuButtonInfo.top - this.statusBarHeight;
 			// 计算导航栏高度
 			this.musicheadHeight = this.menuButtonInfo.height + topDistance * 2;
+
+
 			// #endif
+
+			let that = this;
+			uni.getSystemInfo({ //调用uni-app接口获取屏幕高度
+				success(res) { //成功回调函数
+					// that._data.pH=res.windowHeight //windoHeight为窗口高度，主要使用的是这个
+					// let titleH=uni.createSelectorQuery().select(".sv"); //想要获取高度的元素名（class/id）
+					// titleH.boundingClientRect(data=>{
+					// 	let pH=that._data.pH; 
+					// 	that._data.navHeight=pH-data.top  //计算高度：元素高度=窗口高度-元素距离顶部的距离（data.top）
+					// }).exec()
+					//that.scrollHeight = res.windowHeight / 2;
+					
+				}
+			})
 		},
 		onLoad() {
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
 
 			uni.$on('reload', this.handleReload)
+			
+			let sys = uni.getSystemInfoSync();	
+			let winWidth = sys.windowWidth;
+			let winrate = 750 / winWidth;	
+			let winHeight = parseInt(sys.windowHeight * winrate) - 900;
+			this.scrollHeight = winHeight;
+			console.log("lianfeng=====", winHeight);
 		},
 		onUnload() {
 			// 移除监听事件    
@@ -501,6 +532,49 @@
 					duration: 2000
 				})
 			},
+			/* 滚动到底部 */
+			scrollBottem() {
+				console.log("滚动到底部")
+				if (this.activeIndex == 0) {
+					if (!this.isEnd_canAppointList) {
+						this.canAppointListQueryParams.pageNum++;
+						this.getDriverRelationVoucher();
+					}
+				} else {
+					if (!this.isEnd_invalidAppoint) {
+						this.invalidAppointListQueryParams.pageNum++;
+						this.getDriverRelationVoucherInvalid();
+					}
+				}
+			},
+			onRefresh() {
+				console.log("进入");
+				setTimeout(() => {
+					this.triggered = false;
+				}, 500);
+				if (this.activeIndex == 0) {
+					this.isEnd_canAppointList = false;
+					this.canAppointListQueryParams.pageNum = 1;
+					this.canAppointList = [];
+					this.getDriverRelationVoucher();
+				} else {
+					this.isEnd_invalidAppoint = false;
+					this.invalidAppointListQueryParams.pageNum = 1;
+					this.invalidAppointList = [];
+					this.getDriverRelationVoucherInvalid();
+				}
+				this.getDriverReservationInformation();
+			},
+			/* 下拉被复位 */
+			onRestore() {
+				this.triggered = true; // 需要重置
+				console.log(this.triggered);
+				console.log("停止");
+			},
+			/* 下拉被中止，没下拉完就松手就会触发 */
+			onAbort() {
+				console.log("onAbort");
+			},
 		}
 	}
 </script>
@@ -515,17 +589,26 @@
 		margin-right: 0;
 	}
 
-	page {
-		display: -webkit-box;
-	}
+	// page {
+	// 	display: -webkit-box;
+	// 	position: fixed;
+	// 	left: 0rpx;
+	// 	right: 0rpx;
+	// 	top: 0rpx;
+	// 	bottom: 0rpx;
+	// }
 
 	.home-page {
+		// width: 100%;
+		// padding: 0 0 30upx;
+		// font-family: 'PingFang Regular';
+		// display: flex;
+		// min-height: 100vh;
+		// flex-direction: column;
+		// overflow: hidden;
 		width: 100%;
-		padding: 0 0 30upx;
-		font-family: 'PingFang Regular';
-		display: flex;
-		min-height: 100vh;
-		flex-direction: column;
+		//overflow-y: hidden;
+		position: fixed;
 		overflow: hidden;
 	}
 
@@ -1143,6 +1226,84 @@
 			color: #333333;
 			left: 10px;
 			top: 5px;
+		}
+	}
+
+	.headerCss {
+		margin-top: -12rpx;
+
+		.sortCss {
+			background-color: #f1f1f1f8;
+			height: 80rpx;
+		}
+	}
+
+	.scrollviewCss {
+		overflow-y: hidden;
+		//height: calc(100%-730rpx);
+		//height: calc(50vh+10vh);
+		//height:700rpx;
+
+		.courseList {
+			.courseOne {
+				margin: 40rpx 35rpx 30rpx 35rpx;
+				display: flex;
+
+				image {
+					width: 238rpx;
+					height: 238rpx;
+					border-radius: 6rpx;
+				}
+
+				.courseMsg {
+					margin-left: 20rpx;
+
+					.courseTitle {
+						font-size: 28rpx;
+						font-weight: bold;
+						color: #333333;
+						margin-bottom: 10rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						-webkit-box-orient: vertical;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+					}
+
+					.courseTips {
+						font-size: 24rpx;
+						color: #999999;
+						margin-bottom: 10rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						-webkit-box-orient: vertical;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+					}
+
+					.courseTutor {
+						font-size: 24rpx;
+					}
+
+					.courseLast {
+						margin-top: 10rpx;
+						display: flex;
+						justify-content: space-between;
+
+						.courseLastPrice {
+							color: #E84A10;
+							font-size: 32rpx;
+						}
+
+						.courseLastType {
+							background-color: #848484;
+							color: #dedede;
+							padding: 8rpx;
+							font-size: 26rpx;
+						}
+					}
+				}
+			}
 		}
 	}
 </style>
