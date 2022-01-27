@@ -58,6 +58,9 @@
 		onLoad(option) {
 			if (option.appointInfo) {
 				this.subscribeRuleVoucherCode = option.appointInfo
+				uni.showLoading({
+					mask: true
+				});
 				this.getAppointmentDetail(option.appointInfo)
 				this.getVoucherDetail(option.appointInfo)
 			}
@@ -77,9 +80,6 @@
 		},
 		methods: {
 			getVoucherDetail(code) {
-				uni.showLoading({
-					mask: true
-				});
 				const config = {
 					url: "getMakeAnAppointment",
 					method: "GET",
@@ -95,7 +95,12 @@
 						})
 						let index = this.timeList.findIndex(item => item.isSelect === 0)
 						this.timeList[index].select = true
-						uni.hideLoading()
+					} else {
+						uni.showToast({
+							title: res.data.msg ? res.data.msg : "数据请求失败,请稍后再试",
+							icon: 'none',
+							duration: 2000
+						})
 					}
 				});
 			},
@@ -111,6 +116,7 @@
 					if (res.data.code === 200) {
 						this.appointmentInfo = res.data.data
 					}
+					uni.hideLoading()
 				});
 			},
 			timeClick(item, index) {

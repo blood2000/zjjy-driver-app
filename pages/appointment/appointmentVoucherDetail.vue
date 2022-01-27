@@ -98,6 +98,12 @@
 				uniRequest(config).then((res) => {
 					if (res.data.code === 200) {
 						this.appointInfo = res.data.data
+					} else {
+						uni.showToast({
+							title: res.data.msg ? res.data.msg : "数据请求失败,请稍后再试",
+							icon: 'none',
+							duration: 2000
+						})
 					}
 					uni.hideLoading()
 				});
