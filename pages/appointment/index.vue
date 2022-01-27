@@ -106,7 +106,7 @@
 		</view>
 		<scroll-view class="scrollviewCss" :style="{'height':scrollHeight+'rpx'}" scroll-y="false"
 			refresher-enabled="true" :refresher-triggered="triggered" :refresher-threshold="45"
-			refresher-background="#f8f8f8" @refresherrefresh="onRefresh" @refresherrestore="onRestore"
+			refresher-background="#F3F3F3" @refresherrefresh="onRefresh" @refresherrestore="onRestore"
 			@refresherabort="onAbort" @scrolltolower="scrollBottem">
 			<view class="canAppointView" v-for="(sub, index) in getListData()" v-bind:key="index">
 				<view class="canAppointViewTop">
@@ -1228,9 +1228,6 @@
 
 	.scrollviewCss {
 		overflow-y: hidden;
-		//height: calc(100%-730rpx);
-		//height: calc(50vh+10vh);
-		//height:700rpx;
 
 		.courseList {
 			.courseOne {
