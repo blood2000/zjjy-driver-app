@@ -218,7 +218,7 @@
 				},
 				invalidAppointListQueryParams: { // 请求参数
 					pageNum: 1,
-					pageSize: 5,
+					pageSize: 10,
 				},
 				isEnd_canAppointList: false,
 				isEnd_invalidAppoint: false,
@@ -253,23 +253,7 @@
 			const topDistance = this.menuButtonInfo.top - this.statusBarHeight;
 			// 计算导航栏高度
 			this.musicheadHeight = this.menuButtonInfo.height + topDistance * 2;
-
-
 			// #endif
-
-			let that = this;
-			uni.getSystemInfo({ //调用uni-app接口获取屏幕高度
-				success(res) { //成功回调函数
-					// that._data.pH=res.windowHeight //windoHeight为窗口高度，主要使用的是这个
-					// let titleH=uni.createSelectorQuery().select(".sv"); //想要获取高度的元素名（class/id）
-					// titleH.boundingClientRect(data=>{
-					// 	let pH=that._data.pH; 
-					// 	that._data.navHeight=pH-data.top  //计算高度：元素高度=窗口高度-元素距离顶部的距离（data.top）
-					// }).exec()
-					//that.scrollHeight = res.windowHeight / 2;
-					
-				}
-			})
 		},
 		onLoad() {
 			this.getDriverRelationVoucher();
@@ -345,6 +329,18 @@
 					return totalName;
 				}
 			},
+			getDriverReservationInformation() { //司机预约信息
+				const config = {
+					url: "reservationInformation",
+					method: "GET",
+				};
+				uniRequest(config).then((res) => {
+					console.log("获取司机预约信息", res);
+					if (res.data.code === 200 && res.data.data) {
+						this.appointmentInfo = res.data.data;
+					}
+				});
+			},
 			getDriverRelationVoucher() { //获取司机关联预约凭证列表:可预约的
 				const config = {
 					url: "getDriverRelationVoucher",
@@ -358,22 +354,13 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_可预约的", res);
 					if (res.data.code === 200 && res.data.data) {
+						if (this.canAppointListQueryParams.pageNum == 1) {
+							this.canAppointList = [];
+						}
 						this.canAppointList = [...this.canAppointList, ...res.data.data.list];
 						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
 							this.isEnd_canAppointList = true;
 						}
-					}
-				});
-			},
-			getDriverReservationInformation() { //司机预约信息
-				const config = {
-					url: "reservationInformation",
-					method: "GET",
-				};
-				uniRequest(config).then((res) => {
-					console.log("获取司机预约信息", res);
-					if (res.data.code === 200 && res.data.data) {
-						this.appointmentInfo = res.data.data;
 					}
 				});
 			},
@@ -390,6 +377,9 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_已失效的", res);
 					if (res.data.code === 200 && res.data.data) {
+						if (this.invalidAppointListQueryParams.pageNum == 1) {
+							this.invalidAppointList = [];
+						}
 						this.invalidAppointList = [...this.invalidAppointList, ...res.data.data.list];
 						if (res.data.data.list.length < this.invalidAppointListQueryParams.pageSize) {
 							this.isEnd_invalidAppoint = true;
@@ -555,12 +545,10 @@
 				if (this.activeIndex == 0) {
 					this.isEnd_canAppointList = false;
 					this.canAppointListQueryParams.pageNum = 1;
-					this.canAppointList = [];
 					this.getDriverRelationVoucher();
 				} else {
 					this.isEnd_invalidAppoint = false;
 					this.invalidAppointListQueryParams.pageNum = 1;
-					this.invalidAppointList = [];
 					this.getDriverRelationVoucherInvalid();
 				}
 				this.getDriverReservationInformation();
