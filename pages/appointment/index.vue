@@ -157,6 +157,11 @@
 					</view>
 				</view>
 			</view>
+			<view v-if="getListData().length == 0"  class="info_noContentView">
+				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill">
+				</image>
+				<text class="noContent_label">暂无预约信息哦</text>
+			</view>
 		</view>
 		<div>
 			<qrcode v-if="appointmentInfo" :showModal="showPickerModal" :appointInfo="appointmentInfo"
