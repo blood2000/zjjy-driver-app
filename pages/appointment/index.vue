@@ -157,10 +157,10 @@
 					</view>
 				</view>
 			</view>
-			<view v-if="getListData().length == 0"  class="info_noContentView">
+			<view v-if="getListData().length == 0"  class="info_noContentView_canAppointView">
 				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill">
 				</image>
-				<text class="noContent_label">暂无预约信息哦</text>
+				<text class="noContent_label">暂无数据</text>
 			</view>
 		</view>
 		<div>
@@ -786,6 +786,18 @@
 		border-radius: 16upx;
 	}
 
+	.info_noContentView_canAppointView {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-top: 60upx;
+		background-color: #FFFFFF;
+		border-radius: 16upx;
+		margin-left: 24rpx;
+		margin-right: 24rpx;
+	}
+	
 	.info_bottom {
 		width: calc(100vw - 48upx);
 		margin-top: 0upx;
