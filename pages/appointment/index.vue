@@ -377,11 +377,7 @@
 				var that = this;
 				uni.scanCode({
 					fail: () => {
-						uni.showToast({
-							title: "二维码有误",
-							icon: 'none',
-							duration: 2000
-						})
+						that.showQRErrorTip();
 					},
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
@@ -415,18 +411,10 @@
 									that.onClickGotoAppointment(subscribeRuleVoucherCode);
 								});
 							} else {
-								uni.showToast({
-									title: "二维码有误",
-									icon: 'none',
-									duration: 2000
-								})
+								that.showQRErrorTip();
 							}
 						} else {
-							uni.showToast({
-								title: "二维码有误",
-								icon: 'none',
-								duration: 2000
-							})
+							that.showQRErrorTip();
 						}
 					}
 				});
@@ -505,6 +493,13 @@
 				this.canAppointList = [];
 				this.getDriverRelationVoucher();
 				this.getDriverReservationInformation();
+			},
+			showQRErrorTip() {
+				uni.showToast({
+					title: "二维码有误",
+					icon: 'none',
+					duration: 2000
+				})
 			},
 		}
 	}
