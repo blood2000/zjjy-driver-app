@@ -27,14 +27,27 @@
 				</view>
 			</view>
 		</appointmentView>
-
 		<button v-if="appointmentInfo" :disabled="timeList === null || timeList.length === 0" class="appointBtn"
 			@click="submitAppointment">立即预约</button>
+
+		<uni-popup ref="reservationPopup" type="center" style="background-color: #FFFFFF;">
+			<reservation-status :content='reservationTip' @closePopup="closePopup()">
+				<view slot="customView" class="btnView">
+					<button class="btnConfirm" @click="reservationDelete()">作废</button>
+					<view class="verticalLine" />
+					<button class="btnCancel" @click="reservationComplete()">完成</button>
+				</view>
+			</reservation-status>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import appointmentView from "@/components/appointment/appointmentView.vue";
+	import reservationStatus from "@/components/appointment/reservationStatus.vue";
+	import {
+		uniBadge
+	} from '@dcloudio/uni-ui'
 	import {
 		mapState
 	} from "vuex";
@@ -46,7 +59,9 @@
 
 	export default {
 		components: {
-			appointmentView
+			appointmentView,
+			reservationStatus,
+			uniBadge
 		},
 
 		computed: {
@@ -63,6 +78,7 @@
 				});
 				this.getAppointmentDetail(option.appointInfo)
 				this.getVoucherDetail(option.appointInfo)
+				uni.hideLoading()
 			}
 		},
 		data() {
@@ -76,6 +92,8 @@
 				redImage: "url('/static/appointment/ic_red_bg.png')",
 				blueImage: "url('/static/appointment/ic_blue_bg.png')",
 				timeList: null,
+				reservationTip: '存在未完成的预约单，请先标记凭证状态',
+				reservationID: null,
 			}
 		},
 		methods: {
@@ -116,7 +134,6 @@
 					if (res.data.code === 200) {
 						this.appointmentInfo = res.data.data
 					}
-					uni.hideLoading()
 				});
 			},
 			timeClick(item, index) {
@@ -169,18 +186,35 @@
 					data: JSON.stringify(param),
 				};
 				uniRequest(config).then((res) => {
-					uni.showToast({
-						title: res.data.msg,
-						icon: 'none',
-						duration: 2000
-					})
 					if (res.data.code === 200) {
 						//预约成功后返回上一级
 						uni.navigateBack({
 							delta: 1,
 						});
+
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+							duration: 2000
+						})
+					} else if (res.data.code === 4000) {
+						this.reservationID = res.data.data
+						console.log("弹出popup", this.$refs);
+						this.$refs.reservationPopup.open('center')
+					} else {
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+							duration: 2000
+						})
 					}
 				});
+			},
+			reservationDelete() {
+				this.reservationStatus(this.reservationID, 1)
+			},
+			reservationComplete() {
+				this.reservationStatus(this.reservationID, 0)
 			},
 			getTime() {
 				let time = null
@@ -190,6 +224,37 @@
 					}
 				})
 				return time
+			},
+			//关闭popup
+			closePopup() {
+				console.log("关闭popup", this.$refs);
+				this.$refs.reservationPopup.close()
+			},
+			//作废或完成
+			reservationStatus(id, signStatus) {
+				uni.showLoading({
+					mask: true
+				});
+				let param = {
+					id: id,
+					signStatus: signStatus
+				}
+				const config = {
+					url: "reservationStatus",
+					method: "PUT",
+					data: JSON.stringify(param),
+				};
+				uniRequest(config).then((res) => {
+					if (res.data.code === 200) {
+						this.closePopup()
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+							duration: 2000
+						})
+					}
+					uni.hideLoading()
+				});
 			}
 		}
 	}
@@ -400,6 +465,34 @@
 		color: #999999;
 		padding-top: 28upx;
 		padding-bottom: 34upx;
+	}
+
+	.btnView {
+		display: flex;
+		background-color: #FFF;
+		border-radius: 12rpx;
+		align-items: center;
+		width: 600rpx;
+	}
+
+	.btnCancel {
+		width: 50%;
+		background: #FFFFFF;
+		font-size: 36rpx;
+		color: #0A83FF;
+	}
+
+	.btnConfirm {
+		width: 50%;
+		background: #FFFFFF;
+		font-size: 36rpx;
+		color: #ff0000;
+	}
+
+	.verticalLine {
+		border-right: 1rpx solid #F3F3F3;
+		width: 1rpx;
+		height: 117rpx;
 	}
 
 	button::after {

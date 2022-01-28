@@ -15,7 +15,8 @@ const apiUrl = {
   getMakeAnAppointment:'/zjz1-jyz-service/wx/rcyy/driverReservationRecord/getMakeAnAppointment',//获取预约规则凭证信息
   insertAppointment:'/zjz1-jyz-service/wx/rcyy/driverReservationRecord/insert',//新增司机预约凭证（时间段）
   deleteVoucherRelation:'/zjz1-jyz-service/rcyy/driverRelationVoucher/del',//删除司机关联凭证
-  insertVoucherRelation:'/zjz1-jyz-service/rcyy/driverRelationVoucher/insert'//新增司机关联凭证
+  insertVoucherRelation:'/zjz1-jyz-service/rcyy/driverRelationVoucher/insert',//新增司机关联凭证
+  reservationStatus:'/zjz1-jyz-service/wx/rcyy/driverReservationRecord/reservationStatus',//标记凭证状态
 }
 
 
