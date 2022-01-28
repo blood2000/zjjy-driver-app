@@ -398,7 +398,7 @@
 				var that = this;
 				uni.scanCode({
 					fail: () => {
-						that.showQRErrorTip();
+						//that.showQRErrorTip();
 					},
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
