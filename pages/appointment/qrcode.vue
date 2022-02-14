@@ -20,10 +20,11 @@
 				<image class="qr_code" :src="qrcode.src" mode="aspectFill"></image>
 				<!-- 				<view class="qr_cion_bg"></view>
 				<image class="qr_icon" :src="qrcode.icon" mode="aspectFill"></image> -->
-				<tki-qrcode class="qr_code" :show="true" cid="qrcode1" ref="qrcode" :val="qrcode.val" :size="qrcode.size"
-					:unit="qrcode.unit" :background="qrcode.background" :foreground="qrcode.foreground"
-					:pdground="qrcode.pdground" :icon="qrcode.icon" :iconSize="qrcode.iconsize" :lv="qrcode.lv"
-					:onval="qrcode.onval" :loadMake="qrcode.loadMake" :usingComponents="true" @result="result" />
+				<tki-qrcode class="qr_code" :show="true" cid="qrcode1" ref="qrcode" :val="qrcode.val"
+					:size="qrcode.size" :unit="qrcode.unit" :background="qrcode.background"
+					:foreground="qrcode.foreground" :pdground="qrcode.pdground" :icon="qrcode.icon"
+					:iconSize="qrcode.iconsize" :lv="qrcode.lv" :onval="qrcode.onval" :loadMake="qrcode.loadMake"
+					:usingComponents="true" :showLoading="false" @result="result" />
 			</view>
 			<view class="contents">
 				<view class="contents-top">
@@ -48,7 +49,7 @@
 			return {
 				textLimit: 10,
 				qrcode: {
-					val: appointInfo.driverReservationRecordCode, // 要生成的二维码值
+					val: '', // 要生成的二维码值
 					size: 400, // 二维码大小
 					unit: 'upx', // 单位
 					background: '#FFFFFF', // 背景色
@@ -82,6 +83,10 @@
 
 		computed: {},
 
+		onLoad() {
+			console.log("===================");
+			console.log("watch appointInfo", appointInfo);
+		},
 		mounted() {
 			console.log("picker show");
 		},
@@ -107,7 +112,11 @@
 				if (totalName.length > this.textLimit) {
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
+				
+				this.qrcode.val = appointInfo.driverReservationRecordCode;
 				return totalName;
+			},
+			result(res) {
 			},
 		},
 	};
@@ -242,5 +251,4 @@
 			border-top: 2upx solid rgba(255, 255, 255, 0.15);
 		}
 	}
-	
 </style>

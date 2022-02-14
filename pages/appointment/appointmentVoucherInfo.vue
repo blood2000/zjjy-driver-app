@@ -1,6 +1,5 @@
 <template>
 	<view class="content-page">
-
 		<appointmentView v-if="appointmentInfo" :displayTime="true" :displayViewEnter="true"
 			:appointInfo="appointmentInfo" :subscribeRuleVoucherCode="subscribeRuleVoucherCode">
 			<view slot="timePicker">
@@ -11,7 +10,7 @@
 						<view class="circle"></view>
 					</view>
 					<text class="appointmentTimeView">场站现可预约时段</text>
-					<radio-group class="radioGroup">
+					<radio-group class="radioGroup" v-if="timeList && timeList.length > 0">
 						<view v-for="(item,index) in timeList" :key="index" @click="timeClick(item,index)">
 							<button :class="(item.select && item.isSelect === 0)?'timeSelectSelect':'timeSelectNormal'"
 								:disabled='item.isSelect === 1'>
@@ -19,16 +18,36 @@
 							</button>
 						</view>
 					</radio-group>
+					<view v-else class="info_noContentView">
+						<image class="noContent_icon" src="/static/appointment/appointment_noContent.png"
+							mode="aspectFill">
+						</image>
+						<text class="noContent_label">暂无可预约时段</text>
+					</view>
 				</view>
 			</view>
 		</appointmentView>
+		<button v-if="appointmentInfo" :disabled="timeList === null || timeList.length === 0" class="appointBtn"
+			@click="submitAppointment">立即预约</button>
 
-		<button class="appointBtn" @click="submitAppointment">立即预约</button>
+		<uni-popup ref="reservationPopup" type="center" style="background-color: #FFFFFF;">
+			<reservation-status :content='reservationTip' @closePopup="closePopup()">
+				<view slot="customView" class="btnView">
+					<button class="btnConfirm" @click="reservationDelete()">作废</button>
+					<view class="verticalLine" />
+					<button class="btnCancel" @click="reservationComplete()">完成</button>
+				</view>
+			</reservation-status>
+		</uni-popup>
 	</view>
 </template>
 
 <script>
 	import appointmentView from "@/components/appointment/appointmentView.vue";
+	import reservationStatus from "@/components/appointment/reservationStatus.vue";
+	import {
+		uniBadge
+	} from '@dcloudio/uni-ui'
 	import {
 		mapState
 	} from "vuex";
@@ -40,7 +59,9 @@
 
 	export default {
 		components: {
-			appointmentView
+			appointmentView,
+			reservationStatus,
+			uniBadge
 		},
 
 		computed: {
@@ -52,13 +73,17 @@
 		onLoad(option) {
 			if (option.appointInfo) {
 				this.subscribeRuleVoucherCode = option.appointInfo
+				uni.showLoading({
+					mask: true
+				});
 				this.getAppointmentDetail(option.appointInfo)
 				this.getVoucherDetail(option.appointInfo)
+				uni.hideLoading()
 			}
 		},
 		data() {
 			return {
-				subscribeRuleVoucherCode:null,
+				subscribeRuleVoucherCode: null,
 				appointmentInfo: null,
 				companyIcon: "/static/appointment/appointment_company.png",
 				deleteIcon: "/static/appointment/ic_close.png",
@@ -67,6 +92,8 @@
 				redImage: "url('/static/appointment/ic_red_bg.png')",
 				blueImage: "url('/static/appointment/ic_blue_bg.png')",
 				timeList: null,
+				reservationTip: '存在未完成的预约单，请先标记凭证状态',
+				reservationID: null,
 			}
 		},
 		methods: {
@@ -86,6 +113,12 @@
 						})
 						let index = this.timeList.findIndex(item => item.isSelect === 0)
 						this.timeList[index].select = true
+					} else {
+						uni.showToast({
+							title: res.data.msg ? res.data.msg : "数据请求失败,请稍后再试",
+							icon: 'none',
+							duration: 2000
+						})
 					}
 				});
 			},
@@ -112,12 +145,12 @@
 				this.timeList = temp
 			},
 			submitAppointment() {
-				let vehicleCode = this.vehicleMsg.vehicleCode
+				let vehicleCode = this.vehicleMsg.code
 				if (!vehicleCode) {
 					uni.showModal({
 						title: "提示",
 						content: "请绑定车辆后再进行预约",
-						showCancel:false
+						showCancel: false
 					});
 					return
 				}
@@ -126,7 +159,6 @@
 						title: "提示",
 						content: "确定要预约吗？",
 						success: (res) => {
-							console.log("预约");
 							if (res.confirm) {
 								this.submitRequest(vehicleCode)
 							}
@@ -134,7 +166,7 @@
 					});
 				} else {
 					uni.showToast({
-						title: "请选择预约时段",
+						title: "预约时段不能为空",
 						icon: "none",
 						duration: 2000
 					})
@@ -154,26 +186,75 @@
 					data: JSON.stringify(param),
 				};
 				uniRequest(config).then((res) => {
-					uni.showToast({
-						title: res.data.msg,
-						icon: 'none',
-						duration: 2000
-					})
-					if (res.data.code === 200) {//预约成功后返回上一级
+					if (res.data.code === 200) {
+						//预约成功后返回上一级
 						uni.navigateBack({
 							delta: 1,
 						});
+
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+							duration: 2000
+						})
+					} else if (res.data.code === 4000) {
+						this.reservationID = res.data.data
+						console.log("弹出popup", this.$refs);
+						this.$refs.reservationPopup.open('center')
+					} else {
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+							duration: 2000
+						})
 					}
 				});
+			},
+			reservationDelete() {
+				this.reservationStatus(this.reservationID, 1)
+			},
+			reservationComplete() {
+				this.reservationStatus(this.reservationID, 0)
 			},
 			getTime() {
 				let time = null
 				this.timeList.map(item => {
 					if (item.select) {
-						time = item.code
+						time = item.ruleAdmissionTimeIntervalCode
 					}
 				})
 				return time
+			},
+			//关闭popup
+			closePopup() {
+				console.log("关闭popup", this.$refs);
+				this.$refs.reservationPopup.close()
+			},
+			//作废或完成
+			reservationStatus(id, signStatus) {
+				uni.showLoading({
+					mask: true
+				});
+				let param = {
+					id: id,
+					signStatus: signStatus
+				}
+				const config = {
+					url: "reservationStatus",
+					method: "PUT",
+					data: JSON.stringify(param),
+				};
+				uniRequest(config).then((res) => {
+					if (res.data.code === 200) {
+						this.closePopup()
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+							duration: 2000
+						})
+					}
+					uni.hideLoading()
+				});
 			}
 		}
 	}
@@ -182,7 +263,9 @@
 <style scoped>
 	.content-page {
 		background: #F3F3F3;
-		margin: 32rpx;
+		margin-left: 32rpx;
+		margin-right: 32rpx;
+		padding-top: 32rpx;
 	}
 
 	.record {
@@ -221,14 +304,14 @@
 	.recordTopLine {
 		height: 30%;
 		width: 1rpx;
-		border-left: 1rpx dashed #DDDDDD;
+		border-left: 2rpx dashed #DDDDDD;
 		margin-left: 16rpx;
 	}
 
 	.recordLine {
 		height: 100%;
 		width: 1rpx;
-		border-left: 1rpx dashed #DDDDDD;
+		border-left: 2rpx dashed #DDDDDD;
 		margin-left: 16rpx;
 	}
 
@@ -291,6 +374,7 @@
 		padding-left: 16rpx;
 		padding-right: 16rpx;
 		margin-left: 15rpx;
+		margin-top: 30rpx;
 		margin-right: 15rpx;
 		border-radius: 8rpx;
 		font-size: 28rpx;
@@ -302,6 +386,7 @@
 		padding-right: 16rpx;
 		margin-left: 15rpx;
 		margin-right: 15rpx;
+		margin-top: 30rpx;
 		border-radius: 8rpx;
 		font-size: 28rpx;
 		background-color: #FFF;
@@ -313,8 +398,10 @@
 		margin-left: 15rpx;
 		border-radius: 8rpx;
 		margin-right: 15rpx;
+		margin-top: 30rpx;
 		padding-left: 16rpx;
 		padding-right: 16rpx;
+		border: 1rpx solid #2366F2;
 		font-size: 28rpx;
 		background-color: #2366F2;
 		color: #FFF;
@@ -323,6 +410,7 @@
 	.appointBtn {
 		background-color: #2366F2;
 		color: #FFFFFF;
+		position: absolute;
 		width: 90%;
 		font-size: 32rpx;
 		margin-top: 32rpx;
@@ -355,6 +443,56 @@
 		margin-left: 32rpx;
 		margin-right: 32rpx;
 		border-top: 1rpx solid #F0F0F0;
+	}
+
+	.info_noContentView {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-top: 60upx;
+		background-color: #FFFFFF;
+		border-radius: 16upx;
+	}
+
+	.noContent_icon {
+		width: 362upx;
+		height: 203upx;
+	}
+
+	.noContent_label {
+		font-size: 32upx;
+		color: #999999;
+		padding-top: 28upx;
+		padding-bottom: 34upx;
+	}
+
+	.btnView {
+		display: flex;
+		background-color: #FFF;
+		border-radius: 12rpx;
+		align-items: center;
+		width: 600rpx;
+	}
+
+	.btnCancel {
+		width: 50%;
+		background: #FFFFFF;
+		font-size: 36rpx;
+		color: #0A83FF;
+	}
+
+	.btnConfirm {
+		width: 50%;
+		background: #FFFFFF;
+		font-size: 36rpx;
+		color: #ff0000;
+	}
+
+	.verticalLine {
+		border-right: 1rpx solid #F3F3F3;
+		width: 1rpx;
+		height: 117rpx;
 	}
 
 	button::after {

@@ -215,7 +215,7 @@
 			"style": {
 				"navigationBarTitleText": "预约",
 				"navigationStyle": "custom",
-				"enablePullDownRefresh": true,
+				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3a65ff"
 			}
 		},
@@ -224,7 +224,7 @@
 			"style": {
 				"navigationBarTitleText": "QRCode",
 				"navigationStyle": "custom",
-				"enablePullDownRefresh": true,
+				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#3a65ff"
 			}
 		},

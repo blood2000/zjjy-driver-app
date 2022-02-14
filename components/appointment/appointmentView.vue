@@ -1,5 +1,5 @@
 <template>
-	<view v-if="appointInfo">
+	<view v-if="appointInfo" class="root">
 		<view class="topAppointmentView">
 			<view class="companyView">
 				<image :src="companyIcon" style="width: 50rpx; height: 50rpx;"></image>
@@ -31,13 +31,16 @@
 				<text class="infoLabel">已承运数:</text>
 				<view>
 					<text class="infoValue">{{appointInfo.admissionNumber?appointInfo.admissionNumber:"0"}}</text>
-					<text v-if="displayViewEnter" :class="(appointInfo.admissionNumber || appointInfo.admissionNumber > 0)?'infoValueClick':'infoValueClick_invalid'" @click="viewDetail">(查看出入区)</text>
+					<text v-if="displayViewEnter"
+						:class="(appointInfo.admissionNumber || appointInfo.admissionNumber > 0)?'infoValueClick':'infoValueClick_invalid'"
+						@click="viewDetail">(查看出入区)</text>
 				</view>
 			</view>
 			<view class="timePicker">
 				<slot name="timePicker"></slot>
 			</view>
 		</view>
+		<text v-if="!displayViewEnter" class="recordLabel">承运记录列表</text>
 	</view>
 </template>
 
@@ -110,6 +113,9 @@
 						duration: 2000
 					})
 					let delta = getCurrentPages().length - 2
+					uni.$emit('reload', {
+						msg: '页面更新'
+					})
 					if (res.data.code === 200) {
 						uni.navigateBack({
 							delta: delta
@@ -140,7 +146,8 @@
 				}
 			},
 			viewDetail() {
-				if (appointInfo.admissionNumber == null || appointInfo.admissionNumber == 0) {//已承运数为0，不跳转
+				if (this.appointInfo.admissionNumber === null || this.appointInfo.admissionNumber === 0) {
+					//已承运数为0，不跳转
 					return;
 				}
 				uni.navigateTo({
@@ -157,6 +164,12 @@
 </script>
 
 <style scoped>
+	.root {
+		display: flex;
+		flex-direction: column;
+		background-color: #00000000;
+	}
+
 	.topAppointmentView {
 		background-color: #FFF;
 		border-radius: 20rpx;
@@ -239,7 +252,7 @@
 		font-weight: bold;
 		color: #2366F2;
 	}
-	
+
 	.infoValueClick_invalid {
 		font-size: 28rpx;
 		font-weight: bold;
@@ -293,5 +306,11 @@
 		font-size: 28rpx;
 		background-color: #2366F2;
 		color: #FFF;
+	}
+
+	.recordLabel {
+		font-size: 36rpx;
+		font-weight: bold;
+		margin-top: 16rpx;
 	}
 </style>

@@ -2,10 +2,26 @@
 	<view class="home-page">
 		<div class="tab-header">
 			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
-			<div class="tab-back" @click="back">
-				<uni-icons type="back" size="24" color="#333"></uni-icons>
-			</div>
-			<view class="header-title">入场预约系统</view>
+			<view class="musichead" @click="back">
+				<view class="status_bar" :style="{'height':statusBarHeight+'px'}"></view>
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="musicheadWEIXIN" :style="{
+						'height':musicheadHeight+'px',
+						'line-height': musicheadHeight+'px'
+						}">
+					<!-- 左边按钮 -->
+					<view class="btn" :style="{
+									'width':200+'px',
+									'height':menuButtonInfo.height+'px',
+									'line-height':menuButtonInfo.height+'px',
+									'top':(menuButtonInfo.top)+'px'
+									}">
+						<uni-icons type="back" size="24" color="#333"></uni-icons>
+						<view class="header-title">入场预约系统</view>
+					</view>
+				</view>
+				<!--  #endif -->
+			</view>
 			<view class="header-container">
 				<view class="headerView">
 					<view class="top-avatar">
@@ -81,14 +97,17 @@
 				<text class="noContent_label">暂无预约信息哦</text>
 			</view>
 		</view>
-		<view class="list-container">
-			<view class="switchHead">
-				<view v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
-					:key="index">
-					<view @click="clickTab(index)">{{item.name}}</view>
-					<view v-if="activeIndex==index" class="switchLine"></view>
-				</view>
-			</view>
+		<view class="switchHead">
+			<button v-for="(item,index) in tabTitleData" class="boxList" :class="{activeCss:activeIndex==index}"
+				:key="index" @click="clickTab(index)">
+				<view class="boxList_item">{{item.name}}</view>
+				<view v-if="activeIndex==index" class="switchLine"></view>
+			</button>
+		</view>
+		<scroll-view class="scrollviewCss" :style="{'height':scrollHeight+'rpx'}" scroll-y="false"
+			refresher-enabled="true" :refresher-triggered="triggered" :refresher-threshold="45"
+			refresher-background="#F3F3F3" @refresherrefresh="onRefresh" @refresherrestore="onRestore"
+			@refresherabort="onAbort" @scrolltolower="scrollBottem">
 			<view class="canAppointView" v-for="(sub, index) in getListData()" v-bind:key="index">
 				<view class="canAppointViewTop">
 					<image class="canAppointViewTop_icon" src="../../static/appointment/appointment_station2.png">
@@ -141,7 +160,13 @@
 					</view>
 				</view>
 			</view>
-		</view>
+			<uLi-load-more status="loading"></uLi-load-more>	
+			<view v-if="getListData().length == 0" class="info_noContentView_canAppointView">
+				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill">
+				</image>
+				<text class="noContent_label">暂无数据</text>
+			</view>
+		</scroll-view>
 		<div>
 			<qrcode v-if="appointmentInfo" :showModal="showPickerModal" :appointInfo="appointmentInfo"
 				@cancelModal="cancelPickerModal">
@@ -171,6 +196,10 @@
 		},
 		data() {
 			return {
+				scrollHeight: 300,
+				menuButtonInfo: 0, //胶囊按钮信息
+				statusBarHeight: 0, //状态栏高度
+				musicheadHeight: 0,
 				textLimit: 18,
 				showPickerModal: false,
 				avatar: "",
@@ -195,16 +224,53 @@
 				isEnd_invalidAppoint: false,
 				canAppointList: [],
 				invalidAppointList: [],
+				triggered: true,
+				status: 'loadmore',
+				iconType: 'flower',
 			}
+		},
+		onReady() {
+			// #ifdef  MP-WEIXIN
+			//获取状态栏高度
+			const {
+				statusBarHeight,
+				windowHeight,
+				screenHeight
+			} = uni.getSystemInfoSync()
+			this.statusBarHeight = statusBarHeight
+			// 获取胶囊按钮信息（width、height、top等）
+			const {
+				width,
+				height,
+				top
+			} = uni.getMenuButtonBoundingClientRect()
+			this.menuButtonInfo = {
+				width,
+				height,
+				top
+			}
+			// 胶囊按钮相对于离导航栏的上边距
+			const topDistance = this.menuButtonInfo.top - this.statusBarHeight;
+			// 计算导航栏高度
+			this.musicheadHeight = this.menuButtonInfo.height + topDistance * 2;
+			// #endif
 		},
 		onLoad() {
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
 
-			window.addEventListener('message', this.handleReload)
-			this.$once('hook:beforeDestroy', () => {
-				window.removeEventListener('message', this.handleReload)
-			})
+			uni.$on('reload', this.handleReload)
+			
+			let sys = uni.getSystemInfoSync();	
+			let winWidth = sys.windowWidth;
+			let winrate = 750 / winWidth;	
+			let winHeight = parseInt(sys.windowHeight * winrate) - (this.appointmentInfo?900:930);
+			this.scrollHeight = winHeight;
+			console.log("lianfeng=====", winHeight);
+		},
+		onUnload() {
+			// 移除监听事件    
+			uni.$off('reload', this.handleReload);
 		},
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
@@ -263,6 +329,18 @@
 					return totalName;
 				}
 			},
+			getDriverReservationInformation() { //司机预约信息
+				const config = {
+					url: "reservationInformation",
+					method: "GET",
+				};
+				uniRequest(config).then((res) => {
+					console.log("获取司机预约信息", res);
+					if (res.data.code === 200 && res.data.data) {
+						this.appointmentInfo = res.data.data;
+					}
+				});
+			},
 			getDriverRelationVoucher() { //获取司机关联预约凭证列表:可预约的
 				const config = {
 					url: "getDriverRelationVoucher",
@@ -276,22 +354,13 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_可预约的", res);
 					if (res.data.code === 200 && res.data.data) {
+						if (this.canAppointListQueryParams.pageNum == 1) {
+							this.canAppointList = [];
+						}
 						this.canAppointList = [...this.canAppointList, ...res.data.data.list];
 						if (res.data.data.list.length < this.canAppointListQueryParams.pageSize) {
 							this.isEnd_canAppointList = true;
 						}
-					}
-				});
-			},
-			getDriverReservationInformation() { //司机预约信息
-				const config = {
-					url: "reservationInformation",
-					method: "GET",
-				};
-				uniRequest(config).then((res) => {
-					console.log("获取司机预约信息", res);
-					if (res.data.code === 200 && res.data.data) {
-						this.appointmentInfo = res.data.data;
 					}
 				});
 			},
@@ -308,6 +377,9 @@
 				uniRequest(config).then((res) => {
 					console.log("获取司机关联预约凭证列表_已失效的", res);
 					if (res.data.code === 200 && res.data.data) {
+						if (this.invalidAppointListQueryParams.pageNum == 1) {
+							this.invalidAppointList = [];
+						}
 						this.invalidAppointList = [...this.invalidAppointList, ...res.data.data.list];
 						if (res.data.data.list.length < this.invalidAppointListQueryParams.pageSize) {
 							this.isEnd_invalidAppoint = true;
@@ -325,10 +397,13 @@
 				// 允许从相机和相册扫码
 				var that = this;
 				uni.scanCode({
+					fail: () => {
+						//that.showQRErrorTip();
+					},
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
-						var subscribeRuleVoucherCode = res.result;
+						var subscribeRuleVoucherCode = null;
 						if (res.result.length > 0 && res.result.search("http") != -1) {
 							const q = decodeURIComponent(res.result); // 获取到二维码原始链接内容
 							console.log("获取链接参数", q, typeof q);
@@ -339,20 +414,28 @@
 									subscribeRuleVoucherCode = tmp.appointmentInfo;
 								}
 							}
-
-							//新增司机关联凭证
-							const config = {
-								url: "insertVoucherRelation",
-								method: "POST",
-								data: {
-									subscribeRuleVoucherCode: subscribeRuleVoucherCode,
-								},
-							};
-							uniRequest(config).then((res) => {
-								console.log("res", res);
-								//跳转到预约界面
-								that.onClickGotoAppointment(subscribeRuleVoucherCode);
-							});
+							if (subscribeRuleVoucherCode != null) {
+								//新增司机关联凭证
+								const config = {
+									url: "insertVoucherRelation",
+									method: "POST",
+									data: {
+										subscribeRuleVoucherCode: subscribeRuleVoucherCode,
+									},
+								};
+								uniRequest(config).then((res) => {
+									console.log("res", res);
+									uni.$emit('reload', {
+										msg: '页面更新'
+									})
+									//跳转到预约界面
+									that.onClickGotoAppointment(subscribeRuleVoucherCode);
+								});
+							} else {
+								that.showQRErrorTip();
+							}
+						} else {
+							that.showQRErrorTip();
 						}
 					}
 				});
@@ -430,41 +513,98 @@
 				this.canAppointListQueryParams.pageNum = 1;
 				this.canAppointList = [];
 				this.getDriverRelationVoucher();
+				this.getDriverReservationInformation();
+			},
+			showQRErrorTip() {
+				uni.showToast({
+					title: "二维码有误",
+					icon: 'none',
+					duration: 2000
+				})
+			},
+			/* 滚动到底部 */
+			scrollBottem() {
+				console.log("滚动到底部")
+				if (this.activeIndex == 0) {
+					if (!this.isEnd_canAppointList) {
+						this.canAppointListQueryParams.pageNum++;
+						this.getDriverRelationVoucher();
+					}
+				} else {
+					if (!this.isEnd_invalidAppoint) {
+						this.invalidAppointListQueryParams.pageNum++;
+						this.getDriverRelationVoucherInvalid();
+					}
+				}
+			},
+			onRefresh() {
+				console.log("进入");
+				setTimeout(() => {
+					this.triggered = false;
+				}, 500);
+				if (this.activeIndex == 0) {
+					this.isEnd_canAppointList = false;
+					this.canAppointListQueryParams.pageNum = 1;
+					this.getDriverRelationVoucher();
+				} else {
+					this.isEnd_invalidAppoint = false;
+					this.invalidAppointListQueryParams.pageNum = 1;
+					this.getDriverRelationVoucherInvalid();
+				}
+				this.getDriverReservationInformation();
+			},
+			/* 下拉被复位 */
+			onRestore() {
+				this.triggered = true; // 需要重置
+				console.log(this.triggered);
+				console.log("停止");
+			},
+			/* 下拉被中止，没下拉完就松手就会触发 */
+			onAbort() {
+				console.log("onAbort");
 			},
 		}
 	}
 </script>
 
-<style lang="scss" scoped>
-	.home-page {
-		width: 100%;
-		height: 100%;
-		padding: 0 0 30upx;
-		font-family: 'PingFang Regular';
-		overflow: inherit;
+<style lang="scss">
+	button::after {
+		border: none;
 	}
 
-	.header-title {
-		box-sizing: border-box;
-		position: absolute;
-		bottom: 294rpx;
+	button {
+		margin-left: 0;
+		margin-right: 0;
+	}
+
+	// page {
+	// 	display: -webkit-box;
+	// 	position: fixed;
+	// 	left: 0rpx;
+	// 	right: 0rpx;
+	// 	top: 0rpx;
+	// 	bottom: 0rpx;
+	// }
+
+	.home-page {
+		// width: 100%;
+		// padding: 0 0 30upx;
+		// font-family: 'PingFang Regular';
+		// display: flex;
+		// min-height: 100vh;
+		// flex-direction: column;
+		// overflow: hidden;
 		width: 100%;
-		height: 40rpx;
-		line-height: 20rpx;
-		text-align: left;
-		font-size: 36rpx;
-		font-weight: bold;
-		color: #333333;
-		z-index: 1;
-		margin-left: 30upx;
-		padding-top: 4upx;
+		//overflow-y: hidden;
+		position: fixed;
+		overflow: hidden;
 	}
 
 	.header-container {
 		margin-left: 20upx;
 		margin-right: 20upx;
 		margin-top: 0upx;
-		height: 206upx;
+		height: 206rpx;
 		display: flex;
 		align-items: center;
 		flex-direction: row;
@@ -588,8 +728,9 @@
 		margin-left: 24upx;
 		margin-right: 24upx;
 		margin-top: 0upx;
-		margin-bottom: 40upx;
+		margin-bottom: 0upx;
 		border-radius: 16upx;
+		padding-top: 11rpx;
 	}
 
 	.info-container-top {
@@ -731,6 +872,18 @@
 		border-radius: 16upx;
 	}
 
+	.info_noContentView_canAppointView {
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		justify-content: space-between;
+		padding-top: 60upx;
+		background-color: #FFFFFF;
+		border-radius: 16upx;
+		margin-left: 24rpx;
+		margin-right: 24rpx;
+	}
+
 	.info_bottom {
 		width: calc(100vw - 48upx);
 		margin-top: 0upx;
@@ -825,30 +978,43 @@
 	}
 
 	.switchHead {
-		height: 35px;
+		height: 115rpx;
 		display: flex;
-		justify-content: flex-start;
+		flex-direction: row;
 		align-items: baseline;
+		justify-content: flex-start;
 		color: #333333;
-		margin-left: 50upx;
+		padding-top: 0upx;
+		margin-bottom: 0rpx;
 	}
 
 	.boxList {
-		height: 100%;
-		margin-right: 68upx;
-		font-size: 30upx;
+		height: 115rpx;
+		font-size: 30rpx;
+		margin-left: 17rpx;
+		background: #00000000;
+	}
+
+	.boxList_item {
+		padding-top: 10rpx;
 	}
 
 	.switchLine {
 		width: 58upx;
 		height: 6upx;
-		margin-left: 14upx;
+		margin-left: 16rpx;
+		margin-top: -15rpx;
 		border-top: solid #2366F2 6upx;
 	}
 
 	.activeCss {
 		font-size: 32upx;
 		font-weight: bold;
+	}
+
+	.canAppointView-container {
+		height: 100%;
+		overflow-y: scroll;
 	}
 
 	.canAppointView {
@@ -1017,5 +1183,112 @@
 		width: 120px;
 		height: 120px;
 		background-color: #fff;
+	}
+
+	.musicheadWEIXIN {
+		width: 100%;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+	}
+
+	.status_bar {
+		width: 100%;
+	}
+
+	.btn {
+		position: absolute;
+		display: flex;
+		flex-direction: row;
+		box-sizing: border-box;
+		align-items: center;
+		padding: 0;
+		margin: 0;
+		justify-content: flex-start;
+		left: 10px;
+
+		.header-title {
+			position: absolute;
+			font-size: 36rpx;
+			font-weight: bold;
+			color: #333333;
+			left: 10px;
+			top: 5px;
+		}
+	}
+
+	.headerCss {
+		margin-top: -12rpx;
+
+		.sortCss {
+			background-color: #f1f1f1f8;
+			height: 80rpx;
+		}
+	}
+
+	.scrollviewCss {
+		overflow-y: hidden;
+
+		.courseList {
+			.courseOne {
+				margin: 40rpx 35rpx 30rpx 35rpx;
+				display: flex;
+
+				image {
+					width: 238rpx;
+					height: 238rpx;
+					border-radius: 6rpx;
+				}
+
+				.courseMsg {
+					margin-left: 20rpx;
+
+					.courseTitle {
+						font-size: 28rpx;
+						font-weight: bold;
+						color: #333333;
+						margin-bottom: 10rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						-webkit-box-orient: vertical;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+					}
+
+					.courseTips {
+						font-size: 24rpx;
+						color: #999999;
+						margin-bottom: 10rpx;
+						overflow: hidden;
+						text-overflow: ellipsis;
+						-webkit-box-orient: vertical;
+						display: -webkit-box;
+						-webkit-line-clamp: 2;
+					}
+
+					.courseTutor {
+						font-size: 24rpx;
+					}
+
+					.courseLast {
+						margin-top: 10rpx;
+						display: flex;
+						justify-content: space-between;
+
+						.courseLastPrice {
+							color: #E84A10;
+							font-size: 32rpx;
+						}
+
+						.courseLastType {
+							background-color: #848484;
+							color: #dedede;
+							padding: 8rpx;
+							font-size: 26rpx;
+						}
+					}
+				}
+			}
+		}
 	}
 </style>
