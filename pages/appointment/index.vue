@@ -64,6 +64,11 @@
 							<view class="info_station_content_value">{{appointmentInfo.createTime}}
 							</view>
 						</view>
+						<view class="info_number">
+							<view class="info_station_content_number">预约号</view>
+							<view class="info_station_content_number_value">{{appointmentInfo.reservationNumber || '无'}}
+							</view>
+						</view>
 					</view>
 					<view class="info-container-top-right">
 						<hr class="line">
@@ -794,12 +799,12 @@
 		height: 61upx;
 		flex-shrink: 0;
 		position: absolute;
-		bottom: 22upx;
+		bottom: 60upx;
 		right: 55upx;
 	}
 
 	.info-container-top-right {
-		width: 160upx;
+		width: 160rpx;
 		height: 100%;
 		position: absolute;
 		top: 0;
@@ -832,13 +837,16 @@
 		justify-content: flex-start;
 		margin-left: 28upx;
 		margin-top: 32upx;
-		margin-bottom: 25upx;
 	}
-
-	.info_icon_station {
-		width: 58upx;
-		height: 58upx;
-		flex-shrink: 0;
+	
+	.info_number {
+		display: flex;
+		align-items: center;
+		flex-direction: row;
+		justify-content: flex-start;
+		margin-left: 28upx;
+		margin-top: 32upx;
+		margin-bottom: 25upx;
 	}
 
 	.info_station_content_value {
@@ -848,12 +856,31 @@
 		margin-left: 24upx;
 	}
 
+	.info_station_content_number_value {
+		font-size: 26upx;
+		font-weight: bold;
+		color: #333333;
+		margin-left: 24upx;
+		width:65%;
+		display:inline-block;
+		white-space: pre-wrap; 
+		word-wrap: break-word;
+		height: auto;
+	}
+	
 	.info_station_content_name {
 		font-size: 22upx;
 		color: #999999;
 		flex-shrink: 0;
 	}
 
+	.info_station_content_number {
+		font-size: 22upx;
+		color: #999999;
+		flex-shrink: 0;
+		margin-left: 20rpx;
+	}
+	
 	.info_station_content {
 		display: flex;
 		align-items: flex-start;
