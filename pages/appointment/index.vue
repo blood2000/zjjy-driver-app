@@ -331,7 +331,11 @@
 					totalName = totalName.substring(0, this.textLimit) + "..."
 				}
 				if (appointment && appointment.jyzName) {
-					return appointment.jyzName + "/" + totalName;
+					if (totalName.length > 0) {
+						return appointment.jyzName + "/" + totalName;
+					} else {
+						return appointment.jyzName;
+					}
 				} else {
 					return totalName;
 				}

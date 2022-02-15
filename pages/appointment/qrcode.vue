@@ -14,7 +14,7 @@
 			</view>
 			<view class="licenseNumberView">
 				<view class="licenseNumberValue">{{appointInfo.licenseNumber || "暂无车辆"}}</view>
-				<view class="heapNumberValue">{{getStationName(appointInfo)}}</view>
+				<view v-if="getStationName(appointInfo).length > 0" class="heapNumberValue">{{getStationName(appointInfo)}}</view>
 			</view>
 			<view class="qr">
 				<image class="qr_code" :src="qrcode.src" mode="aspectFill"></image>
@@ -101,11 +101,13 @@
 				}
 				var buildingInfoVos = appointInfo.buildingInfoVos
 				var totalName = "";
-				for (var i = 0; i < buildingInfoVos.length; i++) {
-					var sub = buildingInfoVos[i]
-					totalName += sub.buildingName;
-					if (i < buildingInfoVos.length - 1) {
-						totalName += ",";
+				if (buildingInfoVos != null) {
+					for (var i = 0; i < buildingInfoVos.length; i++) {
+						var sub = buildingInfoVos[i]
+						totalName += sub.buildingName;
+						if (i < buildingInfoVos.length - 1) {
+							totalName += ",";
+						}
 					}
 				}
 				//限制20个字符
