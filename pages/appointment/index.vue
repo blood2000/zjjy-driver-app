@@ -165,7 +165,7 @@
 					</view>
 				</view>
 			</view>
-			<uLi-load-more status="loading"></uLi-load-more>	
+			<uLi-load-more status="loading"></uLi-load-more>
 			<view v-if="getListData().length == 0" class="info_noContentView_canAppointView">
 				<image class="noContent_icon" src="/static/appointment/appointment_noContent.png" mode="aspectFill">
 				</image>
@@ -265,11 +265,11 @@
 			this.getDriverRelationVoucherInvalid();
 
 			uni.$on('reload', this.handleReload)
-			
-			let sys = uni.getSystemInfoSync();	
+
+			let sys = uni.getSystemInfoSync();
 			let winWidth = sys.windowWidth;
-			let winrate = 750 / winWidth;	
-			let winHeight = parseInt(sys.windowHeight * winrate) - (this.appointmentInfo?900:930);
+			let winrate = 750 / winWidth;
+			let winHeight = parseInt(sys.windowHeight * winrate) - (this.appointmentInfo ? 900 : 930);
 			this.scrollHeight = winHeight;
 			console.log("lianfeng=====", winHeight);
 		},
@@ -317,11 +317,13 @@
 				console.log(appointment);
 				var buildingInfoVos = appointment.buildingInfoVos;
 				var totalName = "";
-				for (var i = 0; i < buildingInfoVos.length; i++) {
-					var sub = buildingInfoVos[i]
-					totalName += sub.buildingName;
-					if (i < buildingInfoVos.length - 1) {
-						totalName += ",";
+				if (buildingInfoVos != null) {
+					for (var i = 0; i < buildingInfoVos.length; i++) {
+						var sub = buildingInfoVos[i]
+						totalName += sub.buildingName;
+						if (i < buildingInfoVos.length - 1) {
+							totalName += ",";
+						}
 					}
 				}
 				//限制20个字符
@@ -838,7 +840,7 @@
 		margin-left: 28upx;
 		margin-top: 32upx;
 	}
-	
+
 	.info_number {
 		display: flex;
 		align-items: center;
@@ -861,13 +863,13 @@
 		font-weight: bold;
 		color: #333333;
 		margin-left: 24upx;
-		width:65%;
-		display:inline-block;
-		white-space: pre-wrap; 
+		width: 100%;
+		display: inline-block;
+		white-space: pre-wrap;
 		word-wrap: break-word;
 		height: auto;
 	}
-	
+
 	.info_station_content_name {
 		font-size: 22upx;
 		color: #999999;
@@ -880,7 +882,7 @@
 		flex-shrink: 0;
 		margin-left: 20rpx;
 	}
-	
+
 	.info_station_content {
 		display: flex;
 		align-items: flex-start;
