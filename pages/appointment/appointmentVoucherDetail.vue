@@ -20,6 +20,9 @@
 						<view :class="item.reservationStatus <= 1 ? 'blueImage':'redImage'">
 							<text class="title">{{item.licenseNumber?item.licenseNumber:"暂无车辆"}}</text>
 							<text class="desc">{{getAppointmentStateTimeText(item)}}</text>
+							<view class="splite" />
+							<text
+								class="reservationText">预约号:{{item.reservationNumber?item.reservationNumber:"-"}}</text>
 						</view>
 					</view>
 				</view>
@@ -166,7 +169,7 @@
 
 	.recordItem {
 		display: flex;
-		height: 160rpx;
+		height: 190rpx;
 		flex-direction: row;
 	}
 
@@ -221,7 +224,7 @@
 	.noContent_icon {
 		background-color: #FFF;
 		width: 362rpx;
-		height: 203upx;
+		height: 203rpx;
 	}
 
 	.noContent_text {
@@ -285,5 +288,18 @@
 		font-size: 32rpx;
 		margin-top: 32rpx;
 		font-weight: bold;
+	}
+
+	.splite {
+		background-color: #F2F2F2;
+		width: 362rpx;
+		height: 1rpx;
+		margin-top: 12rpx;
+		margin-bottom: 8rpx;
+	}
+
+	.reservationText {
+		font-size: 22rpx;
+		color: #999999;
 	}
 </style>
