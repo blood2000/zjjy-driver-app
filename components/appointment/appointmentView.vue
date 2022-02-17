@@ -107,11 +107,6 @@
 					},
 				};
 				uniRequest(config).then((res) => {
-					uni.showToast({
-						title: res.data.msg,
-						icon: 'none',
-						duration: 2000
-					})
 					let delta = getCurrentPages().length - 2
 					uni.$emit('reload', {
 						msg: '页面更新'
@@ -119,6 +114,12 @@
 					if (res.data.code === 200) {
 						uni.navigateBack({
 							delta: delta
+						})
+					}else{
+						uni.showToast({
+							title: res.data.msg,
+							icon: 'none',
+							duration: 5000
 						})
 					}
 				});
