@@ -83,7 +83,7 @@
 						<image class="info_station_bottom_alert" src="/static/appointment/appointment_alert.png"
 							mode="aspectFit">
 						</image>
-						<view class="info_station_bottom_carTime">还有{{appointmentInfo.notAdmittedNumber}}辆车未入场</view>
+						<view class="info_station_bottom_carTime">昨天和今天还有{{appointmentInfo.notAdmittedNumber}}辆车未入场</view>
 					</view>
 					<view class="info_bottom_right">
 						<!-- 						<hr class="info_bottom_right_line">
