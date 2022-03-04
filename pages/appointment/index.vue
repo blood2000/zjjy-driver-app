@@ -72,8 +72,10 @@
 					</view>
 					<view class="info-container-top-right">
 						<hr class="line">
+						
 						<image class="info-container-top-right_close" src="/static/appointment/ic_close.png"
 							@click="onClickClose()"></image>
+							<view class="info-container-top-right_time">{{appointmentInfo.startTime}}-{{appointmentInfo.endTime}}</view>
 						<image class="info-container-top-right_qr" src="/static/appointment/appointment_qr.png"
 							@click="onClickQR()"></image>
 					</view>
@@ -800,6 +802,16 @@
 		right: 25upx;
 	}
 
+	.info-container-top-right_time {
+		color: #2366F2;
+		font-size: 22rpx;
+		font-weight: bold;
+		flex-shrink: 0;
+		position: absolute;
+		top: 90upx;
+		right: 20rpx;
+	}
+	
 	.info-container-top-right_qr {
 		width: 61upx;
 		height: 61upx;
