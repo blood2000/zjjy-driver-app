@@ -2,7 +2,7 @@
 	<view class="home-page">
 		<div class="tab-header">
 			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
-			<view class="musichead" @click="back">
+			<view class="musichead">
 				<view class="status_bar" :style="{'height':statusBarHeight+'px'}"></view>
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="musicheadWEIXIN" :style="{
