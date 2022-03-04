@@ -485,6 +485,12 @@
 								console.log("删除", res);
 								if (res.data.code === 200) {
 									this.appointmentInfo = null;
+								} else {
+									uni.showToast({
+										title: res.data.msg ? res.data.msg : "数据请求失败,请稍后再试",
+										icon: 'none',
+										duration: 2500
+									})
 								}
 							});
 						}
