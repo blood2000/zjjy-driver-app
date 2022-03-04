@@ -15,7 +15,7 @@
 									'height':menuButtonInfo.height+'px',
 									'line-height':menuButtonInfo.height+'px',
 									'top':(menuButtonInfo.top)+'px'
-									}">
+									}" @click="back()">
 						<uni-icons type="back" size="24" color="#333"></uni-icons>
 						<view class="header-title">入场预约系统</view>
 					</view>
