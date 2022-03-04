@@ -234,6 +234,7 @@
 				triggered: true,
 				status: 'loadmore',
 				iconType: 'flower',
+				haveMounted: false,
 			}
 		},
 		onReady() {
@@ -262,10 +263,13 @@
 			this.musicheadHeight = this.menuButtonInfo.height + topDistance * 2;
 			// #endif
 		},
-		onLoad() {
+		async mounted() {
+			await this.$onLaunched
+			
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
-
+			this.getDriverReservationInformation();
+			this.haveMounted = true;
 			uni.$on('reload', this.handleReload)
 
 			let sys = uni.getSystemInfoSync();
@@ -281,7 +285,9 @@
 		},
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
-			this.getDriverReservationInformation();
+			if (this.haveMounted == true) {
+				this.getDriverReservationInformation();
+			}
 		},
 		onPullDownRefresh() {
 			if (this.activeIndex == 0) {
