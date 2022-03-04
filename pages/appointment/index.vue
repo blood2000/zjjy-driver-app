@@ -75,7 +75,7 @@
 						
 						<image class="info-container-top-right_close" src="/static/appointment/ic_close.png"
 							@click="onClickClose()"></image>
-							<view class="info-container-top-right_time">{{appointmentInfo.startTime}}-{{appointmentInfo.endTime}}</view>
+							<view class="info-container-top-right_time">{{getAppointmentTimeStr()}}</view>
 						<image class="info-container-top-right_qr" src="/static/appointment/appointment_qr.png"
 							@click="onClickQR()"></image>
 					</view>
@@ -582,6 +582,13 @@
 			onAbort() {
 				console.log("onAbort");
 			},
+			getAppointmentTimeStr() {
+				if (this.appointmentInfo.startTime) {
+					return this.appointmentInfo.startTime + "-" + this.appointmentInfo.endTime;
+				} else {
+					return "";
+				}
+			}
 		}
 	}
 </script>
