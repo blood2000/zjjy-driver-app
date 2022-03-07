@@ -105,7 +105,7 @@
 						uni.showToast({
 							title: res.data.msg ? res.data.msg : "数据请求失败,请稍后再试",
 							icon: 'none',
-							duration: 2000
+							duration: 5000
 						})
 					}
 					uni.hideLoading()

@@ -2,7 +2,7 @@
 	<view class="home-page">
 		<div class="tab-header">
 			<image src="../../static/appointment/appointment_banner.png" mode=""></image>
-			<view class="musichead" @click="back">
+			<view class="musichead">
 				<view class="status_bar" :style="{'height':statusBarHeight+'px'}"></view>
 				<!-- #ifdef MP-WEIXIN -->
 				<view class="musicheadWEIXIN" :style="{
@@ -15,7 +15,7 @@
 									'height':menuButtonInfo.height+'px',
 									'line-height':menuButtonInfo.height+'px',
 									'top':(menuButtonInfo.top)+'px'
-									}">
+									}" @click="back()">
 						<uni-icons type="back" size="24" color="#333"></uni-icons>
 						<view class="header-title">入场预约系统</view>
 					</view>
@@ -72,8 +72,10 @@
 					</view>
 					<view class="info-container-top-right">
 						<hr class="line">
+						
 						<image class="info-container-top-right_close" src="/static/appointment/ic_close.png"
 							@click="onClickClose()"></image>
+							<view class="info-container-top-right_time">{{getAppointmentTimeStr()}}</view>
 						<image class="info-container-top-right_qr" src="/static/appointment/appointment_qr.png"
 							@click="onClickQR()"></image>
 					</view>
@@ -232,6 +234,7 @@
 				triggered: true,
 				status: 'loadmore',
 				iconType: 'flower',
+				haveMounted: false,
 			}
 		},
 		onReady() {
@@ -260,10 +263,13 @@
 			this.musicheadHeight = this.menuButtonInfo.height + topDistance * 2;
 			// #endif
 		},
-		onLoad() {
+		async mounted() {
+			await this.$onLaunched
+			
 			this.getDriverRelationVoucher();
 			this.getDriverRelationVoucherInvalid();
-
+			this.getDriverReservationInformation();
+			this.haveMounted = true;
 			uni.$on('reload', this.handleReload)
 
 			let sys = uni.getSystemInfoSync();
@@ -279,7 +285,9 @@
 		},
 		onShow() {
 			this.avatar = uni.getStorageSync("avatar") || "../../static/appointment/appointment_avatar.png";
-			this.getDriverReservationInformation();
+			if (this.haveMounted == true) {
+				this.getDriverReservationInformation();
+			}
 		},
 		onPullDownRefresh() {
 			if (this.activeIndex == 0) {
@@ -477,6 +485,12 @@
 								console.log("删除", res);
 								if (res.data.code === 200) {
 									this.appointmentInfo = null;
+								} else {
+									uni.showToast({
+										title: res.data.msg ? res.data.msg : "数据请求失败,请稍后再试",
+										icon: 'none',
+										duration: 2500
+									})
 								}
 							});
 						}
@@ -574,6 +588,13 @@
 			onAbort() {
 				console.log("onAbort");
 			},
+			getAppointmentTimeStr() {
+				if (this.appointmentInfo.startTime) {
+					return this.appointmentInfo.startTime + "-" + this.appointmentInfo.endTime;
+				} else {
+					return "";
+				}
+			}
 		}
 	}
 </script>
@@ -800,6 +821,16 @@
 		right: 25upx;
 	}
 
+	.info-container-top-right_time {
+		color: #2366F2;
+		font-size: 22rpx;
+		font-weight: bold;
+		flex-shrink: 0;
+		position: absolute;
+		top: 90upx;
+		right: 20rpx;
+	}
+	
 	.info-container-top-right_qr {
 		width: 61upx;
 		height: 61upx;
