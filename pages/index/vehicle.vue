@@ -92,6 +92,7 @@ export default {
         console.log("司机注册", res);
         if (res.data.code === 200) {
           uni.setStorageSync("appType", '');
+          uni.setStorageSync('isRelate', false);
           this.$store.commit("setVehicleMsg", this.vehicleMsg);
           // uni.setStorageSync("driverInfo", JSON.stringify(this.vehicleMsg));
           if (appType === 5) {

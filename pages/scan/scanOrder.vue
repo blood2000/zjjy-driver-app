@@ -59,9 +59,9 @@ export default {
     this.licenseNumbers = this.pageData.vehicles;  
     let that = this;
     this.dispatchers = this.pageData.teams;
-    this.dispatchers.push({
-      teamCode: '', teamName: '无', vehicles: that.licenseNumbers
-    })
+    // this.dispatchers.push({
+    //   teamCode: '', teamName: '无', vehicles: that.licenseNumbers
+    // })
     console.log('调度者数组', this.dispatchers)
     // this.types = 2;
     // this.licenseNumbers = [];

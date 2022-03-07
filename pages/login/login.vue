@@ -104,6 +104,7 @@ export default {
         method: "POST",
         data: that.data,
         noToken: true,
+        handleError: true
       };
       //测试用
       // uni.showModal({
@@ -174,9 +175,14 @@ export default {
         });
     },
     judgeToJump(appType) {
+      let isRelate = uni.getStorageSync('isRelate');
       if (appType === 4 || appType === 5) {
         uni.redirectTo({
           url: "../index/choose",
+        });
+      } else if (appType === 3 && isRelate) {
+        uni.redirectTo({
+          url: "../index/relate",
         });
       } else {
         uni.redirectTo({

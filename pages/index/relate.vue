@@ -84,8 +84,34 @@ export default {
         });
         return;
       }
-      const appType = uni.getStorageSync("appType");
       const phone = uni.getStorageSync("phone");
+      const appType = uni.getStorageSync("appType");
+      if (this.vehicleMsg.phone === phone) {
+        if (appType === 3) {
+          uni.showModal({
+            title: "提示",
+            content: "微信手机号无需关联, 是否直接登录?",
+            success: (res) => {
+              if (res.confirm) {
+                //点击确认
+                uni.setStorageSync("isRelate", false);
+                uni.redirectTo({
+                  url: "../index/index",
+                });
+              }
+            },
+          });
+        } else {
+          uni.showToast({
+            title: "手机号未注册,请重新输入",
+            icon: "none",
+            duration: 1500,
+          });
+        }
+
+        return;
+      }
+
       let config = {
         url: "relateDriver",
         method: "POST",
@@ -103,6 +129,7 @@ export default {
         console.log("司机关联", res);
         if (res.data.code === 200) {
           uni.setStorageSync("appType", "");
+          uni.setStorageSync("isRelate", false);
           let obj = {
             phone: this.vehicleMsg.phone,
           };
@@ -131,7 +158,6 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 }
-
 
 .btn-box {
   padding: 20rpx 0;

@@ -12,23 +12,8 @@
           <div class="id-image">
             <template>
               <img
-                v-if="!idFront"
-                src="../../static/order/id_renxiang.png"
-                alt="图片"
-                @click="upload('idFront')"
-              />
-              <img
-                v-else
-                :src="idFront"
-                alt="图片"
-                @click="upload('idFront')"
-                @error="imgError(0)"
-              />
-            </template>
-            <template>
-              <img
                 v-if="!idBack"
-                src="../../static/order/id_guohui.png"
+                src="../../static/order/id_renxiang.png"
                 alt="图片"
                 @click="upload('idBack')"
               />
@@ -37,6 +22,21 @@
                 :src="idBack"
                 alt="图片"
                 @click="upload('idBack')"
+                @error="imgError(0)"
+              />
+            </template>
+            <template>
+              <img
+                v-if="!idFront"
+                src="../../static/order/id_guohui.png"
+                alt="图片"
+                @click="upload('idFront')"
+              />
+              <img
+                v-else
+                :src="idFront"
+                alt="图片"
+                @click="upload('idFront')"
                 @error="imgError(1)"
               />
             </template>
@@ -422,8 +422,8 @@ export default {
       region1: [],
       // idCard
       name: "",
-      idFront: null, // 人像面
-      idBack: null, // 国徽面
+      idFront: null, // 国徽面
+      idBack: null, // 人像面
       id: null, //  身份id
       idStart: null, // 生效时间
       idEnd: null, // 失效时间
@@ -495,8 +495,8 @@ export default {
     handleAuthInfo(info) {
       //身份证信息
       if (info.idCard) {
+        this.idBack= info.idCard.identificationBackImage;
         this.idFront = info.idCard.identificationImage;
-        this.idBack = info.idCard.identificationBackImage;
         this.name = info.idCard.name;
         this.id = info.idCard.identificationNumber;
         this.idStart = info.idCard.identificationBeginTime;
@@ -525,10 +525,10 @@ export default {
       //../../static/order/id_guohui.png
       switch (type) {
         case 0:
-          this.idFront = "";
+          this.idBack = "";
           break;
         case 1:
-          this.idBack = "";
+          this. idFront= "";
           break;
         case 2:
           this.driverFront = "";
@@ -593,7 +593,7 @@ export default {
         });
         return false;
       }
-      if (!this.idFront) {
+      if (!this.idBack) {
         uni.showToast({
           title: "请上传身份证人像面",
           icon: "none",
@@ -601,7 +601,7 @@ export default {
         });
         return false;
       }
-      if (!this.idBack) {
+      if (!this.idFront) {
         uni.showToast({
           title: "请上传身份证国徽面",
           icon: "none",
@@ -626,14 +626,7 @@ export default {
         });
         return false;
       }
-      if (!this.idFront) {
-        uni.showToast({
-          title: "请上传身份证国徽面",
-          icon: "none",
-          duration: 1500,
-        });
-        return false;
-      }
+      
       if (!this.driverFront) {
         uni.showToast({
           title: "请上传驾驶证照片",

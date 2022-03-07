@@ -2,6 +2,7 @@ const apiUrl = {
   login: '/zjz1-jyz-service/wxmp/login/wxLogin',//微信授权登录
   registerDriver: '/zjz1-jyz-service/wxmp/login/registerDriver',//注册司机
   relateDriver: '/zjz1-jyz-service/wxmp/login/userAssociation',//关联司机
+  deleteUserAssociation: '/zjz1-jyz-service/wxmp/login/deleteUserAssociation',//删除关联
   uploadImg: '/aiotweb/config/common/v1/uploadFile',
   driverInfo: '/zjz1-jyz-service/wxmp/login/getDriver',
   uploadFile: '/assets/upload/uploadToHW',

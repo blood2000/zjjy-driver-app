@@ -26,11 +26,11 @@ export const uniRequest = function (config) {
 		defaultHeader['Authorization'] = token;
 	}
 
-	
+
 	uni.showLoading({
 		mask: true
 	});
-	
+
 
 	let util = config.resFun;
 	if (!util) {
@@ -83,15 +83,17 @@ export const uniRequest = function (config) {
 						url: config.jumpUrl || '../login/login' //跳转到登录页面
 					})
 				} else {
-					// if(util.showError){
-					// 	showError(res);
-					// }
-					// uni.showModal({
-					// 	title: '提示',
-					// 	content: res.data.msg,
-					// 	showCancel: false,
-					// });
-					resolve(res)
+					if (config.handleError) {
+						resolve(res)
+					} else {
+						uni.showModal({
+							title: '提示',
+							content: res.data.msg,
+							showCancel: false,
+						});
+					}
+
+					// resolve(res)
 				}
 			},
 			fail: (err) => {

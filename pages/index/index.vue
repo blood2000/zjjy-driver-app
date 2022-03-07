@@ -6,7 +6,7 @@
     </div>
     <div class="user-box">
       <div class="user-card">
-        <div class="user-card-left">
+        <div class="user-card-left" @click="changeUser">
           <div class="avatar">
             <!-- <img :src="avatar" alt="" /> -->
 
@@ -178,13 +178,13 @@ export default {
       });
       // return;
     }
-	if (this.appointmentInfo.code) {
-	  uni.navigateTo({
-	    url: `../appointment/appointmentVoucherInfo?appointInfo=${this.appointmentInfo.code}`,
-	  });
-	  // return;
-	}
-	
+    if (this.appointmentInfo.code) {
+      uni.navigateTo({
+        url: `../appointment/appointmentVoucherInfo?appointInfo=${this.appointmentInfo.code}`,
+      });
+      // return;
+    }
+
     this.getDriverInfo();
     console.log(this.avatar);
   },
@@ -198,10 +198,10 @@ export default {
   },
 
   onChooseAvatar(e) {
-      this.avatar = e.detail;
-      console.log(e);
-      uni.setStorageSync("avatar", this.avatar);
-    },
+    this.avatar = e.detail;
+    console.log(e);
+    uni.setStorageSync("avatar", this.avatar);
+  },
 
   onShow() {
     // console.log(this.vehicleMsg);
@@ -213,7 +213,6 @@ export default {
   },
 
   methods: {
-    
     getDriverInfo() {
       const config = {
         url: "driverInfo",
@@ -245,6 +244,41 @@ export default {
         }
       });
     },
+    changeUser() {
+      uni.showModal({
+        title: "提示",
+        content: "确认切换用户?",
+        success: (res) => {
+          if (res.confirm) {
+            //点击确认
+            this.cancelRelate();
+          }
+        },
+      });
+    },
+
+    cancelRelate() {
+      const phone = uni.getStorageSync("phone");
+      let config = {
+        url: "deleteUserAssociation",
+        method: "POST",
+        data: {
+          loginPhoneNumber: phone,
+          associationPhoneNumber: this.vehicleMsg.phone,
+        },
+      };
+      uniRequest(config).then((res) => {
+        console.log("解除关联司机", res);
+        if (res.data.code === 200) {
+          uni.setStorageSync('isRelate', true);
+          uni.removeStorageSync('token');
+          uni.redirectTo({
+            url: "../login/login",
+          });
+        } 
+      });
+    },
+
     toVehicle() {
       uni.navigateTo({
         url: "./vehicle",
