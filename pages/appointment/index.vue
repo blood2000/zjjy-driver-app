@@ -566,6 +566,7 @@
 			},
 			onRefresh() {
 				console.log("进入");
+				this.triggered = true;
 				setTimeout(() => {
 					this.triggered = false;
 				}, 500);
@@ -582,7 +583,7 @@
 			},
 			/* 下拉被复位 */
 			onRestore() {
-				this.triggered = true; // 需要重置
+				this.triggered = false; // 需要重置
 				console.log(this.triggered);
 				console.log("停止");
 			},
