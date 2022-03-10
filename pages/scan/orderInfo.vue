@@ -16,26 +16,26 @@
           <div class="id-image">
             <template>
               <img
-                v-if="!idFront"
+                v-if="!idBack"
                 src="../../static/order/id_renxiang.png"
                 alt="图片"
-                @click="upload('idFront')"
+                @click="upload('idBack')"
               />
               <img
                 v-else
-                :src="idFront"
+                :src="!idBack"
                 alt="图片"
-                @click="upload('idFront')"
+                @click="upload('idBack')"
               />
             </template>
             <template>
               <img
-                v-if="!idBack"
+                v-if="!idFront"
                 src="../../static/order/id_guohui.png"
                 alt="图片"
-                @click="upload('idBack')"
+                @click="upload('idFront')"
               />
-              <img v-else :src="idBack" alt="图片" @click="upload('idBack')" />
+              <img v-else :src="idFront" alt="图片" @click="upload('idFront')" />
             </template>
           </div>
         </div>
@@ -454,7 +454,18 @@ export default {
         this.driverEnd = info.drivingLicense.validPeriodTo;
         this.driverPerpetualIndex = info.drivingLicense.validPeriodAlways;
       }
-
+      if (info.qualificationCertificateCard) {
+        this.obtainFront = info.qualificationCertificateCard.workLicenseImage;
+        this.obtainNumber = info.qualificationCertificateCard.workLicense;
+        this.obtainEnd = info.qualificationCertificateCard.workLicenseDueDate;
+        this.obtainProvince = info.qualificationCertificateCard.workLicenseProvinceName;
+        // loadList.map((item, index) => {
+        //   if (item === info.qualificationCertificateCard) {
+        //     this.driverPostIndex = index
+        //   }
+        // })
+        // this.obtainEnd = info.qualificationCertificateCard.workLicenseDueDate;
+      }
       // this.driverPostIndex = info.drivingLicense.driverLicenseType;
     },
     // 页面跳转赋值
@@ -526,7 +537,7 @@ export default {
         });
         return false;
       }
-      if (!this.idFront) {
+      if (!this.idBack) {
         uni.showToast({
           title: "请上传身份证人像面",
           icon: "none",
@@ -534,7 +545,7 @@ export default {
         });
         return false;
       }
-      if (!this.idBack) {
+      if (!this.idFront) {
         uni.showToast({
           title: "请上传身份证国徽面",
           icon: "none",
@@ -604,7 +615,7 @@ export default {
     },
     formToRequest() {
       const idCard = {
-        identificationBackimage: this.idBack,
+        identificationBackImage: this.idBack,
         identificationBegintime: this.idStart,
         identificationEffective: this.idPerpetual,
         identificationEndTime: this.idEnd,
@@ -637,11 +648,11 @@ export default {
       // obtainEnd: null, // 失效时间
       // obtainProvince: null, //从业证办理省份名称
       const qualificationCertificateCard = {
-        workLicense: "",
-        workLicenseDueDate: "",
-        workLicenseImage: "",
-        workLicenseProvinceCode: "",
-        workLicenseProvinceName: "",
+       workLicense: this.obtainNumber,
+        workLicenseDueDate: this.obtainEnd,
+        workLicenseImage: this.obtainFront,
+        // workLicenseProvinceCode: "",
+        workLicenseProvinceName: this.obtainProvince,
       };
 
       return {
@@ -732,13 +743,14 @@ export default {
               name: "idCard",
               fun: that.idCardOCRHandle,
             },
-            obtainFront: {
-              name: "obtainFront",
-              fun: (res) => {
-                console.log("从业资格证");
-              },
-            },
+            // obtainFront: {
+            //   name: "obtainFront",
+            //   fun: (res) => {
+            //     console.log("从业资格证");
+            //   },
+            // },
           };
+          if (type === 'obtainFront') return;
           this.getOCR(cardType[type].name, this[type], cardType[type].fun);
           // if (autoToken) {
           //   autoToken = JSON.parse(autoToken);
@@ -891,10 +903,10 @@ export default {
           type: 2,
           returnIssuingAuthority: true,
         },
-        obtainFront: {
-          imageUrl: imageUrl,
-          type: 1,
-        },
+        // obtainFront: {
+        //   imageUrl: imageUrl,
+        //   type: 1,
+        // },
       };
       let config = {
         url: "uploadOCR",

@@ -439,7 +439,7 @@ export default {
       //从业
       obtainFront: null, //从业资格证
       obtainNumber: null, //从业资格号
-      obtainType: null, //驾驶证类型
+      obtainType: null, //从业资格证类型
       obtainStart: null, //生效时间
       obtainEnd: null, // 失效时间
       obtainProvince: null, //从业证办理省份名称
@@ -517,6 +517,18 @@ export default {
             this.driverPostIndex = index;
           }
         });
+      }
+      if (info.qualificationCertificateCard) {
+        this.obtainFront = info.qualificationCertificateCard.workLicenseImage;
+        this.obtainNumber = info.qualificationCertificateCard.workLicense;
+        this.obtainEnd = info.qualificationCertificateCard.workLicenseDueDate;
+        this.obtainProvince = info.qualificationCertificateCard.workLicenseProvinceName;
+        // loadList.map((item, index) => {
+        //   if (item === info.qualificationCertificateCard) {
+        //     this.driverPostIndex = index
+        //   }
+        // })
+        // this.obtainEnd = info.qualificationCertificateCard.workLicenseDueDate;
       }
 
       // this.driverPostIndex = info.drivingLicense.driverLicenseType;
@@ -664,8 +676,8 @@ export default {
     },
     formToRequest() {
       const idCard = {
-        identificationBackimage: this.idBack,
-        identificationBegintime: this.idStart,
+        identificationBackImage: this.idBack,
+        identificationBeginTime: this.idStart,
         identificationEffective: this.idPerpetual,
         identificationEndTime: this.idEnd,
         identificationImage: this.idFront,
@@ -697,16 +709,17 @@ export default {
       // obtainEnd: null, // 失效时间
       // obtainProvince: null, //从业证办理省份名称
       const qualificationCertificateCard = {
-        workLicense: "",
-        workLicenseDueDate: "",
-        workLicenseImage: "",
-        workLicenseProvinceCode: "",
-        workLicenseProvinceName: "",
+        workLicense: this.obtainNumber,
+        workLicenseDueDate: this.obtainEnd,
+        workLicenseImage: this.obtainFront,
+        // workLicenseProvinceCode: "",
+        workLicenseProvinceName: this.obtainProvince,
       };
 
       return {
         idCard,
         drivingLicense,
+        qualificationCertificateCard
       };
     },
     // 驾驶证
@@ -794,13 +807,14 @@ export default {
               name: "idCard",
               fun: that.idCardOCRHandle,
             },
-            obtainFront: {
-              name: "obtainFront",
-              fun: (res) => {
-                console.log("从业资格证");
-              },
-            },
+            // obtainFront: {
+            //   name: "obtainFront",
+            //   fun: (res) => {
+            //     console.log("从业资格证");
+            //   },
+            // },
           };
+          if (type === 'obtainFront') return;
           this.getOCR(cardType[type].name, this[type], cardType[type].fun);
           
         }
@@ -819,10 +833,10 @@ export default {
           type: 2,
           returnIssuingAuthority: true,
         },
-        obtainFront: {
-          imageUrl: imageUrl,
-          type: 1,
-        },
+        // obtainFront: {
+        //   imageUrl: imageUrl,
+        //   type: 1,
+        // },
       };
       let config = {
         url: "uploadOCR",
