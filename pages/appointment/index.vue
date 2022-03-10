@@ -357,6 +357,8 @@
 					console.log("获取司机预约信息", res);
 					if (res.data.code === 200 && res.data.data) {
 						this.appointmentInfo = res.data.data;
+					} else {
+						this.appointmentInfo = null;
 					}
 				});
 			},
