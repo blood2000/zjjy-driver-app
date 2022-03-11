@@ -54,7 +54,7 @@
           class="my-input"
           maxlength="32"
           placeholder="请输入车长"
-          type="text"
+          type="digit"
           @input="filterInput($event, 'vehicleLen')"
           @focus="inputFocus"
           v-model="vehicleLen"
@@ -67,7 +67,7 @@
           class="my-input"
           maxlength="32"
           placeholder="请输入车宽"
-          type="text"
+          type="digit"
           @input="filterInput($event, 'vehicleWidth')"
           @focus="inputFocus"
           v-model="vehicleWidth"
@@ -85,7 +85,7 @@
           class="my-input"
           maxlength="32"
           placeholder="请输入车辆重量"
-          type="text"
+          type="digit"
           @input="filterInput($event, 'vehicleWeight')"
           @focus="inputFocus"
           v-model="vehicleWeight"
@@ -98,7 +98,7 @@
           class="my-input"
           maxlength="32"
           placeholder="请输入车辆可载重量"
-          type="text"
+          type="digit"
           @input="filterInput($event, 'vehicleLoadWeight')"
           @focus="inputFocus"
           v-model="vehicleLoadWeight"
@@ -111,7 +111,7 @@
           class="my-input"
           maxlength="32"
           placeholder="请输入车辆可载立方"
-          type="text"
+          type="digit"
           @input="filterInput($event, 'carCubic')"
           @focus="inputFocus"
           v-model="carCubic"
@@ -304,7 +304,7 @@ export default {
     //数值输入
     filterInput(e, type) {
       setTimeout(() => {
-        let value = e.detail.value;
+        let value = e.detail.value * 1;
         if (value != "" && formFilter.priceFilter(value)) {
           this.temInput[type] = value;
         } else {

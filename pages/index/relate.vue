@@ -21,7 +21,7 @@
           <div class="title2">密码 <span class="required">*</span></div>
           <input
             class="my-input"
-            maxlength="10"
+            maxlength="16"
             placeholder="请输入密码"
             type="password"
             v-model="vehicleMsg.password"
