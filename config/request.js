@@ -73,7 +73,7 @@ export const uniRequest = function (config) {
 			method: config.method || 'GET',
 			data: config.data || {},
 			header: defaultHeader,
-			timeout: 10000,
+			timeout: 30000,
 			success: (res) => {
 				uni.hideLoading();
 				if (res.data.code === 200) {
@@ -86,6 +86,7 @@ export const uniRequest = function (config) {
 					if (config.handleError) {
 						resolve(res)
 					} else {
+						console.log('请求失败', res)
 						uni.showModal({
 							title: '提示',
 							content: res.data.msg,
@@ -150,7 +151,7 @@ export const uniUpload = function (config) {
 			header: defaultHeader,
 			filePath: config.file,
 			name: 'file',
-			timeout: 10000,
+			timeout: 30000,
 			success: (res) => {
 				// console.log('文件上传', res)
 				let resData = JSON.parse(res.data);
